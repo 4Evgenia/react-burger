@@ -1,9 +1,9 @@
 import React from 'react';
 import mainAreaStyles from './main.module.css';
-import BurgerConstructor from '../../burger-constructor/BurgerConstructor';
-import BurgerIngredient from '../../burger-ingredients/BurgerIngredients';
+import BurgerConstructor from '../../burger-constructor/burger-constructor';
+import BurgerIngredient from '../../burger-ingredients/burger-ingredients';
 import data from '../../../utils/data'
-import Ingredient from '../../../models/Ingredient';
+import Ingredient from '../../../models/ingredient';
 
 interface AppState{
     ingredients: Array<Ingredient>,

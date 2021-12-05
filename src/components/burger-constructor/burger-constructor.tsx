@@ -1,8 +1,8 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorStyles from './BurgerConstructor.module.css';
-import ConstructorItems from './constructor-items/ConstructorItems';
-import  Ingredient from '../../models/Ingredient';
+import burgerConstructorStyles from './burger-constructor.module.css';
+import ConstructorItems from './constructor-items/constructor-items';
+import  Ingredient from '../../models/ingredient';
 
 interface TabItem{
     displayName: string,

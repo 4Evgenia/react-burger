@@ -1,7 +1,7 @@
 import React from "react";
 import './header.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import NavigationItem from "./nav-item/NavigationItem";
+import NavigationItem from "./nav-item/navigation-item";
 
 export interface IHeaderState{
     activeItem: string;

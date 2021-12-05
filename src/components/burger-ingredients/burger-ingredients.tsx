@@ -1,5 +1,5 @@
 import React from 'react';
-import Ingredient from '../../models/Ingredient';
+import Ingredient from '../../models/ingredient';
 import { ConstructorElement, Button, CurrencyIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
 import './burger-ingredients.css';
 
@@ -12,10 +12,10 @@ const BurgerIngredient = (props:IBurgerIngredientProps) =>
         <section className="container ml-10 mt-25">
             <div className="elements scroll pr-10">
                 {props.selectedIngredients.map((item, index) => {
-                    let suffix = index == 0 ? "(вверх)" : index === props.selectedIngredients.length - 1 ? "(низ)" : "";
+                    let suffix = index === 0 ? "(вверх)" : index === props.selectedIngredients.length - 1 ? "(низ)" : "";
                     return (
                         <ConstructorElement key={item.id}
-                            type={ index == 0 ? "top" : index === props.selectedIngredients.length - 1 ? "bottom" : undefined } 
+                            type={ index === 0 ? "top" : index === props.selectedIngredients.length - 1 ? "bottom" : undefined } 
                             isLocked={item.isLocked} 
                             text={`${item.name} ${suffix}`} 
                             price={item.price} 

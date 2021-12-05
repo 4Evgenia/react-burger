@@ -1,7 +1,7 @@
 import React from 'react';
 import constructorItemsStyle from './constructor-items.module.css';
-import Ingredient from '../../../models/Ingredient';
-import ConstructorItem from '../constructor-item/ConstructorItem';
+import Ingredient from '../../../models/ingredient';
+import ConstructorItem from '../constructor-item/constructor-item';
 
 
 interface IConstructorItemsProps{
