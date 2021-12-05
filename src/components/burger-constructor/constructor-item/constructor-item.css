@@ -1,0 +1,17 @@
+.price{
+    display: inline-block;
+    position: relative;
+    bottom: 0.4rem;
+}
+
+.item{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+    width: 11vw;
+}
+
+.item div{
+    text-align: center;
+}

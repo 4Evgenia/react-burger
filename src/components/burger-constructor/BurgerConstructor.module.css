@@ -1,0 +1,12 @@
+.tabs{
+    display: flex;
+}
+
+.scroll{
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.container{
+    width: 33vw;
+}
