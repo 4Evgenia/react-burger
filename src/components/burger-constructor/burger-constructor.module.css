@@ -9,4 +9,5 @@
 
 .container{
     width: 33vw;
+    min-width: 600px;
 }

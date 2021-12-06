@@ -1,6 +1,7 @@
 .header{
     background-color: #1C1C21;
     height: 8vh;
+    min-height: 88px;
 }
 
 .nav-bar{
