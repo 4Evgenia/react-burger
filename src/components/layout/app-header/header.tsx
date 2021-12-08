@@ -22,19 +22,23 @@ export default class Header extends React.Component<any, IHeaderState>{
     render(){
         return (<header className="header">
             <nav className="nav-bar">
-                <NavigationItem text={CONSTRUCTOR} isActive={ this.isItemActive(CONSTRUCTOR) } onActiveItemChanged = {this.onActiveItemChanged}>
-                    <BurgerIcon type={this.isItemActive(CONSTRUCTOR) ? "primary" : "secondary"} />
-                </NavigationItem>
+                <div className="nav-container">
+                    <NavigationItem text={CONSTRUCTOR} isActive={ this.isItemActive(CONSTRUCTOR) } onActiveItemChanged = {this.onActiveItemChanged}>
+                        <BurgerIcon type={this.isItemActive(CONSTRUCTOR) ? "primary" : "secondary"} />
+                    </NavigationItem>
 
-                <NavigationItem text={ORDERS} isActive={ this.isItemActive(ORDERS) } onActiveItemChanged = {this.onActiveItemChanged}>
-                    <ListIcon type={this.isItemActive(ORDERS) ? "primary" : "secondary"} /> 
-                </NavigationItem>
+                    <NavigationItem text={ORDERS} isActive={ this.isItemActive(ORDERS) } onActiveItemChanged = {this.onActiveItemChanged}>
+                        <ListIcon type={this.isItemActive(ORDERS) ? "primary" : "secondary"} /> 
+                    </NavigationItem>
+                </div>
                 
-                <div className="logo"><Logo /></div>
+                <div className="logo nav-container"><Logo /></div>
 
-                <NavigationItem text={PROFILE} isActive={ this.isItemActive(PROFILE) } className="ml-5" onActiveItemChanged = {this.onActiveItemChanged}>
+                <div className="nav-container">
+                <NavigationItem text={PROFILE} isActive={ this.isItemActive(PROFILE) } onActiveItemChanged = {this.onActiveItemChanged}>
                     <ProfileIcon type={this.isItemActive(PROFILE) ? "primary" : "secondary"} /> 
-                </NavigationItem>                
+                </NavigationItem>
+                </div>                
             </nav>
         </header>);
     }

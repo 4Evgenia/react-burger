@@ -9,7 +9,7 @@ interface IBurgerIngredientProps{
 
 const BurgerIngredient = (props:IBurgerIngredientProps) => 
     (
-        <section className="container ml-10 mt-25">
+        <section className="container ml-10 mt-25 pr-5">
             <div className="elements scroll pr-10">
                 {props.selectedIngredients.map((item, index) => {
                     let suffix = index === 0 ? "(вверх)" : index === props.selectedIngredients.length - 1 ? "(низ)" : "";

@@ -1,5 +1,6 @@
 .container{
-    width: 33vw;
+    display: flex;
+    flex-direction: column;
     min-width: 600px;
 }
 

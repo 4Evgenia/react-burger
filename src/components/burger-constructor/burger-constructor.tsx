@@ -30,6 +30,7 @@ export default class BurgerConstructor extends React.Component<IBurgerConstructo
     render(){
         return (
             <section className={burgerConstructorStyles.container}>
+                <div className="pl-5">
                 <header className="mt-10">
                     <h1 className="text text_type_main-large">Соберите бургер</h1>
                 </header>
@@ -48,6 +49,7 @@ export default class BurgerConstructor extends React.Component<IBurgerConstructo
                         </div>
                     </section>
                 </main>
+                </div>
             </section>
         );
     }
