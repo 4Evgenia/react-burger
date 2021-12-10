@@ -3,7 +3,6 @@ import './navigation-item.css';
 import PropTypes from 'prop-types';
 
 const NavigationItem = (props:any) => {
-    const additionalClasses = props.className ?? '';
     return (
         <div className="pl-5">
                 {props.children}

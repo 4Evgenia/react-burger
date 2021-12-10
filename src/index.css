@@ -25,3 +25,7 @@ code {
 ::-webkit-scrollbar-thumb{
   background: #8585AD;
 }
+
+figure{
+  margin: auto;
+}

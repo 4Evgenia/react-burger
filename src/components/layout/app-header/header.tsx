@@ -11,37 +11,35 @@ const CONSTRUCTOR = "Конструктор";
 const ORDERS = "Лента заказов";
 const PROFILE = "Личный кабинет";
 
-export default class Header extends React.Component<any, IHeaderState>{
-    constructor(props:any){
-        super(props);
-        this.state = {activeItem: CONSTRUCTOR}
-    }
+const Header = () => {
+    const [activeItem, setActiveItem] = React.useState(CONSTRUCTOR);
 
-    onActiveItemChanged = (activeItem : string) => this.setState({...this.state, activeItem: activeItem});
+    const onActiveItemChanged = (activeItem : string) => setActiveItem(activeItem);
 
-    render(){
-        return (<header className="header">
+    const isItemActive = (item: string):boolean => item === activeItem;
+
+    return (<header className="header">
             <nav className="nav-bar">
                 <div className="nav-container">
-                    <NavigationItem text={CONSTRUCTOR} isActive={ this.isItemActive(CONSTRUCTOR) } onActiveItemChanged = {this.onActiveItemChanged}>
-                        <BurgerIcon type={this.isItemActive(CONSTRUCTOR) ? "primary" : "secondary"} />
+                    <NavigationItem text={CONSTRUCTOR} isActive={ isItemActive(CONSTRUCTOR) } onActiveItemChanged = { onActiveItemChanged } >
+                        <BurgerIcon type={ isItemActive(CONSTRUCTOR) ? "primary" : "secondary" } />
                     </NavigationItem>
 
-                    <NavigationItem text={ORDERS} isActive={ this.isItemActive(ORDERS) } onActiveItemChanged = {this.onActiveItemChanged}>
-                        <ListIcon type={this.isItemActive(ORDERS) ? "primary" : "secondary"} /> 
+                    <NavigationItem text={ORDERS} isActive={ isItemActive(ORDERS) } onActiveItemChanged = { onActiveItemChanged } >
+                        <ListIcon type={ isItemActive(ORDERS) ? "primary" : "secondary" } /> 
                     </NavigationItem>
                 </div>
                 
                 <div className="logo nav-container"><Logo /></div>
 
                 <div className="nav-container">
-                <NavigationItem text={PROFILE} isActive={ this.isItemActive(PROFILE) } onActiveItemChanged = {this.onActiveItemChanged}>
-                    <ProfileIcon type={this.isItemActive(PROFILE) ? "primary" : "secondary"} /> 
+                <NavigationItem text={PROFILE} isActive={ isItemActive(PROFILE) } onActiveItemChanged = { onActiveItemChanged } >
+                    <ProfileIcon type={ isItemActive(PROFILE) ? "primary" : "secondary" } /> 
                 </NavigationItem>
                 </div>                
             </nav>
         </header>);
-    }
-
-    private isItemActive = (item: string):boolean => item === this.state.activeItem;
 }
+
+export default Header;
+
