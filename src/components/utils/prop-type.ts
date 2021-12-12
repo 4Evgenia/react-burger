@@ -22,4 +22,10 @@ export const orderPropType = PropTypes.shape({
 });
 
 
+export const tabPropType = PropTypes.shape({
+    displayName: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+})
+
+
 

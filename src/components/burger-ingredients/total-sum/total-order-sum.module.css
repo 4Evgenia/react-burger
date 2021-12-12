@@ -1,0 +1,8 @@
+.priceContaner{
+    display: flex;
+}
+
+.price{
+    position: relative;
+    top: 6px;
+}

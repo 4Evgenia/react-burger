@@ -1,7 +1,7 @@
 .price{
     display: inline-block;
     position: relative;
-    bottom: 0.4rem;
+    bottom: 6px;
 }
 
 .item{
@@ -12,6 +12,6 @@
     width: 40%;
 }
 
-.item div{
+.title{
     text-align: center;
 }

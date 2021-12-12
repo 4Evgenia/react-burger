@@ -5,8 +5,7 @@ import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-type';
 
 
-const ConstructorItem = (props:any) => {
-    const {ingredient, onSelectIngredient} = props;
+const ConstructorItem = ({ingredient, onSelectIngredient}:any) => {
     const selectIngredient = () => onSelectIngredient(ingredient);
 
     return (
@@ -16,7 +15,7 @@ const ConstructorItem = (props:any) => {
                 <span className="price pr-2">{ingredient.price}</span>
                 <CurrencyIcon type="primary" />
             </div>
-            <div className="text text_type_main-default mt-1">{ingredient.name}</div>
+            <div className="title text text_type_main-default mt-1">{ingredient.name}</div>
         </div>
     )
 }
@@ -26,4 +25,4 @@ ConstructorItem.propTypes = {
     onSelectIngredient: PropTypes.func
 }
 
-export default ConstructorItem; 
+export default ConstructorItem;

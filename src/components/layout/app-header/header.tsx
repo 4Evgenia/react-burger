@@ -30,9 +30,9 @@ const Header = () => {
                     </NavigationItem>
                 </div>
                 
-                <div className="logo nav-container"><Logo /></div>
+                <div className="logo nav-container nav-center-container"><Logo /></div>
 
-                <div className="nav-container">
+                <div className="nav-container nav-end-container">
                 <NavigationItem text={PROFILE} isActive={ isItemActive(PROFILE) } onActiveItemChanged = { onActiveItemChanged } >
                     <ProfileIcon type={ isItemActive(PROFILE) ? "primary" : "secondary" } /> 
                 </NavigationItem>

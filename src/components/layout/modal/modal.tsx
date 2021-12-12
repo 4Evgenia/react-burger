@@ -6,11 +6,12 @@ import ModalOverlay from './modal-overlay';
 import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById("react-modals");
+const ESC_KEY = 27;
 
 const Modal = (props: any) => {
     
     const onEscapeClick = (event:any) => {
-        if (event.keyCode === 27)
+        if (event.keyCode === ESC_KEY)
             props.onCancel();
     }
 

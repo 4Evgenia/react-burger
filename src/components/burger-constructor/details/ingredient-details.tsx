@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-type';
 import Modal from '../../layout/modal/modal';
 
-const IngredientDetails = (props:any) => {
-    const {ingredient, visible, onCancel} = props;
-    return (
+const IngredientDetails = ({ingredient, visible, onCancel}:any) => (
         <Modal visible = {visible} title="Детали ингредиента" onCancel={onCancel}>
             <article className={styles.container}>
                 <figure className="mb-4">
@@ -46,7 +44,6 @@ const IngredientDetails = (props:any) => {
             </article>
         </Modal>
     );
-}
 
 IngredientDetails.propTypes = {
     ingredient: ingredientPropType.isRequired,

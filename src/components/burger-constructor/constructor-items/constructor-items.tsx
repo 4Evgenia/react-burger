@@ -10,7 +10,7 @@ const ConstructorItems = (props:any) => {
         <section className="mb-10">
             <div className="text text_type_main-medium">{props.title}</div>
               <div className={constructorItemsStyle.container}>
-                {props.data.map((item:any) => (
+                {props.ingredients.map((item:any) => (
                     <ConstructorItem key={item._id} ingredient={item} onSelectIngredient={props.onSelectIngredient}/>
                 ))}
             </div> 
@@ -19,7 +19,7 @@ const ConstructorItems = (props:any) => {
 }
 
 ConstructorItems.propTypes = {
-    data: PropTypes.arrayOf(ingredientPropType).isRequired,
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     title: PropTypes.string.isRequired,
     onSelectIngredient: PropTypes.func.isRequired
 }

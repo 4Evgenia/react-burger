@@ -5,9 +5,7 @@ import styles from './order-details.module.css';
 import Modal from '../layout/modal/modal';
 import { CheckMarkIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const OrderDetails = (props:any) => {
-    const {order, visible, onCancel} = props;
-    return (
+const OrderDetails = ({order, visible, onCancel}:any) => (
         <Modal visible = {visible} onCancel={onCancel}>
             <article>
                 <main>
@@ -28,7 +26,7 @@ const OrderDetails = (props:any) => {
             </article>
         </Modal>
     );
-}
+
 
 OrderDetails.propTypes = {
     order: orderPropType.isRequired,

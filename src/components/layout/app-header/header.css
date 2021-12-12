@@ -21,11 +21,11 @@
     align-items: center;
 }
 
-.nav-container:nth-child(2){
+.nav-center-container{
     justify-content: center;
 }
 
-.nav-container:nth-child(3){
+.nav-end-container{
     justify-content: flex-end;
 }
 

@@ -1,14 +1,14 @@
 import React from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyles from './burger-constructor.module.css';
-import ConstructorItems from './constructor-items/constructor-items';
 import PropTypes from 'prop-types';
-import {ingredientPropType} from '../utils/prop-type';
+import {ingredientPropType, tabPropType} from '../utils/prop-type';
 import IngredientDetails from "./details/ingredient-details";
+import ConstructorItemsContainer from './constructor-items-container/constructor-items-container';
 
 
 const BurgerConstructor = (props: any) => {
-    const [activeTab, setActiveTab] = React.useState(() => props.tabs[0].type);
+    const [activeTab, setActiveTab] = React.useState(props.tabs[0].type);
     const [detailsVisible, setDetailsVisible] = React.useState(false);
     const [selectedIngredient, setSelectedIngredient] = React.useState({} as any);
 
@@ -40,12 +40,7 @@ const BurgerConstructor = (props: any) => {
                 </section>
                 <section className="mt-10">
                     <div className={burgerConstructorStyles.scroll}>
-                        {props.tabs.map((tab:any) => (<ConstructorItems 
-                            title={tab.displayName} 
-                            key={tab.type}
-                            data = { [ ...props.ingredients.filter((i:any) => i.type === tab.type) ] }
-                            onSelectIngredient = {onSelectIngredient} 
-                            />))}
+                        <ConstructorItemsContainer {...props} onSelectIngredient={onSelectIngredient} />
                     </div>
                 </section>
             </main>
@@ -57,10 +52,7 @@ const BurgerConstructor = (props: any) => {
 
 BurgerConstructor.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    tabs: PropTypes.arrayOf(PropTypes.shape({
-        displayName: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-    })).isRequired
+    tabs: PropTypes.arrayOf(tabPropType).isRequired
 }
 
 export default BurgerConstructor;
