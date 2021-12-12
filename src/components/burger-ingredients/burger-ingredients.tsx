@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {ingredientPropType} from '../utils/prop-type';
 import { ConstructorElement, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
 import './burger-ingredients.css';
-import TotalOrderSum from './total-sum/total-order-sum';
+import TotalOrderSum from './total-order-sum/total-order-sum';
 
 const BurgerIngredient = (props:any) => 
 {
