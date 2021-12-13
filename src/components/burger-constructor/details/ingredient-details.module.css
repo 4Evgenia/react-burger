@@ -1,0 +1,15 @@
+.container{
+    display: flex;
+    flex-direction: column;
+}
+
+.nutrientContainer{
+    display: flex;
+    justify-content: space-between;
+}
+
+.nutrient{
+    display: flex;
+    flex-direction: column;
+    color: #8585AD;
+}

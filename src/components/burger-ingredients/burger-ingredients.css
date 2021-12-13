@@ -1,0 +1,25 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+}
+
+.elements{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 60vh;
+    overflow-y: scroll;
+}
+
+.summary span.price{
+    display: inline-block;
+    position: relative;
+    bottom: 0.25rem;
+}
+
+.summary{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
