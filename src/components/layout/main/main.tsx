@@ -49,8 +49,8 @@ const Main = () => {
         {displayName: 'Начинки', type: MAIN}]
 
     return (<main className={mainAreaStyles.main}>
-        <BurgerConstructor tabs={tabs} ingredients={ingredients}/>
-        <BurgerIngredient selectedIngredients = {selectedIngredients} submitOrder={onSubmitOrder}/>
+        <BurgerIngredient tabs={tabs} ingredients={ingredients}/>
+        <BurgerConstructor selectedIngredients = {selectedIngredients} submitOrder={onSubmitOrder}/>
         {orderModalVisible && (<OrderDetails order={{_id: orderId}} visible={orderModalVisible} onCancel={onOrderModalClose} />)}
     </main>)
 }

@@ -1,58 +1,44 @@
-import React from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorStyles from './burger-constructor.module.css';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {ingredientPropType, tabPropType} from '../utils/prop-type';
-import IngredientDetails from "./details/ingredient-details";
-import ConstructorItemsContainer from './constructor-items-container/constructor-items-container';
+import {ingredientPropType} from '../utils/prop-type';
+import { ConstructorElement, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
+import './burger-constructor.css';
+import TotalOrderSum from './total-order-sum/total-order-sum';
 
-
-const BurgerConstructor = (props: any) => {
-    const [activeTab, setActiveTab] = React.useState(props.tabs[0].type);
-    const [detailsVisible, setDetailsVisible] = React.useState(false);
-    const [selectedIngredient, setSelectedIngredient] = React.useState({} as any);
-
-    const onChangeActiveTab = (activeItem: string) => setActiveTab(activeItem);
-
-    const onSelectIngredient = (ingredient:any) => {
-        setSelectedIngredient(ingredient);
-        setDetailsVisible(true);
-    }
-
-    const onCancelSelectIngredient = () => {
-        setDetailsVisible(false);
-        setSelectedIngredient({} as any);
-    }
+const BurgerConstructor = (props:any) => 
+{
+    const calcSuffix = (index: number) => index === 0 ? "(вверх)" : index === props.selectedIngredients.length - 1 ? "(низ)" : "";
+    const calcType = (index: number) => index === 0 ? "top" : index === props.selectedIngredients.length - 1 ? "bottom" : undefined;
 
     return (
-        <section className={burgerConstructorStyles.container}>
-            <div className="pl-5">
-            <header className="mt-10">
-                <h1 className="text text_type_main-large">Соберите бургер</h1>
-            </header>
-            <main className="mt-5 mb-10">
-                <section className={burgerConstructorStyles.tabs}>
-                    {props.tabs.map((tab:any) => (
-                        <Tab value={tab.type} active={activeTab === tab.type} key={tab.type} onClick={onChangeActiveTab}>
-                            {tab.displayName}
-                        </Tab>
-                    ))}
-                </section>
-                <section className="mt-10">
-                    <div className={burgerConstructorStyles.scroll}>
-                        <ConstructorItemsContainer {...props} onSelectIngredient={onSelectIngredient} />
-                    </div>
-                </section>
-            </main>
+        <section className="container ml-10 mt-25 pr-5">
+            <div className="elements scroll pr-10">
+                {props.selectedIngredients.map((item:any, index: number) => {
+                    return (
+                        <ConstructorElement key={index}
+                            type={ calcType(index) } 
+                            isLocked={item.is_locked} 
+                            text={`${item.name} ${calcSuffix(index)}`} 
+                            price={item.price} 
+                            thumbnail={item.image} />
+                    );
+                })}
             </div>
-            {detailsVisible && (<IngredientDetails ingredient={selectedIngredient} visible={detailsVisible} onCancel={onCancelSelectIngredient} />)}
+            <div className="mt-10 summary">
+                <TotalOrderSum prices={props.selectedIngredients.map((item:any) => item.price)} />
+                <div>
+                    <Button type="primary" size="medium" onClick={props.submitOrder}>
+                        Оформить
+                    </Button>
+                </div>
+            </div>
         </section>
     );
 }
 
 BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    tabs: PropTypes.arrayOf(tabPropType).isRequired
+     selectedIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+     submitOrder: PropTypes.func.isRequired
 }
 
 export default BurgerConstructor;

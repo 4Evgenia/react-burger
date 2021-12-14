@@ -1,11 +1,11 @@
 import React from 'react'
-import './constructor-item.css'
+import './ingredient-item.css'
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-type';
 
 
-const ConstructorItem = ({ingredient, onSelectIngredient}:any) => {
+const IngredientItem = ({ingredient, onSelectIngredient}:any) => {
     const selectIngredient = () => onSelectIngredient(ingredient);
 
     return (
@@ -20,9 +20,9 @@ const ConstructorItem = ({ingredient, onSelectIngredient}:any) => {
     )
 }
 
-ConstructorItem.propTypes = {
+IngredientItem.propTypes = {
     ingredient: ingredientPropType,
     onSelectIngredient: PropTypes.func
 }
 
-export default ConstructorItem;
+export default IngredientItem;

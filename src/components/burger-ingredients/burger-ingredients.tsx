@@ -1,44 +1,58 @@
-import React from 'react';
+import React from "react";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
-import {ingredientPropType} from '../utils/prop-type';
-import { ConstructorElement, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
-import './burger-ingredients.css';
-import TotalOrderSum from './total-order-sum/total-order-sum';
+import {ingredientPropType, tabPropType} from '../utils/prop-type';
+import IngredientDetails from "./details/ingredient-details";
+import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
 
-const BurgerIngredient = (props:any) => 
-{
-    const calcSuffix = (index: number) => index === 0 ? "(вверх)" : index === props.selectedIngredients.length - 1 ? "(низ)" : "";
-    const calcType = (index: number) => index === 0 ? "top" : index === props.selectedIngredients.length - 1 ? "bottom" : undefined;
+
+const BurgerIngredients = (props: any) => {
+    const [activeTab, setActiveTab] = React.useState(props.tabs[0].type);
+    const [detailsVisible, setDetailsVisible] = React.useState(false);
+    const [selectedIngredient, setSelectedIngredient] = React.useState({} as any);
+
+    const onChangeActiveTab = (activeItem: string) => setActiveTab(activeItem);
+
+    const onSelectIngredient = (ingredient:any) => {
+        setSelectedIngredient(ingredient);
+        setDetailsVisible(true);
+    }
+
+    const onCancelSelectIngredient = () => {
+        setDetailsVisible(false);
+        setSelectedIngredient({} as any);
+    }
 
     return (
-        <section className="container ml-10 mt-25 pr-5">
-            <div className="elements scroll pr-10">
-                {props.selectedIngredients.map((item:any, index: number) => {
-                    return (
-                        <ConstructorElement key={index}
-                            type={ calcType(index) } 
-                            isLocked={item.is_locked} 
-                            text={`${item.name} ${calcSuffix(index)}`} 
-                            price={item.price} 
-                            thumbnail={item.image} />
-                    );
-                })}
+        <section className={styles.container}>
+            <div className="pl-5">
+            <header className="mt-10">
+                <h1 className="text text_type_main-large">Соберите бургер</h1>
+            </header>
+            <main className="mt-5 mb-10">
+                <section className={styles.tabs}>
+                    {props.tabs.map((tab:any) => (
+                        <Tab value={tab.type} active={activeTab === tab.type} key={tab.type} onClick={onChangeActiveTab}>
+                            {tab.displayName}
+                        </Tab>
+                    ))}
+                </section>
+                <section className="mt-10">
+                    <div className={styles.scroll}>
+                        <IngredientItemsContainer {...props} onSelectIngredient={onSelectIngredient} />
+                    </div>
+                </section>
+            </main>
             </div>
-            <div className="mt-10 summary">
-                <TotalOrderSum prices={props.selectedIngredients.map((item:any) => item.price)} />
-                <div>
-                    <Button type="primary" size="medium" onClick={props.submitOrder}>
-                        Оформить
-                    </Button>
-                </div>
-            </div>
+            {detailsVisible && (<IngredientDetails ingredient={selectedIngredient} visible={detailsVisible} onCancel={onCancelSelectIngredient} />)}
         </section>
     );
 }
 
-BurgerIngredient.propTypes = {
-     selectedIngredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-     submitOrder: PropTypes.func.isRequired
+BurgerIngredients.propTypes = {
+    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
+    tabs: PropTypes.arrayOf(tabPropType).isRequired
 }
 
-export default BurgerIngredient;
+export default BurgerIngredients;

@@ -1,27 +1,27 @@
 import React from 'react';
-import constructorItemsStyle from './constructor-items.module.css';
+import styles from './ingredient-items.module.css';
 import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-type';
-import ConstructorItem from '../constructor-item/constructor-item';
+import IngredientItem from '../ingredient-item/ingredient-item';
 
 
-const ConstructorItems = (props:any) => {
+const IngredientItems = (props:any) => {
     return (
         <section className="mb-10">
             <div className="text text_type_main-medium">{props.title}</div>
-              <div className={constructorItemsStyle.container}>
+              <div className={styles.container}>
                 {props.ingredients.map((item:any) => (
-                    <ConstructorItem key={item._id} ingredient={item} onSelectIngredient={props.onSelectIngredient}/>
+                    <IngredientItem key={item._id} ingredient={item} onSelectIngredient={props.onSelectIngredient}/>
                 ))}
             </div> 
         </section>
     );
 }
 
-ConstructorItems.propTypes = {
+IngredientItems.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     title: PropTypes.string.isRequired,
     onSelectIngredient: PropTypes.func.isRequired
 }
 
-export default ConstructorItems;
+export default IngredientItems;
