@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import mainAreaStyles from './main.module.css';
 import BurgerConstructor from '../../burger-constructor/burger-constructor';
 import BurgerIngredient from '../../burger-ingredients/burger-ingredients';
-import { fetchIngredients } from '../../utils/api';
+import { fetchIngredients, postOrder } from '../../utils/api';
 import { BUN, MAIN, SAUCE, DEFAULT_SELECTED_INGREDIENT_ID } from '../../../models/constants';
 import OrderDetails from '../../order-details/order-details';
+import { BurgerConstructorContext } from '../../utils/burger-constructor-context';
 
 const Main = () => {
     
@@ -15,8 +16,14 @@ const Main = () => {
 
     const onSubmitOrder = () => {
         // submit selected ingredients and receive order id
-        setOrderId('034536');
-        setOrderModalVisible(true);
+        const data = selectedIngredients.map((i:any) => i._id);
+        postOrder(data).then((data:any) => {
+            setOrderId(data.order.number);
+            setOrderModalVisible(true);
+        })
+        .catch(e => {
+            console.log(e);
+       });
     }
 
     const onOrderModalClose = () => {
@@ -26,8 +33,24 @@ const Main = () => {
 
     const setInitialSelectedIngredient = (ingredients: any) => {
         const defaultBun = ingredients.filter((i:any) => i._id === DEFAULT_SELECTED_INGREDIENT_ID)[0] ?? ingredients[0]; 
-        const initialSelectedIngredients:any = [{...defaultBun, is_locked: true}, {...defaultBun, is_locked: true}];
+        let initialSelectedIngredients:any = [{...defaultBun, is_locked: true}, {...defaultBun, is_locked: true}];
+        initialSelectedIngredients = addIngredient(ingredients[4], initialSelectedIngredients);
+        initialSelectedIngredients = addIngredient(ingredients[7], initialSelectedIngredients);
+        initialSelectedIngredients = addIngredient(ingredients[11], initialSelectedIngredients);
+        initialSelectedIngredients = addIngredient(ingredients[1], initialSelectedIngredients);
         return initialSelectedIngredients;
+    }
+
+    const addIngredient = (ingredient:any, initialSelectedIngredients: Array<any>) => {
+        if (ingredient.type === BUN){
+            const bunIndex = initialSelectedIngredients.findIndex((i:any) => i.type === BUN);
+            if (bunIndex >= 0)
+                return initialSelectedIngredients;
+            return [{...ingredient, is_locked: true}].concat([...initialSelectedIngredients]).concat({...ingredient, is_locked: true});
+        }
+        else{
+            return [initialSelectedIngredients[0], {...ingredient}].concat([...initialSelectedIngredients.slice(1)]);
+        }
     }
 
     useEffect(() => {
@@ -36,7 +59,7 @@ const Main = () => {
                   setIngredients(data.data.map((i:any) => {
                       return {...i, is_locked: false}
                   }));
-                  setSelectedIngredients(setInitialSelectedIngredient(data.data));
+                  setSelectedIngredients(setInitialSelectedIngredient(data.data) as any);
              })
             .catch(e => {
                  console.log(e);
@@ -50,7 +73,9 @@ const Main = () => {
 
     return (<main className={mainAreaStyles.main}>
         <BurgerIngredient tabs={tabs} ingredients={ingredients}/>
-        <BurgerConstructor selectedIngredients = {selectedIngredients} submitOrder={onSubmitOrder}/>
+        <BurgerConstructorContext.Provider value={{selectedIngredients}}>
+            <BurgerConstructor submitOrder={onSubmitOrder}/>
+        </BurgerConstructorContext.Provider>
         {orderModalVisible && (<OrderDetails order={{_id: orderId}} visible={orderModalVisible} onCancel={onOrderModalClose} />)}
     </main>)
 }
