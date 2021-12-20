@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ingredient-items.module.css';
 import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../utils/prop-type';
+import {ingredientPropType} from '../../../utils/prop-type';
 import IngredientItem from '../ingredient-item/ingredient-item';
 
 

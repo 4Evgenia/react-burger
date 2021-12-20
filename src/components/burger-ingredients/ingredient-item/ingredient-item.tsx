@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './ingredient-item.module.css'
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../utils/prop-type';
+import {ingredientPropType} from '../../../utils/prop-type';
 
 
 const IngredientItem = ({ingredient, onSelectIngredient}:any) => {

@@ -1,28 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients.module.css';
-import PropTypes from 'prop-types';
-import {ingredientPropType, tabPropType} from '../utils/prop-type';
 import IngredientDetails from "./details/ingredient-details";
 import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
 import Modal from "../layout/modal/modal";
+import { TABS } from '../../models/constants';
+import { getIngredients, 
+    CHANGE_TAB, 
+    SHOW_INGREDIENT_DETAILS, 
+    HIDE_INGREDIENT_DETAILS} from '../../services/actions/burger';
 
+const BurgerIngredients = () => {
+    const dispatch = useDispatch();
 
-const BurgerIngredients = (props: any) => {
-    const [activeTab, setActiveTab] = React.useState(props.tabs[0].type);
-    const [detailsVisible, setDetailsVisible] = React.useState(false);
-    const [selectedIngredient, setSelectedIngredient] = React.useState(null as any);
+    const {
+        ingredients,
+        viewedIngredient,
+        activeTab,
+        modalVisible
+    } = useSelector((state:any) => state.burger);
 
-    const onChangeActiveTab = (activeItem: string) => setActiveTab(activeItem);
+    useEffect(() => {
+        if (!ingredients.length) dispatch(getIngredients());
+    }, [dispatch]);
+
+    const onChangeActiveTab = (activeItem: string) => dispatch({type: CHANGE_TAB, selectedTab: activeItem});
 
     const onSelectIngredient = (ingredient:any) => {
-        setSelectedIngredient(ingredient);
-        setDetailsVisible(true);
+        dispatch({type: SHOW_INGREDIENT_DETAILS, selectedIngredient: ingredient});
     }
 
     const onCancelSelectIngredient = () => {
-        setDetailsVisible(false);
-        setSelectedIngredient(null as any);
+        dispatch({type: HIDE_INGREDIENT_DETAILS});
     }
 
     return (
@@ -33,7 +43,7 @@ const BurgerIngredients = (props: any) => {
             </header>
             <main className="mt-5 mb-10">
                 <section className={styles.tabs}>
-                    {props.tabs.map((tab:any) => (
+                    {TABS.map((tab:any) => (
                         <Tab value={tab.type} active={activeTab === tab.type} key={tab.type} onClick={onChangeActiveTab}>
                             {tab.displayName}
                         </Tab>
@@ -41,21 +51,16 @@ const BurgerIngredients = (props: any) => {
                 </section>
                 <section className="mt-10">
                     <div className={styles.scroll}>
-                        <IngredientItemsContainer {...props} onSelectIngredient={onSelectIngredient} />
+                        {ingredients && (<IngredientItemsContainer ingredients={ingredients} onSelectIngredient={onSelectIngredient} />)}
                     </div>
                 </section>
             </main>
             </div>  
-            { selectedIngredient && (<Modal visible = {detailsVisible} title="Детали ингредиента" onCancel={onCancelSelectIngredient}>
-                <IngredientDetails  ingredient={selectedIngredient} />
+            {viewedIngredient && (<Modal visible = {modalVisible} title="Детали ингредиента" onCancel={onCancelSelectIngredient}>
+                <IngredientDetails  ingredient={viewedIngredient} />
             </Modal>)}
         </section>
     );
-}
-
-BurgerIngredients.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    tabs: PropTypes.arrayOf(tabPropType).isRequired
 }
 
 export default BurgerIngredients;

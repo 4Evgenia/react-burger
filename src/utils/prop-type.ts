@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {BUN, SAUCE, MAIN} from '../../models/constants'
+import {BUN, SAUCE, MAIN} from '../models/constants'
 
 export const ingredientPropType = PropTypes.shape({
     _id: PropTypes.string.isRequired,

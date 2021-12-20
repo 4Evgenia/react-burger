@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
-import {ingredientPropType} from '../../utils/prop-type';
+import {ingredientPropType} from '../../../utils/prop-type';
 
-const IngredientDetails = ({ingredient, visible, onCancel}:any) => (
+const IngredientDetails = ({ingredient}:any) => (
             <article className={styles.container}>
                 <figure className="mb-4">
                     <img src={ingredient.image_large} alt={ingredient.name}/>

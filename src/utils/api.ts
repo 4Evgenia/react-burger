@@ -4,7 +4,7 @@ const SERVER_ERROR_MESSAGE = "Server Error";
 
 const buildUrl = (endPoint:string) => `${BASE_API_URL}${endPoint}`;
 
-export const fetchIngredients = fetch(buildUrl("ingredients"))
+export const fetchIngredients = () => fetch(buildUrl("ingredients"))
                                     .then(res => {
                                         if (res.ok)
                                             return res.json();

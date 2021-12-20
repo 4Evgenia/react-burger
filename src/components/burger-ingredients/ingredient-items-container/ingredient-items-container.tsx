@@ -1,15 +1,16 @@
 import React from "react";
 import IngredientItems from '../ingredient-items/ingredient-items';
 import PropTypes from 'prop-types';
-import {ingredientPropType, tabPropType} from '../../utils/prop-type';
+import {ingredientPropType} from '../../../utils/prop-type';
+import {TABS} from '../../../models/constants';
 
 const IngredientItemsContainer = (props:any) => {
     const ingredients:any = {};
-    props.tabs.forEach((tab: any) => ingredients[tab.type] = props.ingredients.filter((i:any) => i.type === tab.type));
+    TABS.forEach((tab: any) => ingredients[tab.type] = props.ingredients.filter((i:any) => i.type === tab.type));
 
     return (
         <>
-        { props.tabs.map((tab:any) => (<IngredientItems 
+        { TABS.map((tab:any) => (<IngredientItems 
             title={tab.displayName} 
             key={tab.type}
             ingredients = { ingredients[tab.type] }
@@ -22,7 +23,6 @@ const IngredientItemsContainer = (props:any) => {
 
 IngredientItemsContainer.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    tabs: PropTypes.arrayOf(tabPropType).isRequired,
     onSelectIngredient: PropTypes.func.isRequired
 }
 
