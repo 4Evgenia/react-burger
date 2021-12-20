@@ -10,16 +10,16 @@ const ESC_KEY = 27;
 
 const Modal = (props: any) => {
     
-    const onEscapeClick = (event:any) => {
+    const onEscapeClick = React.useCallback((event:any) => {
         if (event.keyCode === ESC_KEY)
             props.onCancel();
-    }
+    }, [props])
 
     React.useEffect(() => {
         document.addEventListener("keydown", onEscapeClick);
 
         return () => document.removeEventListener("keydown", onEscapeClick);
-    }, [])
+    }, [onEscapeClick])
     
     const modal = (<>
             <ModalOverlay onClick={props.onCancel} />

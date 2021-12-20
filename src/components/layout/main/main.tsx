@@ -5,14 +5,15 @@ import BurgerIngredient from '../../burger-ingredients/burger-ingredients';
 import { fetchIngredients, postOrder } from '../../utils/api';
 import { BUN, MAIN, SAUCE, DEFAULT_SELECTED_INGREDIENT_ID } from '../../../models/constants';
 import OrderDetails from '../../order-details/order-details';
-import { BurgerConstructorContext } from '../../utils/burger-constructor-context';
+import { BurgerConstructorContext } from '../../../services/burger-constructor-context';
 
 const Main = () => {
     
     const [ingredients, setIngredients] = React.useState([]);
     const [selectedIngredients, setSelectedIngredients] = React.useState([]);
+    const [selectedBun, setSelectedBun] = React.useState({});
     const [orderModalVisible, setOrderModalVisible] = React.useState(false);
-    const [orderId, setOrderId] = React.useState('');
+    const [orderId, setOrderId] = React.useState(null as any);
 
     const onSubmitOrder = () => {
         // submit selected ingredients and receive order id
@@ -27,29 +28,23 @@ const Main = () => {
     }
 
     const onOrderModalClose = () => {
-        setOrderId('');
+        setOrderId(null as any);
         setOrderModalVisible(false);
     }
 
-    const setInitialSelectedIngredient = (ingredients: any) => {
-        const defaultBun = ingredients.filter((i:any) => i._id === DEFAULT_SELECTED_INGREDIENT_ID)[0] ?? ingredients[0]; 
-        let initialSelectedIngredients:any = [{...defaultBun, is_locked: true}, {...defaultBun, is_locked: true}];
-        initialSelectedIngredients = addIngredient(ingredients[4], initialSelectedIngredients);
-        initialSelectedIngredients = addIngredient(ingredients[7], initialSelectedIngredients);
-        initialSelectedIngredients = addIngredient(ingredients[11], initialSelectedIngredients);
-        initialSelectedIngredients = addIngredient(ingredients[1], initialSelectedIngredients);
-        return initialSelectedIngredients;
+    const setInitialSelectedIngredients = (ingredients: any) => {
+        const defaultBun = ingredients.filter((i:any) => i._id === DEFAULT_SELECTED_INGREDIENT_ID)[0] ?? ingredients[0];
+        setSelectedBun(defaultBun);
+        setSelectedIngredients([ingredients[4], ingredients[7], ingredients[11], ingredients[1]] as any);
     }
 
-    const addIngredient = (ingredient:any, initialSelectedIngredients: Array<any>) => {
-        if (ingredient.type === BUN){
-            const bunIndex = initialSelectedIngredients.findIndex((i:any) => i.type === BUN);
-            if (bunIndex >= 0)
-                return initialSelectedIngredients;
-            return [{...ingredient, is_locked: true}].concat([...initialSelectedIngredients]).concat({...ingredient, is_locked: true});
-        }
-        else{
-            return [initialSelectedIngredients[0], {...ingredient}].concat([...initialSelectedIngredients.slice(1)]);
+    const addIngredient = (ingredient:any) => {
+        return ingredient.type === BUN ? {
+            selectedBun: ingredient,
+            selectedIngredients: [...selectedIngredients]
+        } : {
+            selectedBun: selectedBun,
+            selectedIngredients: [...selectedIngredients].concat({...ingredient})
         }
     }
 
@@ -57,9 +52,9 @@ const Main = () => {
         fetchIngredients
             .then((data:any) => {
                   setIngredients(data.data.map((i:any) => {
-                      return {...i, is_locked: false}
+                      return i;
                   }));
-                  setSelectedIngredients(setInitialSelectedIngredient(data.data) as any);
+                  setInitialSelectedIngredients(data.data);
              })
             .catch(e => {
                  console.log(e);
@@ -73,10 +68,10 @@ const Main = () => {
 
     return (<main className={mainAreaStyles.main}>
         <BurgerIngredient tabs={tabs} ingredients={ingredients}/>
-        <BurgerConstructorContext.Provider value={{selectedIngredients}}>
+        <BurgerConstructorContext.Provider value={{selectedIngredients, selectedBun}}>
             <BurgerConstructor submitOrder={onSubmitOrder}/>
         </BurgerConstructorContext.Provider>
-        {orderModalVisible && (<OrderDetails order={{_id: orderId}} visible={orderModalVisible} onCancel={onOrderModalClose} />)}
+        {orderId && (<OrderDetails order={{_id: orderId}} visible={orderModalVisible} onCancel={onOrderModalClose} />)}
     </main>)
 }
 

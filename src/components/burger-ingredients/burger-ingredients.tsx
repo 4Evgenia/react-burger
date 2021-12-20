@@ -10,7 +10,7 @@ import IngredientItemsContainer from './ingredient-items-container/ingredient-it
 const BurgerIngredients = (props: any) => {
     const [activeTab, setActiveTab] = React.useState(props.tabs[0].type);
     const [detailsVisible, setDetailsVisible] = React.useState(false);
-    const [selectedIngredient, setSelectedIngredient] = React.useState({} as any);
+    const [selectedIngredient, setSelectedIngredient] = React.useState(null as any);
 
     const onChangeActiveTab = (activeItem: string) => setActiveTab(activeItem);
 
@@ -21,7 +21,7 @@ const BurgerIngredients = (props: any) => {
 
     const onCancelSelectIngredient = () => {
         setDetailsVisible(false);
-        setSelectedIngredient({} as any);
+        setSelectedIngredient(null as any);
     }
 
     return (
@@ -45,7 +45,7 @@ const BurgerIngredients = (props: any) => {
                 </section>
             </main>
             </div>
-            {detailsVisible && (<IngredientDetails ingredient={selectedIngredient} visible={detailsVisible} onCancel={onCancelSelectIngredient} />)}
+            { selectedIngredient && (<IngredientDetails ingredient={selectedIngredient} visible={detailsVisible} onCancel={onCancelSelectIngredient} />)}
         </section>
     );
 }

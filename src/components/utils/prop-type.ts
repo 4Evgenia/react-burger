@@ -13,12 +13,11 @@ export const ingredientPropType = PropTypes.shape({
     image: PropTypes.string.isRequired,
     image_mobile: PropTypes.string.isRequired,
     image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-    is_locked: PropTypes.bool.isRequired
+    __v: PropTypes.number.isRequired
 });
 
 export const orderPropType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.number.isRequired,
 });
 
 
