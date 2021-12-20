@@ -37,7 +37,7 @@ const BurgerConstructor = (props:any) =>
                 </>
             </div>
             <div className={`mt-10 ${styles.summary}`}>
-                <TotalOrderSum prices={selectedIngredients.map((item:any) => item.price)} />
+                <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item.price)} />
                 <div>
                     <Button type="primary" size="medium" onClick={props.submitOrder}>
                         Оформить

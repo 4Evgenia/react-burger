@@ -5,7 +5,7 @@ import { CurrencyIcon  } from "@ya.praktikum/react-developer-burger-ui-component
 
 const TotalOrderSum = (props:any) => {
     const totalPrice = React.useMemo(() => 
-        props.prices.reduce(((acc:number, price:any) => price + acc), 0), 
+        props.prices.reduce(((acc:number, price:any) => !isNaN(price) ? (price + acc) : 0), 0), 
                     [props.prices]);
     
     

@@ -1,11 +1,8 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
-import PropTypes from 'prop-types';
 import {ingredientPropType} from '../../utils/prop-type';
-import Modal from '../../layout/modal/modal';
 
 const IngredientDetails = ({ingredient, visible, onCancel}:any) => (
-        <Modal visible = {visible} title="Детали ингредиента" onCancel={onCancel}>
             <article className={styles.container}>
                 <figure className="mb-4">
                     <img src={ingredient.image_large} alt={ingredient.name}/>
@@ -42,13 +39,10 @@ const IngredientDetails = ({ingredient, visible, onCancel}:any) => (
                     </div>
                 </section>
             </article>
-        </Modal>
     );
 
 IngredientDetails.propTypes = {
-    ingredient: ingredientPropType.isRequired,
-    visible: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func.isRequired
+    ingredient: ingredientPropType.isRequired
 }
 
 export default IngredientDetails;

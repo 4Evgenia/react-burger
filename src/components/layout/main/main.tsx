@@ -6,6 +6,7 @@ import { fetchIngredients, postOrder } from '../../utils/api';
 import { BUN, MAIN, SAUCE, DEFAULT_SELECTED_INGREDIENT_ID } from '../../../models/constants';
 import OrderDetails from '../../order-details/order-details';
 import { BurgerConstructorContext } from '../../../services/burger-constructor-context';
+import Modal from '../modal/modal';
 
 const Main = () => {
     
@@ -71,7 +72,12 @@ const Main = () => {
         <BurgerConstructorContext.Provider value={{selectedIngredients, selectedBun}}>
             <BurgerConstructor submitOrder={onSubmitOrder}/>
         </BurgerConstructorContext.Provider>
-        {orderId && (<OrderDetails order={{_id: orderId}} visible={orderModalVisible} onCancel={onOrderModalClose} />)}
+        {
+            orderId && (<Modal visible = {orderModalVisible} onCancel={onOrderModalClose}>
+                            <OrderDetails order={{_id: orderId}} />
+                        </Modal>)
+        }
+        
     </main>)
 }
 

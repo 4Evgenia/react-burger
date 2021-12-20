@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import {ingredientPropType, tabPropType} from '../utils/prop-type';
 import IngredientDetails from "./details/ingredient-details";
 import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
+import Modal from "../layout/modal/modal";
 
 
 const BurgerIngredients = (props: any) => {
@@ -44,8 +45,10 @@ const BurgerIngredients = (props: any) => {
                     </div>
                 </section>
             </main>
-            </div>
-            { selectedIngredient && (<IngredientDetails ingredient={selectedIngredient} visible={detailsVisible} onCancel={onCancelSelectIngredient} />)}
+            </div>  
+            { selectedIngredient && (<Modal visible = {detailsVisible} title="Детали ингредиента" onCancel={onCancelSelectIngredient}>
+                <IngredientDetails  ingredient={selectedIngredient} />
+            </Modal>)}
         </section>
     );
 }
