@@ -5,7 +5,7 @@
     width: 100%;
 }
 
-.nav-bar{
+.navBar{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -14,18 +14,18 @@
     min-width: 1270px;
 }
 
-.nav-container{
+.navContainer{
     width: calc(100vw / 4);
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
-.nav-center-container{
+.navCenterContainer{
     justify-content: center;
 }
 
-.nav-end-container{
+.navEndContainer{
     justify-content: flex-end;
 }
 

@@ -12,9 +12,7 @@ const TotalOrderSum = (props:any) => {
     return (
         <section className="text text_type_digits-medium mr-10">
             <div className={styles.priceContaner}>
-                <div className={styles.price}>
                     <div className="price mr-2">{totalPrice}</div>
-                </div>
                 <div>
                     <CurrencyIcon type="primary" />
                 </div>

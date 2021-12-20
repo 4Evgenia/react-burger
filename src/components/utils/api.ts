@@ -1,16 +1,17 @@
-const INGREDIENT_API = "https://norma.nomoreparties.space/api/ingredients";
-const ORDER_API = "https://norma.nomoreparties.space/api/orders";
+const BASE_API_URL = "https://norma.nomoreparties.space/api/";
 
 const SERVER_ERROR_MESSAGE = "Server Error";
 
-export const fetchIngredients = fetch(INGREDIENT_API)
+const buildUrl = (endPoint:string) => `${BASE_API_URL}${endPoint}`;
+
+export const fetchIngredients = fetch(buildUrl("ingredients"))
                                     .then(res => {
                                         if (res.ok)
                                             return res.json();
                                         throw new Error(SERVER_ERROR_MESSAGE)
                                     });
 
-export const postOrder = (data:any) => fetch(ORDER_API, {
+export const postOrder = (data:any) => fetch(buildUrl("orders"), {
                                 method: 'POST',
                                 cache: 'no-cache',
                                 headers: {

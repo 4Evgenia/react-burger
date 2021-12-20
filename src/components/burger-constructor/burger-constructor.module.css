@@ -12,7 +12,7 @@
     overflow-y: scroll;
 }
 
-.summary span.price{
+.price{
     display: inline-block;
     position: relative;
     bottom: 0.25rem;

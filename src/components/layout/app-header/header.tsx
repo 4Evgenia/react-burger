@@ -1,5 +1,5 @@
 import React from "react";
-import './header.css';
+import styles from './header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import NavigationItem from "./nav-item/navigation-item";
 
@@ -18,9 +18,9 @@ const Header = () => {
 
     const isItemActive = (item: string):boolean => item === activeItem;
 
-    return (<header className="header">
-            <nav className="nav-bar">
-                <div className="nav-container">
+    return (<header className={styles.header}>
+            <nav className={styles.navBar}>
+                <div className={styles.navContainer}>
                     <NavigationItem text={CONSTRUCTOR} isActive={ isItemActive(CONSTRUCTOR) } onActiveItemChanged = { onActiveItemChanged } >
                         <BurgerIcon type={ isItemActive(CONSTRUCTOR) ? "primary" : "secondary" } />
                     </NavigationItem>
@@ -30,9 +30,9 @@ const Header = () => {
                     </NavigationItem>
                 </div>
                 
-                <div className="logo nav-container nav-center-container"><Logo /></div>
+                <div className={`${styles.logo} ${styles.navContainer} ${styles.navCenterContainer}`}><Logo /></div>
 
-                <div className="nav-container nav-end-container">
+                <div className={`${styles.navContainer} ${styles.navEndContainer}`}>
                 <NavigationItem text={PROFILE} isActive={ isItemActive(PROFILE) } onActiveItemChanged = { onActiveItemChanged } >
                     <ProfileIcon type={ isItemActive(PROFILE) ? "primary" : "secondary" } /> 
                 </NavigationItem>
