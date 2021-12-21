@@ -8,7 +8,7 @@ import IngredientItem from '../ingredient-item/ingredient-item';
 const IngredientItems = (props:any) => {
     return (
         <section className="mb-10">
-            <div className="text text_type_main-medium">{props.title}</div>
+            <h3 className="text text_type_main-medium" id={props.type}>{props.title}</h3>
               <div className={styles.container}>
                 {props.ingredients.map((item:any) => (
                     <IngredientItem key={item._id} ingredient={item} onSelectIngredient={props.onSelectIngredient}/>
@@ -21,7 +21,8 @@ const IngredientItems = (props:any) => {
 IngredientItems.propTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
     title: PropTypes.string.isRequired,
-    onSelectIngredient: PropTypes.func.isRequired
+    onSelectIngredient: PropTypes.func.isRequired,
+    type: PropTypes.string.isRequired
 }
 
 export default IngredientItems;

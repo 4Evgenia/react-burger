@@ -13,6 +13,7 @@ const IngredientItemsContainer = (props:any) => {
         { TABS.map((tab:any) => (<IngredientItems 
             title={tab.displayName} 
             key={tab.type}
+            type={tab.type}
             ingredients = { ingredients[tab.type] }
             onSelectIngredient = {props.onSelectIngredient} 
             />))

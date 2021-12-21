@@ -34,7 +34,7 @@ export const burgerReducer = (state = initialState, action:any) => {
                 ingredientFailed: false, 
                 ingredientRequest: false, 
                 ingredients: action.ingredients,
-                selectedBun: action.ingredients.filter((item:any) => item.id === DEFAULT_SELECTED_INGREDIENT_ID)[0]
+                selectedBun: action.ingredients.filter((item:any) => item._id === DEFAULT_SELECTED_INGREDIENT_ID)[0]
             };
         }
         case GET_INGREDIENTS_FAILED: {
