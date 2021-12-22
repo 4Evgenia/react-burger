@@ -9,6 +9,7 @@ import {
     REMOVE_INGREDIENT,
 } from '../actions/burger';
 import { TABS, BUN, DEFAULT_SELECTED_INGREDIENT_ID } from '../../models/constants';
+import { iteratorSymbol } from '@reduxjs/toolkit/node_modules/immer/dist/internal';
 
 const initialState = {
     ingredients: [],
@@ -33,7 +34,8 @@ export const burgerReducer = (state = initialState, action:any) => {
                 ...state, 
                 ingredientFailed: false, 
                 ingredientRequest: false, 
-                ingredients: action.ingredients,
+                ingredients: action.ingredients.map((item:any) => { 
+                    return item._id === DEFAULT_SELECTED_INGREDIENT_ID ? {...item, qty: 2} : {...item, qty: 0}}),
                 selectedBun: action.ingredients.filter((item:any) => item._id === DEFAULT_SELECTED_INGREDIENT_ID)[0]
             };
         }
@@ -58,19 +60,33 @@ export const burgerReducer = (state = initialState, action:any) => {
             }
         }
         case ADD_INGREDIENT: {
-            return action.selectedIngredient.type === BUN ?  {
+            const isBun = action.selectedIngredient.type === BUN;
+            return {
                 ...state,
-                selectedBun: action.selectedIngredient
-            } : 
-            {
-                ...state,
-                selectedIngredients: [...state.selectedIngredients, action.selectedIngredient] 
-            };
+                selectedBun: isBun ? action.selectedIngredient : state.selectedBun,
+                selectedIngredients: isBun ? 
+                                state.selectedIngredients : 
+                                state.selectedIngredients.concat({...action.selectedIngredient, order: state.selectedIngredients.length}),
+                ingredients: [...state.ingredients].map((item:any) => {
+                    // увеличить счетчик на 1 для выбранного ингредиента и на 2 для булок
+                    if (item._id === action.selectedIngredient._id)
+                        return {...item, qty: isBun ? (item.qty+2) : ++item.qty};
+                    // сбросить счетчик на предыдущей булке
+                    else if (state.selectedBun !== null && item._id === (state.selectedBun as any)._id)
+                        return {... item, qty: 0}
+                    return item;
+                })           
+            }
         }
         case REMOVE_INGREDIENT: {
+            if (action.removedIngredient.type === BUN)
+                return {...state};
             return{
                 ...state,
-                selectedIngredients: [...state.selectedIngredients].filter((item:any) => item.order !== action.order)
+                selectedIngredients: [...state.selectedIngredients]
+                            .filter((item:any) => item.order !== action.removedIngredient.order)
+                            .map((item: any, index) => { return {...item, order: index} }),
+                ingredients: [...state.ingredients].map((item:any) => item._id === action.removedIngredient._id ? {...item, qty: --item.qty} : item)
             }
         }
         default: {

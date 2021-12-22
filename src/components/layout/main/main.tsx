@@ -6,6 +6,8 @@ import BurgerIngredient from '../../burger-ingredients/burger-ingredients';
 import OrderDetails from '../../order-details/order-details';
 import Modal from '../modal/modal';
 import { HIDE_MODAL } from '../../../services/actions/order';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
 
 const Main = () => {
@@ -21,8 +23,10 @@ const Main = () => {
     }
 
     return (<main className={mainAreaStyles.main}>
-        <BurgerIngredient />
-        <BurgerConstructor />
+        <DndProvider backend={HTML5Backend}>
+            <BurgerIngredient />
+            <BurgerConstructor />
+        </DndProvider>
         {
             orderId && (<Modal visible = {orderModalVisible} onCancel={onOrderModalClose}>
                             <OrderDetails order={{_id: orderId}} />
