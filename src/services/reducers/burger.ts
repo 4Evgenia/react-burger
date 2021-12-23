@@ -9,6 +9,7 @@ import {
     REMOVE_INGREDIENT,
     MOVE_INGREDIENT
 } from '../actions/burger';
+import { SUBMIT_ORDER_SUCCESS } from '../actions/order';
 import { TABS, BUN } from '../../models/constants';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -101,6 +102,14 @@ export const burgerReducer = (state = initialState, action:any) => {
                     hoveredIngredient, draggableIngredient, 
                     ...state.selectedIngredients.slice(action.hoverIndex+1)]
             };
+        }
+        case SUBMIT_ORDER_SUCCESS: {
+            return {
+                ...state,
+                selectedIngredients: [],
+                selectedBun: null,
+                ingredients: [...state.ingredients].map((item:any) => { return {...item, qty: 0}})
+            }
         }
         default: {
             return state;

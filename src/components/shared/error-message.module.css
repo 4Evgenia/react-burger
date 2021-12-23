@@ -1,0 +1,5 @@
+.errorContainer{
+    display: flex;
+    color: #E52B1A;
+    border: 1px solid;
+}

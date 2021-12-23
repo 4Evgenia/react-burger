@@ -8,6 +8,8 @@ import { ADD_INGREDIENT, MOVE_INGREDIENT } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorElement from './burger-constructor-element';
 import EmptyBurger from './empty-burger';
+import ErrorMessage from '../shared/error-message';
+import { NO_BUN_IN_ORDER } from '../../models/constants';
 
 const BurgerConstructor = () => 
 {
@@ -36,6 +38,7 @@ const BurgerConstructor = () =>
 
     return (
         <section className={`${styles.container} ml-10 mt-25 pr-5`}>
+            {!selectedBun && selectedIngredients.length !== 0 && <ErrorMessage errorText={NO_BUN_IN_ORDER} />}
             <div className={`${styles.elements} ${styles.scroll}`} ref={dropTarget}>
                 {selectedIngredients.length === 0 && !selectedBun ? (<EmptyBurger />) : 
                 (
@@ -59,9 +62,9 @@ const BurgerConstructor = () =>
                 )}
             </div>
             {(selectedIngredients.length !== 0 || selectedBun) && (<div className={`mt-10 ${styles.summary}`}>
-                <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item.price)} />
+                <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item === null ? 0 : item.price)} />
                 <div>
-                    <Button type="primary" size="medium" onClick={onOrderSubmitted}>
+                    <Button type="primary" size="medium" onClick={onOrderSubmitted} disabled={!selectedBun}>
                         Оформить
                     </Button>
                 </div>

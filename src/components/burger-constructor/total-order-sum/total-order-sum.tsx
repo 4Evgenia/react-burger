@@ -5,7 +5,7 @@ import { CurrencyIcon  } from "@ya.praktikum/react-developer-burger-ui-component
 
 const TotalOrderSum = (props:any) => {
     const totalPrice = React.useMemo(() => 
-        props.prices.reduce(((acc:number, price:any) => !isNaN(price) ? (price + acc) : 0), 0), 
+        props.prices.reduce(((acc:number, price:any) => !isNaN(price) ? (price + acc) : acc), 0), 
                     [props.prices]);
     
     
@@ -22,7 +22,7 @@ const TotalOrderSum = (props:any) => {
 }
 
 TotalOrderSum.propTypes = {
-    prices: PropTypes.arrayOf(PropTypes.number)
+    prices: PropTypes.arrayOf(PropTypes.number).isRequired
 }
 
 export default TotalOrderSum;
