@@ -5,6 +5,7 @@ import { REMOVE_INGREDIENT } from '../../services/actions/burger';
 import { ingredientPropType } from '../../utils/prop-type';
 import styles from './burger-constructor-element.module.css';
 import { DragSource, DropTarget } from 'react-dnd';
+import PropTypes from 'prop-types';
 
 const BurgerConstructorElement = forwardRef(({item, index, isDragging, connectDragSource, connectDropTarget}:any, ref) => {
     const elementRef = useRef(null);
@@ -95,5 +96,9 @@ export default DropTarget('items', {
 }))(BurgerConstructorElement));
 
 BurgerConstructorElement.propTypes = {
-    item: ingredientPropType
+    item: ingredientPropType.isRequired,
+    index: PropTypes.number.isRequired,
+    isDragging: PropTypes.bool.isRequired,
+    connectDragSource: PropTypes.func.isRequired,
+    connectDropTarget: PropTypes.func.isRequired
 }

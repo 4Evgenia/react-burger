@@ -17,7 +17,6 @@ NavigationItem.propTypes = {
     text: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
     children: PropTypes.element.isRequired,
-    className: PropTypes.string,
     onActiveItemChanged: PropTypes.func
 }
 

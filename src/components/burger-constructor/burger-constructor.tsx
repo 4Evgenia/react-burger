@@ -7,8 +7,9 @@ import { submitOrder } from '../../services/actions/order';
 import { ADD_INGREDIENT, MOVE_INGREDIENT } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorElement from './burger-constructor-element';
+import EmptyBurger from './empty-burger';
 
-const BurgerConstructor = (props:any) => 
+const BurgerConstructor = () => 
 {
     const dispatch = useDispatch();
 
@@ -36,7 +37,9 @@ const BurgerConstructor = (props:any) =>
     return (
         <section className={`${styles.container} ml-10 mt-25 pr-5`}>
             <div className={`${styles.elements} ${styles.scroll}`} ref={dropTarget}>
-                <>
+                {selectedIngredients.length === 0 && !selectedBun ? (<EmptyBurger />) : 
+                (
+                    <>
                 <div className={styles.constructorElementContainer}>
                     <div className={styles.nonDragContainer}></div>
                     {selectedBun && (<ConstructorElement type="top" isLocked={true} text={`${selectedBun.name} (верх)`} price={selectedBun.price} thumbnail={selectedBun.image} />)}
@@ -53,15 +56,16 @@ const BurgerConstructor = (props:any) =>
                     {selectedBun && (<ConstructorElement type="bottom" isLocked={true} text={`${selectedBun.name} (низ)`} price={selectedBun.price} thumbnail={selectedBun.image} />)}
                 </div>
                 </>
+                )}
             </div>
-            <div className={`mt-10 ${styles.summary}`}>
+            {(selectedIngredients.length !== 0 || selectedBun) && (<div className={`mt-10 ${styles.summary}`}>
                 <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item.price)} />
                 <div>
                     <Button type="primary" size="medium" onClick={onOrderSubmitted}>
                         Оформить
                     </Button>
                 </div>
-            </div>
+            </div>)}
         </section>
     );
 }
