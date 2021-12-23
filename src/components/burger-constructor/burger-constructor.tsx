@@ -10,6 +10,7 @@ import BurgerConstructorElement from './burger-constructor-element';
 import EmptyBurger from './empty-burger';
 import ErrorMessage from '../shared/error-message';
 import { NO_BUN_IN_ORDER } from '../../models/constants';
+import { v4 as uuidv4 } from 'uuid';
 
 const BurgerConstructor = () => 
 {
@@ -32,7 +33,7 @@ const BurgerConstructor = () =>
     const [ , dropTarget] = useDrop({
         accept: 'ingredient',
         drop(item:any){
-            dispatch({type: ADD_INGREDIENT, selectedIngredient: item.ingredient});
+            dispatch({type: ADD_INGREDIENT, selectedIngredient: item.ingredient, guid: uuidv4() });
         }
     })
 
