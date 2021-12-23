@@ -1,11 +1,12 @@
 import React from 'react';
-import { ConstructorElement, Button, DragIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ConstructorElement, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import TotalOrderSum from './total-order-sum/total-order-sum';
 import { useDispatch, useSelector } from 'react-redux';
 import { submitOrder } from '../../services/actions/order';
-import { ADD_INGREDIENT, REMOVE_INGREDIENT } from '../../services/actions/burger';
+import { ADD_INGREDIENT, MOVE_INGREDIENT } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
+import BurgerConstructorElement from './burger-constructor-element';
 
 const BurgerConstructor = (props:any) => 
 {
@@ -21,11 +22,12 @@ const BurgerConstructor = (props:any) =>
         dispatch(submitOrder(order));
     }
 
-    const [{ isHover }, dropTarget] = useDrop({
+    const moveIngredient = (dragIndex:number, hoverIndex:number) => {
+        dispatch({type: MOVE_INGREDIENT, dragIndex:dragIndex, hoverIndex: hoverIndex });
+    }
+
+    const [ , dropTarget] = useDrop({
         accept: 'ingredient',
-        collect: monitor => ({
-            isHover: monitor.isOver()
-        }),
         drop(item:any){
             dispatch({type: ADD_INGREDIENT, selectedIngredient: item.ingredient});
         }
@@ -40,19 +42,11 @@ const BurgerConstructor = (props:any) =>
                     {selectedBun && (<ConstructorElement type="top" isLocked={true} text={`${selectedBun.name} (верх)`} price={selectedBun.price} thumbnail={selectedBun.image} />)}
                 </div>
                 <div className={`${styles.selectedIngredients} pr-10`}>
-                    {selectedIngredients.map((item:any) => {
-                        return (
-                            <div className={styles.constructorElementContainer} key={`${item._id}_${item.order}`}>
-                                <div className="mr-5"><DragIcon type="primary" /></div>
-                                <ConstructorElement
-                                    text={item.name}
-                                    price={item.price} 
-                                    thumbnail={item.image}
-                                    handleClose={() => dispatch({type: REMOVE_INGREDIENT, removedIngredient: item})}
-                                     />
-                            </div>
-                        );
-                        })}
+                    {selectedIngredients.map((item:any, index:number) => <BurgerConstructorElement
+                            item={item}
+                            index={index} 
+                            key={`${item._id}_${item.qty}`} 
+                            moveIngredient={moveIngredient}/>)}
                 </div>
                 <div className={styles.constructorElementContainer}>
                     <div className={styles.nonDragContainer}></div>

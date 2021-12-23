@@ -29,12 +29,11 @@
     align-items: center;
     justify-content: flex-end;
 }
+.nonDragContainer{
+    width: 45px;
+}
 
 .constructorElementContainer{
     display: flex;
     align-items: center;
-}
-
-.nonDragContainer{
-    width: 45px;
 }

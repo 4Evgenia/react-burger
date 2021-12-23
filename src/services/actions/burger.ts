@@ -7,8 +7,9 @@ export const SHOW_INGREDIENT_DETAILS = 'SHOW_INGREDIENT_DETAILS';
 export const HIDE_INGREDIENT_DETAILS = 'HIDE_INGREDIENT_DETAILS';
 export const CHANGE_TAB = 'CHANGE_TAB';
 
-export const ADD_INGREDIENT = "ADD_INGREDIENT";
-export const REMOVE_INGREDIENT = "REMOVE_INGREDIENT";
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
+export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 
 export function getIngredients(){
     return function(dispatch:any){

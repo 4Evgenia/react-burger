@@ -7,9 +7,9 @@ import {
     CHANGE_TAB,
     ADD_INGREDIENT,
     REMOVE_INGREDIENT,
+    MOVE_INGREDIENT
 } from '../actions/burger';
 import { TABS, BUN, DEFAULT_SELECTED_INGREDIENT_ID } from '../../models/constants';
-import { iteratorSymbol } from '@reduxjs/toolkit/node_modules/immer/dist/internal';
 
 const initialState = {
     ingredients: [],
@@ -66,14 +66,14 @@ export const burgerReducer = (state = initialState, action:any) => {
                 selectedBun: isBun ? action.selectedIngredient : state.selectedBun,
                 selectedIngredients: isBun ? 
                                 state.selectedIngredients : 
-                                state.selectedIngredients.concat({...action.selectedIngredient, order: state.selectedIngredients.length}),
+                                state.selectedIngredients.concat(action.selectedIngredient),
                 ingredients: [...state.ingredients].map((item:any) => {
                     // увеличить счетчик на 1 для выбранного ингредиента и на 2 для булок
                     if (item._id === action.selectedIngredient._id)
                         return {...item, qty: isBun ? (item.qty+2) : ++item.qty};
                     // сбросить счетчик на предыдущей булке
-                    else if (state.selectedBun !== null && item._id === (state.selectedBun as any)._id)
-                        return {... item, qty: 0}
+                    else if (isBun && state.selectedBun !== null && item._id === (state.selectedBun as any)._id)
+                        return {...item, qty: 0}
                     return item;
                 })           
             }
@@ -84,10 +84,23 @@ export const burgerReducer = (state = initialState, action:any) => {
             return{
                 ...state,
                 selectedIngredients: [...state.selectedIngredients]
-                            .filter((item:any) => item.order !== action.removedIngredient.order)
-                            .map((item: any, index) => { return {...item, order: index} }),
+                            .filter((item:any, index:number) => index !== action.index),
                 ingredients: [...state.ingredients].map((item:any) => item._id === action.removedIngredient._id ? {...item, qty: --item.qty} : item)
             }
+        }
+        case MOVE_INGREDIENT: {
+            const upwardDrag = action.dragIndex > action.hoverIndex;
+            const draggableIngredient = state.selectedIngredients[action.dragIndex];
+            const hoveredIngredient = state.selectedIngredients[action.hoverIndex];
+
+            return {...state, selectedIngredients: upwardDrag ? 
+                [...state.selectedIngredients.slice(0, action.hoverIndex), 
+                    draggableIngredient, hoveredIngredient, 
+                    ...state.selectedIngredients.slice(action.dragIndex+1)] :
+                [...state.selectedIngredients.slice(0, action.dragIndex), 
+                    hoveredIngredient, draggableIngredient, 
+                    ...state.selectedIngredients.slice(action.hoverIndex+1)]
+            };
         }
         default: {
             return state;

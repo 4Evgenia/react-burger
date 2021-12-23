@@ -9,12 +9,9 @@ import { useDrag } from 'react-dnd';
 const IngredientItem = ({ingredient, onSelectIngredient}:any) => {
     const selectIngredient = () => onSelectIngredient(ingredient);
 
-    const [isDragging, ref] = useDrag({
+    const [, ref] = useDrag({
         type: 'ingredient',
-        item: { ingredient },
-        collect: monitor => ({
-            isDragging: monitor.isDragging()
-        })
+        item: { ingredient }
     })
 
     return (
