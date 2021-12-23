@@ -48,7 +48,7 @@ const BurgerConstructor = () =>
                     {selectedIngredients.map((item:any, index:number) => <BurgerConstructorElement
                             item={item}
                             index={index} 
-                            key={`${item._id}_${item.qty}`} 
+                            key={item.guid} 
                             moveIngredient={moveIngredient}/>)}
                 </div>
                 <div className={styles.constructorElementContainer}>

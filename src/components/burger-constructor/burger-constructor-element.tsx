@@ -25,7 +25,7 @@ const BurgerConstructorElement = forwardRef(({item, index, isDragging, connectDr
                     text={item.name}
                     price={item.price} 
                     thumbnail={item.image}
-                    handleClose={() => dispatch({type: REMOVE_INGREDIENT, removedIngredient: item, index:index})}
+                    handleClose={() => dispatch({type: REMOVE_INGREDIENT, removedIngredient: item})}
         />
         </div>
     )

@@ -10,6 +10,7 @@ import {
     MOVE_INGREDIENT
 } from '../actions/burger';
 import { TABS, BUN } from '../../models/constants';
+import { v4 as uuidv4 } from 'uuid';
 
 const initialState = {
     ingredients: [],
@@ -65,7 +66,7 @@ export const burgerReducer = (state = initialState, action:any) => {
                 selectedBun: isBun ? action.selectedIngredient : state.selectedBun,
                 selectedIngredients: isBun ? 
                                 state.selectedIngredients : 
-                                state.selectedIngredients.concat(action.selectedIngredient),
+                                state.selectedIngredients.concat({...action.selectedIngredient, guid: uuidv4()}),
                 ingredients: [...state.ingredients].map((item:any) => {
                     // увеличить счетчик на 1 для выбранного ингредиента и на 2 для булок
                     if (item._id === action.selectedIngredient._id)
@@ -83,7 +84,7 @@ export const burgerReducer = (state = initialState, action:any) => {
             return{
                 ...state,
                 selectedIngredients: [...state.selectedIngredients]
-                            .filter((item:any, index:number) => index !== action.index),
+                            .filter((item:any) => item.guid !== action.removedIngredient.guid),
                 ingredients: [...state.ingredients].map((item:any) => item._id === action.removedIngredient._id ? {...item, qty: --item.qty} : item)
             }
         }
