@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import {BUN, SAUCE, MAIN} from '../../models/constants'
+import {BUN, SAUCE, MAIN} from '../models/constants'
 
 export const ingredientPropType = PropTypes.shape({
     _id: PropTypes.string.isRequired,
@@ -14,11 +14,12 @@ export const ingredientPropType = PropTypes.shape({
     image_mobile: PropTypes.string.isRequired,
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
-    is_locked: PropTypes.bool.isRequired
+    qty: PropTypes.number,
+    guid: PropTypes.string
 });
 
 export const orderPropType = PropTypes.shape({
-    _id: PropTypes.string.isRequired,
+    _id: PropTypes.number.isRequired,
 });
 
 

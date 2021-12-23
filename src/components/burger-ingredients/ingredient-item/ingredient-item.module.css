@@ -15,3 +15,12 @@
 .title{
     text-align: center;
 }
+
+.counterContainer{
+    align-self: flex-end;
+}
+
+.counterContainer div{
+    position: relative;
+    top: 20px;
+}

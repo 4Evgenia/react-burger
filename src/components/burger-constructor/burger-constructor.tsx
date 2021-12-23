@@ -1,58 +1,77 @@
-import React from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorStyles from './burger-constructor.module.css';
-import PropTypes from 'prop-types';
-import {ingredientPropType, tabPropType} from '../utils/prop-type';
-import IngredientDetails from "./details/ingredient-details";
-import ConstructorItemsContainer from './constructor-items-container/constructor-items-container';
+import React from 'react';
+import { ConstructorElement, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
+import styles from './burger-constructor.module.css';
+import TotalOrderSum from './total-order-sum/total-order-sum';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitOrder } from '../../services/actions/order';
+import { ADD_INGREDIENT, MOVE_INGREDIENT } from '../../services/actions/burger';
+import { useDrop } from 'react-dnd';
+import BurgerConstructorElement from './burger-constructor-element';
+import EmptyBurger from './empty-burger';
+import ErrorMessage from '../shared/error-message';
+import { NO_BUN_IN_ORDER } from '../../models/constants';
+import { v4 as uuidv4 } from 'uuid';
 
+const BurgerConstructor = () => 
+{
+    const dispatch = useDispatch();
 
-const BurgerConstructor = (props: any) => {
-    const [activeTab, setActiveTab] = React.useState(props.tabs[0].type);
-    const [detailsVisible, setDetailsVisible] = React.useState(false);
-    const [selectedIngredient, setSelectedIngredient] = React.useState({} as any);
+    const {
+        selectedIngredients,
+        selectedBun
+    } = useSelector((state:any) => state.burger);
 
-    const onChangeActiveTab = (activeItem: string) => setActiveTab(activeItem);
-
-    const onSelectIngredient = (ingredient:any) => {
-        setSelectedIngredient(ingredient);
-        setDetailsVisible(true);
+    const onOrderSubmitted = () => {
+        const order = [...selectedIngredients, selectedBun, selectedBun];
+        dispatch(submitOrder(order));
     }
 
-    const onCancelSelectIngredient = () => {
-        setDetailsVisible(false);
-        setSelectedIngredient({} as any);
+    const moveIngredient = (dragIndex:number, hoverIndex:number) => {
+        dispatch({type: MOVE_INGREDIENT, dragIndex:dragIndex, hoverIndex: hoverIndex });
     }
+
+    const [ , dropTarget] = useDrop({
+        accept: 'ingredient',
+        drop(item:any){
+            dispatch({type: ADD_INGREDIENT, selectedIngredient: item.ingredient, guid: uuidv4() });
+        }
+    })
 
     return (
-        <section className={burgerConstructorStyles.container}>
-            <div className="pl-5">
-            <header className="mt-10">
-                <h1 className="text text_type_main-large">Соберите бургер</h1>
-            </header>
-            <main className="mt-5 mb-10">
-                <section className={burgerConstructorStyles.tabs}>
-                    {props.tabs.map((tab:any) => (
-                        <Tab value={tab.type} active={activeTab === tab.type} key={tab.type} onClick={onChangeActiveTab}>
-                            {tab.displayName}
-                        </Tab>
-                    ))}
-                </section>
-                <section className="mt-10">
-                    <div className={burgerConstructorStyles.scroll}>
-                        <ConstructorItemsContainer {...props} onSelectIngredient={onSelectIngredient} />
-                    </div>
-                </section>
-            </main>
+        <section className={`${styles.container} ml-10 mt-25 pr-5`}>
+            {!selectedBun && selectedIngredients.length !== 0 && <ErrorMessage errorText={NO_BUN_IN_ORDER} />}
+            <div className={`${styles.elements} ${styles.scroll}`} ref={dropTarget}>
+                {selectedIngredients.length === 0 && !selectedBun ? (<EmptyBurger />) : 
+                (
+                    <>
+                <div className={styles.constructorElementContainer}>
+                    <div className={styles.nonDragContainer}></div>
+                    {selectedBun && (<ConstructorElement type="top" isLocked={true} text={`${selectedBun.name} (верх)`} price={selectedBun.price} thumbnail={selectedBun.image} />)}
+                </div>
+                <div className={`${styles.selectedIngredients} pr-10`}>
+                    {selectedIngredients.map((item:any, index:number) => <BurgerConstructorElement
+                            item={item}
+                            index={index} 
+                            key={item.guid} 
+                            moveIngredient={moveIngredient}/>)}
+                </div>
+                <div className={styles.constructorElementContainer}>
+                    <div className={styles.nonDragContainer}></div>
+                    {selectedBun && (<ConstructorElement type="bottom" isLocked={true} text={`${selectedBun.name} (низ)`} price={selectedBun.price} thumbnail={selectedBun.image} />)}
+                </div>
+                </>
+                )}
             </div>
-            {detailsVisible && (<IngredientDetails ingredient={selectedIngredient} visible={detailsVisible} onCancel={onCancelSelectIngredient} />)}
+            {(selectedIngredients.length !== 0 || selectedBun) && (<div className={`mt-10 ${styles.summary}`}>
+                <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item === null ? 0 : item.price)} />
+                <div>
+                    <Button type="primary" size="medium" onClick={onOrderSubmitted} disabled={!selectedBun}>
+                        Оформить
+                    </Button>
+                </div>
+            </div>)}
         </section>
     );
-}
-
-BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    tabs: PropTypes.arrayOf(tabPropType).isRequired
 }
 
 export default BurgerConstructor;

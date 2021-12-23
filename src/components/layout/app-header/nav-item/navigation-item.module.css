@@ -1,14 +1,14 @@
-a.nav-title{
+.navTitle{
     display: inline-block;
     position: relative;
     bottom: 6px;
     text-decoration: none;
 }
 
-a.nav-title span.inactive{
+.inactive{
     color: #8585AD;
 }
 
-a.nav-title span.active{
+.active{
     color: #F2F2F3;
 }

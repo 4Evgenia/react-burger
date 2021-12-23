@@ -1,0 +1,15 @@
+.tabs{
+    display: flex;
+}
+
+.scroll{
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    width: 33vw;
+    min-width: 620px;
+}

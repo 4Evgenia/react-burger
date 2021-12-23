@@ -1,15 +1,40 @@
-.tabs{
-    display: flex;
-}
-
-.scroll{
-    height: 60vh;
-    overflow-y: scroll;
-}
-
 .container{
     display: flex;
     flex-direction: column;
-    width: 33vw;
-    min-width: 620px;
+    min-width: 600px;
+}
+
+.elements{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-height: 10vh;
+}
+
+.selectedIngredients{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 40vh;
+    overflow-y: scroll;
+}
+
+.price{
+    display: inline-block;
+    position: relative;
+    bottom: 0.25rem;
+}
+
+.summary{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.nonDragContainer{
+    width: 45px;
+}
+
+.constructorElementContainer{
+    display: flex;
+    align-items: center;
 }
