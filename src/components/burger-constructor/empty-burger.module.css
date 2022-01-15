@@ -2,4 +2,5 @@
     display: flex;
     margin: auto;
     border: 1px dashed;
+    max-width: 550px;
 }

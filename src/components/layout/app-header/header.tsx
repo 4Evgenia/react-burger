@@ -2,39 +2,33 @@ import React from "react";
 import styles from './header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import NavigationItem from "./nav-item/navigation-item";
+import { useLocation } from 'react-router-dom';
+import { ROUTES } from '../../../models/constants';
 
 export interface IHeaderState{
     activeItem: string;
 }
 
-const CONSTRUCTOR = "Конструктор";
-const ORDERS = "Лента заказов";
-const PROFILE = "Личный кабинет";
-
 const Header = () => {
-    const [activeItem, setActiveItem] = React.useState(CONSTRUCTOR);
-
-    const onActiveItemChanged = (activeItem : string) => setActiveItem(activeItem);
-
-    const isItemActive = (item: string):boolean => item === activeItem;
+    const { pathname } = useLocation();
 
     return (<header className={styles.header}>
             <nav className={styles.navBar}>
                 <div className={styles.navContainer}>
-                    <NavigationItem text={CONSTRUCTOR} isActive={ isItemActive(CONSTRUCTOR) } onActiveItemChanged = { onActiveItemChanged } >
-                        <BurgerIcon type={ isItemActive(CONSTRUCTOR) ? "primary" : "secondary" } />
+                    <NavigationItem text={ROUTES.Home.title} path={ROUTES.Home.path} exact={true}>
+                        <BurgerIcon type={ pathname === ROUTES.Home.path ? "primary" : "secondary" } />
                     </NavigationItem>
 
-                    <NavigationItem text={ORDERS} isActive={ isItemActive(ORDERS) } onActiveItemChanged = { onActiveItemChanged } >
-                        <ListIcon type={ isItemActive(ORDERS) ? "primary" : "secondary" } /> 
+                    <NavigationItem text={ROUTES.Orders.title} path={ROUTES.Orders.path} >
+                        <ListIcon type={ pathname === ROUTES.Orders.path ? "primary" : "secondary" } /> 
                     </NavigationItem>
                 </div>
                 
                 <div className={`${styles.logo} ${styles.navContainer} ${styles.navCenterContainer}`}><Logo /></div>
 
                 <div className={`${styles.navContainer} ${styles.navEndContainer}`}>
-                <NavigationItem text={PROFILE} isActive={ isItemActive(PROFILE) } onActiveItemChanged = { onActiveItemChanged } >
-                    <ProfileIcon type={ isItemActive(PROFILE) ? "primary" : "secondary" } /> 
+                <NavigationItem text={ROUTES.Profile.title} path={ROUTES.Profile.path}>
+                    <ProfileIcon type={ pathname === ROUTES.Profile.path ? "primary" : "secondary" } /> 
                 </NavigationItem>
                 </div>                
             </nav>
