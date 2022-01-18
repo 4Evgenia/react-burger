@@ -29,3 +29,11 @@ code {
 figure{
   margin: auto;
 }
+
+.input_size_default{
+  width: 480px !important;
+}
+
+a{
+  text-decoration: none;
+}
