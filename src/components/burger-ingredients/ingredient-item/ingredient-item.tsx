@@ -16,19 +16,19 @@ const IngredientItem = ({ingredient, onSelectIngredient}:any) => {
     })
 
     return (
-        //<Link to={`/ingredients/${ingredient._id}`}>
             <div className={`${styles.item} mt-6 ml-4 mr-6`} onClick={selectIngredient} ref={ref}>
                 <div className={styles.counterContainer}>
                     { ingredient.qty > 0 && (<Counter count={ingredient.qty} size="default" />)}
                 </div>
+                <Link to={`/ingredients/${ingredient._id}`}>
                 <img src={ingredient.image} alt={ingredient.name}/>
-                <div className="text text_type_main-default mt-1">
-                    <span className={`${styles.price} pr-2`}>{ingredient.price}</span>
+                <div className={`text text_type_main-default mt-1 ${styles.priceContainer}`}>
+                    <span className={`${styles.price} pr-2 text text_type_digits-default`}>{ingredient.price}</span>
                     <CurrencyIcon type="primary" />
                 </div>
+                </Link>
                 <div className={`${styles.title} text text_type_main-default mt-1`}>{ingredient.name}</div>
             </div>
-        //</Link>
     )
 }
 
