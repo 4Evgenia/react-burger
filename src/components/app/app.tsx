@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from '../layout/app-header/header';
-import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage  } from '../../pages';
+import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage  } from '../../pages';
 import styles from './app.module.css';
 import ErrorBoundary from '../shared/error-boundary';
 import { ROUTES } from '../../models/constants';
@@ -30,6 +30,9 @@ function App() {
           </Route>
           <Route path={ROUTES.Profile.path} exact={true}>
             <ProfilePage />
+          </Route>
+          <Route path={ROUTES.History.path} exact={true}>
+            <OrderHistoryPage />
           </Route>
           <Route path={ROUTES.Ingredient.path} exact={true}>
             <IngredientPage />

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './page.module.css';
-import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,7 @@ import ErrorMessage from '../components/shared/error-message';
 import { register } from '../services/actions/auth';
 
 export const RegisterPage = () => {
-    const {user, 
-           registerRequest,
+    const {user,
            registerSuccess,
            registerFailed} = useSelector((state:any) => state.auth);
     
@@ -27,7 +26,7 @@ export const RegisterPage = () => {
         dispatch(register(state.email, state.password, state.name));
     }
 
-    if(user){
+    if(registerSuccess && user){
         return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
     }
 
@@ -47,9 +46,7 @@ export const RegisterPage = () => {
                             onChange={handleInputChange} />
                         </div>
                         <div className="mt-6">
-                            <Input name='password' value={state.password} type='password' 
-                            placeholder='Пароль' icon='ShowIcon' 
-                            onChange={handleInputChange} />
+                        <PasswordInput name='password' value={state.password} onChange={handleInputChange } />
                         </div>
                         <div className={`mt-6 ${styles.center}`}>
                             <div className={styles.buttonContainer}><Button

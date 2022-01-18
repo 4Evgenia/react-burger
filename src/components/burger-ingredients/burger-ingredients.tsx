@@ -6,6 +6,7 @@ import IngredientDetails from "./details/ingredient-details";
 import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
 import Modal from "../layout/modal/modal";
 import { TABS } from '../../models/constants';
+import { Route } from 'react-router-dom';
 import { getIngredients, 
     CHANGE_TAB, 
     SHOW_INGREDIENT_DETAILS, 
@@ -79,7 +80,8 @@ const BurgerIngredients = () => {
                 </section>
             </main>
             </div>  
-            {viewedIngredient && (<Modal visible = {modalVisible} title="Детали ингредиента" onCancel={onCancelSelectIngredient}>
+            {viewedIngredient && (
+            <Modal visible = {modalVisible} title="Детали ингредиента" onCancel={onCancelSelectIngredient}>
                 <IngredientDetails  ingredient={viewedIngredient} />
             </Modal>)}
         </section>

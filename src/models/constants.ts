@@ -17,5 +17,10 @@ export const ROUTES = {
     ResetPassword: {title: "Восстановление пароля", path: "/reset-password"},
     Profile: {title: "Личный кабинет", path: "/profile"},
     Ingredient: {title: "Ингредиент", path: "/ingredients/:id"},
-    Orders: {title: "Лента заказов", path: "/orders"}
+    Orders: {title: "Лента заказов", path: "/orders"},
+    History: {title: "", path: "/profile/orders"}
 }
+
+export const AUTH_PREFIX = 'Bearer';
+export const REFRESH_TOKEN_COOKIE = 'refreshToken';
+export const ACCESS_TOKEN_COOKIE = 'accessToken';

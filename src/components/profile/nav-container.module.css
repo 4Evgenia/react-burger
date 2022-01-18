@@ -1,0 +1,15 @@
+.nav{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: absolute;
+    left:10vw;
+}
+
+.inactive{
+    color: #8585AD;
+}
+
+.active{
+    color: #F2F2F3;
+}

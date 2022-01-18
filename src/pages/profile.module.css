@@ -1,0 +1,11 @@
+.container{
+    display:flex;
+}
+
+.profile{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    color: #8585AD;
+}

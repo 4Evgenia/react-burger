@@ -46,7 +46,7 @@ export const authReducer = (state = initialState, action:any) => {
         }
         case LOGIN_SUCCESS: {
             return{
-                ...state, loginRequest:false, loginSuccess:true, user: action.user, accessToken: action.accessToken
+                ...state, loginRequest:false, loginSuccess:true, user: action.user
             }
         }
         case LOGIN_FAILED: {
@@ -61,7 +61,7 @@ export const authReducer = (state = initialState, action:any) => {
         }
         case REGISTER_SUCCESS: {
             return{
-                ...state, registerRequest:false, registerSuccess:true, user: action.user, accessToken: action.accessToken
+                ...state, registerRequest:false, registerSuccess:true, user: action.user
             }
         }
         case REGISTER_FAILED: {
@@ -91,7 +91,7 @@ export const authReducer = (state = initialState, action:any) => {
         }
         case TOKEN_SUCCESS: {
             return{
-                ...state, tokenRequest:false, tokenSuccess:true, accessToken: action.accessToken
+                ...state, tokenRequest:false, tokenSuccess:true
             }
         }
         case TOKEN_FAILED: {

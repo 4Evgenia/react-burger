@@ -1,5 +1,6 @@
 import { loginRequest, logoutRequest, registerRequest, tokenRequest } from '../../utils/api';
 import { setCookie, deleteCookie } from '../../utils/utils';
+import { AUTH_PREFIX, ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from '../../models/constants';
 
 export const FORGOT_PASSWORD_SET_EMAIL = 'FORGOT_PASSWORD_SET_EMAIL';
 
@@ -28,12 +29,9 @@ export function login(email:string, password:string){
         loginRequest(email, password).then((res:any) => {
             if (res && res.success){
                 console.log(res);
-                if (res.refreshToken){
-                    setCookie('token', res.refreshToken, )
-                }
+                storeTokens(res);
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    accessToken: res.accessToken.split('Bearer ')[1],
                     user: res.user
                 });
             } else {
@@ -57,11 +55,9 @@ export function register(email:string, password:string, name: string){
         });
         registerRequest(email, password, name).then(res => {
             if (res && res.success){
-                //setAuthCookie(res.headers);
+                storeTokens(res);
                 dispatch({
                     type: REGISTER_SUCCESS,
-                    accessToken: res.accessToken,
-                    refreshToken: res.refreshToken,
                     user: res.user
                 });
             } else {
@@ -125,5 +121,14 @@ export function token(){
             })
        })
     };
+}
+
+const storeTokens = (response: any) => {
+    if (response.accessToken && response.accessToken.indexOf(AUTH_PREFIX) === 0){
+        setCookie(ACCESS_TOKEN_COOKIE, response.accessToken.split(`${AUTH_PREFIX} `)[1], { expires: 20*60 });
+    }
+    if (response.refreshToken){
+        setCookie(REFRESH_TOKEN_COOKIE, response.refreshToken);
+    }
 }
 

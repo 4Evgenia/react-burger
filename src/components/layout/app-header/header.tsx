@@ -28,7 +28,7 @@ const Header = () => {
 
                 <div className={`${styles.navContainer} ${styles.navEndContainer}`}>
                 <NavigationItem text={ROUTES.Profile.title} path={ROUTES.Profile.path}>
-                    <ProfileIcon type={ pathname === ROUTES.Profile.path ? "primary" : "secondary" } /> 
+                    <ProfileIcon type={ pathname.indexOf(ROUTES.Profile.path) >=0 ? "primary" : "secondary" } /> 
                 </NavigationItem>
                 </div>                
             </nav>
