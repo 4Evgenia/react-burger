@@ -24,8 +24,6 @@ export const LoginPage = () => {
         dispatch(login(state.email, state.password));
     }
 
-    console.log(user);
-
     if(loginSuccess && user){
         return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
     }

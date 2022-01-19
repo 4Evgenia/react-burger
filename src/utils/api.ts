@@ -1,3 +1,6 @@
+import { getCookie } from "./utils";
+import { ACCESS_TOKEN_COOKIE, AUTH_PREFIX, REFRESH_TOKEN_COOKIE } from '../models/constants';
+
 const BASE_API_URL = "https://norma.nomoreparties.space/api/";
 
 const SERVER_ERROR_MESSAGE = "Server Error";
@@ -69,7 +72,7 @@ export const registerRequest = (email:string, password:string, name:string) => f
 }).then(checkResponse);
 
 // LOGOUT
-export const logoutRequest = () => fetch(buildUrl("auth/logout"),  {
+export const logoutRequest = (token:any) => fetch(buildUrl("auth/logout"),  {
     method: 'POST',
     mode: 'cors',
     cache: 'no-cache',
@@ -77,7 +80,7 @@ export const logoutRequest = () => fetch(buildUrl("auth/logout"),  {
     headers: {'Content-Type': 'application/json'},
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: ''
+    body: JSON.stringify(token)
 }).then(checkResponse);
 
 // REFRESH TOKEN
@@ -91,6 +94,20 @@ export const tokenRequest = () => fetch(buildUrl("auth/token"),  {
     referrerPolicy: 'no-referrer',
     body: ''
 }).then(checkResponse);
+
+// GET USER
+export const getUserRequest = () => fetch(buildUrl("auth/user"), {
+    method: 'GET',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${AUTH_PREFIX} ${getCookie(ACCESS_TOKEN_COOKIE)}`
+    },
+    redirect: 'follow',
+    referrerPolicy: 'no-referrer'
+}).then(checkResponse);;
 
 const checkResponse = (res:any) => {
     if (res.ok)

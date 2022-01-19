@@ -5,6 +5,7 @@ import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, Profile
 import styles from './app.module.css';
 import ErrorBoundary from '../shared/error-boundary';
 import { ROUTES } from '../../models/constants';
+import { ProtectedRoute } from '../protected-route';
 
 function App() {
   return (
@@ -28,18 +29,18 @@ function App() {
           <Route path={ROUTES.Home.path} exact={true}>
             <ConstructorPage />
           </Route>
-          <Route path={ROUTES.Profile.path} exact={true}>
+          <ProtectedRoute path={ROUTES.Profile.path} exact={true}>
             <ProfilePage />
-          </Route>
-          <Route path={ROUTES.History.path} exact={true}>
+          </ProtectedRoute>
+          <ProtectedRoute path={ROUTES.History.path} exact={true}>
             <OrderHistoryPage />
-          </Route>
+          </ProtectedRoute>
           <Route path={ROUTES.Ingredient.path} exact={true}>
             <IngredientPage />
           </Route>
-          <Route path={ROUTES.Orders.path} exact={true}>
+          <ProtectedRoute path={ROUTES.Orders.path} exact={true}>
             <OrdersPage />
-          </Route>
+          </ProtectedRoute>
         </Switch>
       </Router>
     </div>

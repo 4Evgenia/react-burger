@@ -2,11 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients.module.css';
-import IngredientDetails from "./details/ingredient-details";
 import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
-import Modal from "../layout/modal/modal";
 import { TABS } from '../../models/constants';
-import { Route } from 'react-router-dom';
 import { getIngredients, 
     CHANGE_TAB, 
     SHOW_INGREDIENT_DETAILS, 
@@ -17,9 +14,7 @@ const BurgerIngredients = () => {
 
     const {
         ingredients,
-        viewedIngredient,
-        activeTab,
-        modalVisible
+        activeTab
     } = useSelector((state:any) => state.burger);
 
     useEffect(() => {
@@ -31,10 +26,6 @@ const BurgerIngredients = () => {
 
     const onSelectIngredient = (ingredient:any) => {
         dispatch({type: SHOW_INGREDIENT_DETAILS, selectedIngredient: ingredient});
-    }
-
-    const onCancelSelectIngredient = () => {
-        dispatch({type: HIDE_INGREDIENT_DETAILS});
     }
 
     const calculateCoordinates = (element:HTMLElement) => {
@@ -79,11 +70,7 @@ const BurgerIngredients = () => {
                     </div>
                 </section>
             </main>
-            </div>  
-            {viewedIngredient && (
-            <Modal visible = {modalVisible} title="Детали ингредиента" onCancel={onCancelSelectIngredient}>
-                <IngredientDetails  ingredient={viewedIngredient} />
-            </Modal>)}
+            </div>
         </section>
     );
 }

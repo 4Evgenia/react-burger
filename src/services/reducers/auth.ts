@@ -11,7 +11,9 @@ import {
     REGISTER_SUCCESS,
     TOKEN_FAILED,
     TOKEN_REQUEST,
-    TOKEN_SUCCESS
+    TOKEN_SUCCESS,
+    GET_USER_FAILED,
+    GET_USER_SUCCESS
 } from '../actions/auth';
 
 const initialState = {
@@ -29,7 +31,9 @@ const initialState = {
     tokenRequest: false,
     tokenSuccess: false,
     tokenFailed: false,
-    accessToken: null
+    accessToken: null,
+    getUserSuccess: false,
+    getUserFailed: false
 }
 
 export const authReducer = (state = initialState, action:any) => {
@@ -76,7 +80,7 @@ export const authReducer = (state = initialState, action:any) => {
         }
         case LOGOUT_SUCCESS: {
             return{
-                ...state, logoutRequest:false, logoutSuccess:true
+                ...state, logoutRequest:false, logoutSuccess:true, user: null
             }
         }
         case LOGOUT_FAILED: {
@@ -97,6 +101,16 @@ export const authReducer = (state = initialState, action:any) => {
         case TOKEN_FAILED: {
             return{
                 ...state, tokenFailed:true
+            }
+        }
+        case GET_USER_SUCCESS: {
+            return {
+                ...state, getUserSuccess: true, getUserFailed: false, user: action.user
+            }
+        }
+        case GET_USER_FAILED: {
+            return {
+                ...state, getUserSuccess: false, getUserFailed: true
             }
         }
         default: {

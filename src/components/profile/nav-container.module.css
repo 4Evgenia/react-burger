@@ -13,3 +13,7 @@
 .active{
     color: #F2F2F3;
 }
+
+.logout{
+    cursor: pointer;
+}
