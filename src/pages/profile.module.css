@@ -9,3 +9,11 @@
     width: 100vw;
     color: #8585AD;
 }
+
+.center{
+    text-align: center;
+}
+
+.buttonContainer{
+    display: flex;
+}
