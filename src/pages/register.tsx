@@ -8,8 +8,7 @@ import ErrorMessage from '../components/shared/error-message';
 import { register } from '../services/actions/auth';
 
 export const RegisterPage = () => {
-    const {user,
-           registerSuccess,
+    const {registerSuccess,
            registerFailed} = useSelector((state:any) => state.auth);
     
      const [state, setState] = useState({
@@ -26,8 +25,8 @@ export const RegisterPage = () => {
         dispatch(register(state.email, state.password, state.name));
     }
 
-    if(registerSuccess && user){
-        return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
+    if(registerSuccess){
+        return (<Redirect to={{ pathname: ROUTES.Login.path }}/>)
     }
 
     return (<section className={styles.container}>

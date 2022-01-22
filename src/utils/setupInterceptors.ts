@@ -30,7 +30,6 @@ const setup = (store:any) => {
             if (err.response.status === UNAUTHORIZED && !originalConfig._retry){
                 originalConfig._retry = true;
                 try{
-                    console.log({ token: getCookie(REFRESH_TOKEN_COOKIE) });
                     const rs = await axios.post(buildUrl("auth/token"), { token: getCookie(REFRESH_TOKEN_COOKIE) });
                     dispatch({type: TOKEN_REFRESH_SUCCESS});
                     storeTokens(rs.data);

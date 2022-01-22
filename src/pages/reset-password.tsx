@@ -5,10 +5,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
 import ErrorMessage from '../components/shared/error-message';
 import { useDispatch, useSelector } from 'react-redux';
-import { register, resetPasswordSubmit} from '../services/actions/auth';
+import { resetPasswordSubmit} from '../services/actions/auth';
 
 export const ResetPasswordPage = () => {
-    const {email, user, forgotPasswordSubmitFailed, registerSuccess, registerFailed} = useSelector((state:any) => state.auth);
+    const {email, forgotPasswordSubmitFailed, forgotPasswordSubmitSuccess } = useSelector((state:any) => state.auth);
     const dispatch = useDispatch();
 
     const [state, setState] = useState({
@@ -23,19 +23,15 @@ export const ResetPasswordPage = () => {
 
     const onResetPasswordSubmitted = (e:any) => {
         e.preventDefault();
-        dispatch(register(email, state.password, 'Test'));
-    }
-
-    if (registerSuccess){
-        dispatch(resetPasswordSubmit(state.password));
-    }
-
-    if(user){
-        return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
+        dispatch(resetPasswordSubmit(state.password, state.code));
     }
 
     if(!email){
         return (<Redirect to={{ pathname: ROUTES.ForgotPassword.path }}/>)
+    }
+
+    if (forgotPasswordSubmitSuccess){
+        return (<Redirect to={{ pathname: ROUTES.Profile.path }}/>)
     }
 
     return (<section className={styles.container}>
@@ -58,7 +54,7 @@ export const ResetPasswordPage = () => {
                             size="medium"
                             onClick={onResetPasswordSubmitted}>Сохранить</Button></div>
                         </div>
-                        { (registerFailed || forgotPasswordSubmitFailed) && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div> }
+                        { (forgotPasswordSubmitFailed) && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div> }
                     </form>
                     <div className={`mt-20 ${styles.center}`}>
                         <span className="text text_type_main-default text_color_inactive">Вспомнили пароль? </span>

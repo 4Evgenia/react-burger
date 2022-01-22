@@ -36,11 +36,9 @@ export function setCookie(name:string, value:string | null, props?:any) {
 
   export const storeTokens = (response: any) => {
     if (response.accessToken && response.accessToken.indexOf(AUTH_PREFIX) === 0){
-        setCookie(ACCESS_TOKEN_COOKIE, response.accessToken.split(`${AUTH_PREFIX} `)[1], { expires: 60 });
-        console.log(getCookie(ACCESS_TOKEN_COOKIE));
+        setCookie(ACCESS_TOKEN_COOKIE, response.accessToken.split(`${AUTH_PREFIX} `)[1], { expires: 20*60 });
     }
     if (response.refreshToken){
         setCookie(REFRESH_TOKEN_COOKIE, response.refreshToken);
-        console.log(getCookie(REFRESH_TOKEN_COOKIE));
     }
 }

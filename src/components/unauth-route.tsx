@@ -1,13 +1,14 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../services/actions/auth';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../models/constants';
 
-export function ProtectedRoute({children, ...rest }:any){
+export function UnauthRoute({children, ...rest }:any){
     const {  user } = useSelector((state:any) => state.auth);
     const [isUserLoaded, setUserLoaded] = useState(false);
     const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(() => {
         dispatch(getUser());
@@ -16,10 +17,12 @@ export function ProtectedRoute({children, ...rest }:any){
 
     if (!isUserLoaded){
         return null;
-      }
+    }
+
+    const locationFrom =  (location.state as any)?.from; 
+    const redirectUrl = locationFrom ? locationFrom.pathname : ROUTES.Home.path;
 
     return(
-        <Route {...rest} render={({ location }) => user ? (children) : 
-                                                                    (<Redirect to={{ pathname: ROUTES.Login.path, state: { from: location } }} />)} />
+        <Route {...rest} render={() => !user ? (children) : (<Redirect to={{ pathname: redirectUrl }} />)} />
     )
 }

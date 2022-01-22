@@ -2,10 +2,23 @@
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
-    position: absolute;
-    left:10vw;
-    width: 20vw;
+    width: 18vw;
 }
+
+.navContainer{
+    position: absolute;
+    display: flex;
+}
+
+.empty{
+    width: 17vw;
+}
+
+@media only screen and (max-width: 1800px) {
+    .empty {
+      max-width: 190px;
+    }
+  }
 
 .inactive{
     color: #8585AD;

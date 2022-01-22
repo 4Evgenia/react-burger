@@ -8,7 +8,7 @@ import ErrorMessage from '../components/shared/error-message';
 import { FORGOT_PASSWORD_SET_EMAIL, resetPasswordRequest } from '../services/actions/auth';
 
 export const ForgotPasswordPage = () => {
-    const {email, user, forgotPasswordRequestSuccess, forgotPasswordRequestFailed} = useSelector((state:any) => state.auth);
+    const {email, forgotPasswordRequestSuccess, forgotPasswordRequestFailed} = useSelector((state:any) => state.auth);
     const dispatch = useDispatch();
     
     useEffect(() => { dispatch({type: FORGOT_PASSWORD_SET_EMAIL, email: ''}) }, [dispatch]);
@@ -22,10 +22,6 @@ export const ForgotPasswordPage = () => {
     const formSubmit = (e:any) => {
         e.preventDefault();
         dispatch(resetPasswordRequest(email));
-    }
-
-    if(user){
-        return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
     }
 
     return (<section className={styles.container}>

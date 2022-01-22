@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../components/shared/error-message';
+import Message from '../components/shared/successfull-message';
 import NavContainer from '../components/profile/nav-container';
 import styles from './profile.module.css';
 import { setUser } from '../services/actions/auth';
@@ -13,18 +14,20 @@ type disabledField = {
 export const ProfilePage = () =>{
     const {user, setUserFailed, setUserSuccess} = useSelector((state:any) => state.auth);
     const initialState = {name: user.name, email: user.email, password: ''};
-    const dispatch = useDispatch();
-
-    const [userForm, setUserForm] = useState(initialState);
-    const [disabled, setDisabled] = useState({
+    const initialDisabledState = {
         email: true,
         name: true,
         password: true
-    } as disabledField)
+    } as disabledField
+    const dispatch = useDispatch();
+
+    const [userForm, setUserForm] = useState(initialState);
+    const [disabled, setDisabled] = useState(initialDisabledState);
 
     useEffect(() => {
         if(setUserSuccess){
             setUserForm(initialState);
+            setDisabled(initialDisabledState);
         }
     }, [setUserSuccess]);
 
@@ -66,7 +69,7 @@ export const ProfilePage = () =>{
                         onChange={handleInputChange} />
                     </div>
                     <div className="mt-6">
-                        <Input name='email' disabled={disabled.email}  
+                        <Input name='email' disabled={disabled.email}  type="email"
                         value={userForm.email} 
                         placeholder='E-mail' 
                         icon={disabled.email ? "EditIcon": "CloseIcon"}
@@ -74,7 +77,7 @@ export const ProfilePage = () =>{
                         onIconClick={() => {onIconClick('email')}} />
                     </div>
                     <div className="mt-6">
-                        <Input name="password" 
+                        <Input name="password" type="password"
                         disabled={disabled.password} 
                         value={userForm.password} 
                         placeholder='Пароль'
@@ -89,6 +92,7 @@ export const ProfilePage = () =>{
                                 </div>
                             </div>)}
                     {setUserFailed && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div>}
+                    {setUserSuccess && <div className="mt-6"><Message message='Информация сохранена успешно' /></div>}
                 </section>
         </form>
         </section>)

@@ -16,7 +16,8 @@ export const NavContainer = () => {
         
 
     return (
-        <section>
+        <section className={styles.navContainer}>
+            <div className={styles.empty}></div>
             <nav className={`mt-6 ${styles.nav} mr-15`}>
                 <div className="mb-5 mt-5"><NavLink to={ROUTES.Profile.path} activeClassName={styles.active} className={styles.inactive} exact={true}>
                     <span className={`text text_type_main-medium`}>Профиль</span>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './page.module.css';
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, useLocation } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../services/actions/auth';
@@ -10,7 +10,10 @@ import ErrorMessage from '../components/shared/error-message';
 
 export const LoginPage = () => {
     const {user, loginFailed } = useSelector((state:any) => state.auth);
+
+
     const dispatch = useDispatch();
+    const location = useLocation();
 
     const [state, setState] = useState({
         email: '',
@@ -25,7 +28,10 @@ export const LoginPage = () => {
     }
 
     if(user){
-        return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
+        const locationFrom =  (location.state as any)?.from; 
+        const redirectUrl = locationFrom ? locationFrom.pathname : ROUTES.Home.path;
+        return (
+        <Redirect to={{ pathname: redirectUrl }}/>)
     }
     
     return (

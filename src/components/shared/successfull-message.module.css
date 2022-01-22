@@ -1,0 +1,5 @@
+.messageContainer{
+    display: flex;
+    color: #00CCCC;
+    border: 1px solid;
+}

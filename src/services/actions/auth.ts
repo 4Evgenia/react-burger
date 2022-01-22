@@ -24,6 +24,7 @@ export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
 export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
 export const SET_USER_FAILED = 'SET_USER_FAILED';
+export const SET_USER_REQUEST = 'SET_USER_REQUEST';
 
 // LOGIN
 export function login(email:string, password:string){
@@ -138,6 +139,7 @@ export function getUser(){
 // SET USER
 export function setUser(user:any){
     return function(dispatch:any){
+        dispatch({ type: SET_USER_REQUEST });
         updateUserRequest(user).then(res => {
             if (res && res.success){
                 dispatch({ type: SET_USER_SUCCESS, user: res.user})
@@ -174,14 +176,8 @@ export function resetPasswordRequest(email:string){
 }
 
 // RESET PASSWORD SUBMIT
-export function resetPasswordSubmit(password:string){
+export function resetPasswordSubmit(password:string, token:string){
     return function(dispatch:any){
-        const token = getCookie(ACCESS_TOKEN_COOKIE);
-        if (!token){
-            dispatch({
-                type: FORGOT_PASSWORD_SUBMIT_FAILED
-            })
-        }
         passwordResetSubmit(password, token).then(res => {
             if (res && res.success){
                 dispatch({ type: FORGOT_PASSWORD_SUBMIT_SUCCESS })
@@ -190,6 +186,10 @@ export function resetPasswordSubmit(password:string){
                     type: FORGOT_PASSWORD_SUBMIT_FAILED
                 })
             }
+        }).catch(e => {
+            dispatch({
+                type: FORGOT_PASSWORD_SUBMIT_FAILED
+            })
         })
     }
 }
