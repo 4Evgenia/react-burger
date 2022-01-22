@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from '../layout/app-header/header';
 import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage  } from '../../pages';
@@ -6,8 +6,14 @@ import styles from './app.module.css';
 import ErrorBoundary from '../shared/error-boundary';
 import { ROUTES } from '../../models/constants';
 import { ProtectedRoute } from '../protected-route';
+import { useDispatch } from 'react-redux';
+import { getUser } from '../../services/actions/auth';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => { dispatch(getUser()) }, [dispatch]);
+
   return (
     <ErrorBoundary>
     <div className={styles.container}>

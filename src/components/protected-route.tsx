@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { ROUTES } from '../models/constants';
 
 export function ProtectedRoute({children, ...rest }:any){
-    const { getUserSuccess } = useSelector((state:any) => state.auth);
+    const { getUserSuccess, user } = useSelector((state:any) => state.auth);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -13,7 +13,7 @@ export function ProtectedRoute({children, ...rest }:any){
     }, [dispatch])
 
     return(
-        <Route {...rest} render={({ location }) => getUserSuccess ? (children) : 
+        <Route {...rest} render={({ location }) => getUserSuccess && user ? (children) : 
                                                                     (<Redirect to={{ pathname: ROUTES.Login.path, state: { from: location } }} />)} />
     )
 }

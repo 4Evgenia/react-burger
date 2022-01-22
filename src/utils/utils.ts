@@ -1,3 +1,5 @@
+import { ACCESS_TOKEN_COOKIE, AUTH_PREFIX, REFRESH_TOKEN_COOKIE } from "../models/constants";
+
 export function getCookie(name:string) {
     const matches = document.cookie.match(
       new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)')
@@ -31,3 +33,14 @@ export function setCookie(name:string, value:string | null, props?:any) {
   export function deleteCookie(name:string) {
     setCookie(name, null, { expires: -1 });
   }
+
+  export const storeTokens = (response: any) => {
+    if (response.accessToken && response.accessToken.indexOf(AUTH_PREFIX) === 0){
+        setCookie(ACCESS_TOKEN_COOKIE, response.accessToken.split(`${AUTH_PREFIX} `)[1], { expires: 60 });
+        console.log(getCookie(ACCESS_TOKEN_COOKIE));
+    }
+    if (response.refreshToken){
+        setCookie(REFRESH_TOKEN_COOKIE, response.refreshToken);
+        console.log(getCookie(REFRESH_TOKEN_COOKIE));
+    }
+}

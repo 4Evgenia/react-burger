@@ -1,116 +1,39 @@
-import { getCookie } from "./utils";
-import { ACCESS_TOKEN_COOKIE, AUTH_PREFIX, REFRESH_TOKEN_COOKIE } from '../models/constants';
-
-const BASE_API_URL = "https://norma.nomoreparties.space/api/";
-
-const SERVER_ERROR_MESSAGE = "Server Error";
-
-const buildUrl = (endPoint:string) => `${BASE_API_URL}${endPoint}`;
+import axios from 'axios';
+import { authConfig, buildUrl, checkResponse } from "./url-utils";
+import { authInstance } from './setupInterceptors';
 
 // FETCH INGREDIENTS
-export const fetchIngredients = () => fetch(buildUrl("ingredients"))
+export const fetchIngredients = () => axios.get(buildUrl("ingredients"))
                                     .then(checkResponse);
 
 // SUBMIT ORDER
-export const postOrder = (data:any) => fetch(buildUrl("orders"), {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ingredients:data})
-}).then(checkResponse);
+export const postOrder = (data:any) => axios.post(buildUrl("orders"), {ingredients:data})
+                                    .then(checkResponse);
 
 // FORGOT PASSWORD
-export const passwordReset = (email:any) => fetch(buildUrl("password-reset"), {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({email})
-}).then(checkResponse);
+export const passwordReset = (email:string) => axios.post(buildUrl("password-reset"), {email})
+                                    .then(checkResponse);                                    
 
 // RESET PASSWORD SUBMIT
-export const passwordResetSubmit = (password: any) => fetch(buildUrl("password-reset/reset"), {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({password})
-}).then(checkResponse);
+export const passwordResetSubmit = (password: string, token: any) => axios.post(buildUrl("password-reset/reset"), {password, token})
+                                    .then(checkResponse);
 
 // LOGIN
-export const loginRequest = (email:string, password:string) => fetch(buildUrl("auth/login"),  {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({email, password})
-}).then(checkResponse);
+export const loginRequest = (email:string, password:string) => axios.post(buildUrl("auth/login"), {email, password})
+                                    .then(checkResponse);
 
 // REGISTER
-export const registerRequest = (email:string, password:string, name:string) => fetch(buildUrl("auth/register"), {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify({name, email, password})
-}).then(checkResponse);
+export const registerRequest = (email:string, password:string, name:string) => axios.post(buildUrl("auth/register"), {name, email, password})
+                                    .then(checkResponse);
 
 // LOGOUT
-export const logoutRequest = (token:any) => fetch(buildUrl("auth/logout"),  {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: JSON.stringify(token)
-}).then(checkResponse);
+export const logoutRequest = (token:any) => axios.post(buildUrl("auth/logout"), token).then(checkResponse);
 
 // REFRESH TOKEN
-export const tokenRequest = () => fetch(buildUrl("auth/token"),  {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {'Content-Type': 'application/json'},
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    body: ''
-}).then(checkResponse);
+export const tokenRequest = () => axios.post(buildUrl("auth/token")).then(checkResponse);
 
 // GET USER
-export const getUserRequest = () => fetch(buildUrl("auth/user"), {
-    method: 'GET',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${AUTH_PREFIX} ${getCookie(ACCESS_TOKEN_COOKIE)}`
-    },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer'
-}).then(checkResponse);;
+export const getUserRequest = () => authInstance.get(buildUrl("auth/user"), authConfig).then(checkResponse);
 
-const checkResponse = (res:any) => {
-    if (res.ok)
-        return res.json();
-    throw new Error(SERVER_ERROR_MESSAGE)
-}
+// UPDATE USER
+export const updateUserRequest = (user: any) => authInstance.patch(buildUrl("auth/user"), {user}, authConfig).then(checkResponse);

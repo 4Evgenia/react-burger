@@ -1,39 +1,43 @@
 import {
     FORGOT_PASSWORD_SET_EMAIL,
     LOGIN_FAILED,
-    LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGOUT_FAILED,
-    LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     REGISTER_FAILED,
-    REGISTER_REQUEST,
     REGISTER_SUCCESS,
-    TOKEN_FAILED,
-    TOKEN_REQUEST,
-    TOKEN_SUCCESS,
+    TOKEN_REFRESH_FAILED,
+    TOKEN_REFRESH_SUCCESS,
     GET_USER_FAILED,
-    GET_USER_SUCCESS
+    GET_USER_SUCCESS,
+    SET_USER_SUCCESS,
+    SET_USER_FAILED,
+    FORGOT_PASSWORD_REQUEST_SUCCESS,
+    FORGOT_PASSWORD_REQUEST_FAILED,
+    FORGOT_PASSWORD_SUBMIT_SUCCESS,
+    FORGOT_PASSWORD_SUBMIT_FAILED
 } from '../actions/auth';
 
 const initialState = {
     email: '',
     user: null,
-    loginRequest: false,
     loginSuccess: false,
     loginFailed: false,
-    registerRequest: false,
     registerSuccess: false,
     registerFailed: false,
-    logoutRequest: false,
     logoutSuccess: false,
     logoutFailed: false,
-    tokenRequest: false,
     tokenSuccess: false,
     tokenFailed: false,
     accessToken: null,
     getUserSuccess: false,
-    getUserFailed: false
+    getUserFailed: false,
+    forgotPasswordRequestSuccess: false,
+    forgotPasswordRequestFailed: false,
+    forgotPasswordSubmitSuccess: false,
+    forgotPasswordSubmitFailed: false,
+    setUserSuccess: false,
+    setUserFailed: false,
 }
 
 export const authReducer = (state = initialState, action:any) => {
@@ -43,64 +47,64 @@ export const authReducer = (state = initialState, action:any) => {
                 ...state, email: action.email
             }
         }
-        case LOGIN_REQUEST: {
+        case FORGOT_PASSWORD_REQUEST_SUCCESS:{
             return{
-                ...state, loginRequest:true
+                ...state, forgotPasswordRequestSuccess: true, forgotPasswordRequestFailed: false
+            }
+        }
+        case FORGOT_PASSWORD_REQUEST_FAILED: {
+            return{
+                ...state, forgotPasswordRequestFailed: true, forgotPasswordRequestSuccess: false
+            }
+        }
+        case FORGOT_PASSWORD_SUBMIT_SUCCESS: {
+            return{
+                ...state, forgotPasswordSubmitSuccess: true, forgotPasswordSubmitFailed: false
+            }
+        }
+        case FORGOT_PASSWORD_SUBMIT_FAILED: {
+            return{
+                ...state, forgotPasswordSubmitSuccess: false, forgotPasswordSubmitFailed: true
             }
         }
         case LOGIN_SUCCESS: {
             return{
-                ...state, loginRequest:false, loginSuccess:true, user: action.user
+                ...state, loginSuccess:true, user: action.user, loginFailed:false
             }
         }
         case LOGIN_FAILED: {
             return{
-                ...state, loginFailed:true
-            }
-        }
-        case REGISTER_REQUEST: {
-            return{
-                ...state, registerRequest:true
+                ...state, loginFailed:true, loginSuccess:false
             }
         }
         case REGISTER_SUCCESS: {
             return{
-                ...state, registerRequest:false, registerSuccess:true, user: action.user
+                ...state, registerSuccess:true, user: action.user, registerFailed:false
             }
         }
         case REGISTER_FAILED: {
             return{
-                ...state, registerFailed:true
-            }
-        }
-        case LOGOUT_REQUEST: {
-            return{
-                ...state, logoutRequest:true
+                ...state, registerFailed:true, registerSuccess:false
             }
         }
         case LOGOUT_SUCCESS: {
             return{
-                ...state, logoutRequest:false, logoutSuccess:true, user: null
+                ...state, logoutSuccess:true, user: null, logoutFailed:false
             }
         }
         case LOGOUT_FAILED: {
             return{
-                ...state, logoutFailed:true
+                ...state, logoutFailed:true, logoutSuccess:false
             }
         }
-        case TOKEN_REQUEST: {
+        case TOKEN_REFRESH_SUCCESS: {
             return{
-                ...state, tokenRequest:true
+                ...state, tokenSuccess:true, tokenFailed:false
             }
         }
-        case TOKEN_SUCCESS: {
+        case TOKEN_REFRESH_FAILED: {
             return{
-                ...state, tokenRequest:false, tokenSuccess:true
-            }
-        }
-        case TOKEN_FAILED: {
-            return{
-                ...state, tokenFailed:true
+                ...state, tokenFailed:true, tokenSuccess:false
             }
         }
         case GET_USER_SUCCESS: {
@@ -111,6 +115,16 @@ export const authReducer = (state = initialState, action:any) => {
         case GET_USER_FAILED: {
             return {
                 ...state, getUserSuccess: false, getUserFailed: true
+            }
+        }
+        case SET_USER_SUCCESS: {
+            return {
+                ...state, setUserSuccess: true, setUserFailed: false, user: action.user
+            }
+        }
+        case SET_USER_FAILED: {
+            return {
+                ...state, setUserSuccess: false, setUserFailed: true
             }
         }
         default: {

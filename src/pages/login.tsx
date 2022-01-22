@@ -9,7 +9,7 @@ import ErrorMessage from '../components/shared/error-message';
 
 
 export const LoginPage = () => {
-    const {user, loginFailed, loginSuccess} = useSelector((state:any) => state.auth);
+    const {user, loginFailed } = useSelector((state:any) => state.auth);
     const dispatch = useDispatch();
 
     const [state, setState] = useState({
@@ -24,7 +24,7 @@ export const LoginPage = () => {
         dispatch(login(state.email, state.password));
     }
 
-    if(loginSuccess && user){
+    if(user){
         return (<Redirect to={{ pathname: ROUTES.Home.path }}/>)
     }
     

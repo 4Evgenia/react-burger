@@ -1,37 +1,35 @@
-import { loginRequest, logoutRequest, registerRequest, tokenRequest, getUserRequest } from '../../utils/api';
-import { setCookie, deleteCookie, getCookie } from '../../utils/utils';
-import { AUTH_PREFIX, ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from '../../models/constants';
+import { loginRequest, logoutRequest, registerRequest, tokenRequest, getUserRequest, passwordReset, passwordResetSubmit, updateUserRequest } from '../../utils/api';
+import {  deleteCookie, getCookie, storeTokens } from '../../utils/utils';
+import {  ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from '../../models/constants';
 
 export const FORGOT_PASSWORD_SET_EMAIL = 'FORGOT_PASSWORD_SET_EMAIL';
+export const FORGOT_PASSWORD_REQUEST_SUCCESS = 'FORGOT_PASSWORD_REQUEST_SUCCESS';
+export const FORGOT_PASSWORD_REQUEST_FAILED = 'FORGOT_PASSWORD_REQUEST_FAILED';
+export const FORGOT_PASSWORD_SUBMIT_SUCCESS = 'FORGOT_PASSWORD_SUBMIT_SUCCESS';
+export const FORGOT_PASSWORD_SUBMIT_FAILED = 'FORGOT_PASSWORD_SUBMIT_FAILED';
 
-export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
 
-export const REGISTER_REQUEST = 'REGISTER_REQUEST';
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
 export const REGISTER_FAILED = 'REGISTER_FAILED';
 
-export const TOKEN_REQUEST = 'TOKEN_REQUEST';
-export const TOKEN_SUCCESS = 'TOKEN_SUCCESS';
-export const TOKEN_FAILED = 'TOKEN_FAILED';
+export const TOKEN_REFRESH_SUCCESS = 'TOKEN_SUCCESS';
+export const TOKEN_REFRESH_FAILED = 'TOKEN_FAILED';
 
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 export const LOGOUT_FAILED = 'LOGOUT_FAILED';
 
 export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
 export const GET_USER_FAILED = 'GET_USER_FAILED';
+export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
+export const SET_USER_FAILED = 'SET_USER_FAILED';
 
 // LOGIN
 export function login(email:string, password:string){
     return function(dispatch:any){
-        dispatch({
-            type: LOGIN_REQUEST
-        });
         loginRequest(email, password).then((res:any) => {
             if (res && res.success){
-                console.log(res);
                 storeTokens(res);
                 dispatch({
                     type: LOGIN_SUCCESS,
@@ -53,9 +51,6 @@ export function login(email:string, password:string){
 // REGISTER
 export function register(email:string, password:string, name: string){
     return function(dispatch:any){
-        dispatch({
-            type: REGISTER_REQUEST
-        });
         registerRequest(email, password, name).then(res => {
             if (res && res.success){
                 storeTokens(res);
@@ -79,10 +74,6 @@ export function register(email:string, password:string, name: string){
 // LOGOUT
 export function logout(){
     return function(dispatch:any){
-        dispatch({
-            type: LOGOUT_REQUEST
-        });
-        console.log(JSON.stringify({token: getCookie(REFRESH_TOKEN_COOKIE)}));
         logoutRequest({token: getCookie(REFRESH_TOKEN_COOKIE)}).then(res => {
             if (res && res.success){
                 deleteCookie(ACCESS_TOKEN_COOKIE);
@@ -106,23 +97,20 @@ export function logout(){
 // TOKEN
 export function token(){
     return function(dispatch:any){
-        dispatch({
-            type: TOKEN_REQUEST
-        });
         tokenRequest().then(res => {
             if (res && res.success){
                 console.log(res);
                 dispatch({
-                    type: TOKEN_SUCCESS
+                    type: TOKEN_REFRESH_SUCCESS
                 });
             } else {
                 dispatch({
-                    type: TOKEN_FAILED
+                    type: TOKEN_REFRESH_FAILED
                 })
             }
         }).catch(e => {
             dispatch({
-                type: TOKEN_FAILED
+                type: TOKEN_REFRESH_FAILED
             })
        })
     };
@@ -147,12 +135,61 @@ export function getUser(){
     }
 }
 
-const storeTokens = (response: any) => {
-    if (response.accessToken && response.accessToken.indexOf(AUTH_PREFIX) === 0){
-        setCookie(ACCESS_TOKEN_COOKIE, response.accessToken.split(`${AUTH_PREFIX} `)[1], { expires: 20*60 });
-    }
-    if (response.refreshToken){
-        setCookie(REFRESH_TOKEN_COOKIE, response.refreshToken);
+// SET USER
+export function setUser(user:any){
+    return function(dispatch:any){
+        updateUserRequest(user).then(res => {
+            if (res && res.success){
+                dispatch({ type: SET_USER_SUCCESS, user: res.user})
+            }else{
+                dispatch({
+                    type: SET_USER_FAILED
+                })
+            }
+        }).catch(e => {
+            dispatch({
+                type: SET_USER_FAILED
+            })
+       })
     }
 }
 
+// RESET PASSWORD
+export function resetPasswordRequest(email:string){
+    return function(dispatch:any){
+        passwordReset(email).then(res => {
+            if (res && res.success){
+                dispatch({ type: FORGOT_PASSWORD_REQUEST_SUCCESS })
+            }else{
+                dispatch({
+                    type: FORGOT_PASSWORD_REQUEST_FAILED
+                })
+            }
+        }).catch(e => {
+            dispatch({
+                type: FORGOT_PASSWORD_REQUEST_FAILED
+            })
+       })
+    }
+}
+
+// RESET PASSWORD SUBMIT
+export function resetPasswordSubmit(password:string){
+    return function(dispatch:any){
+        const token = getCookie(ACCESS_TOKEN_COOKIE);
+        if (!token){
+            dispatch({
+                type: FORGOT_PASSWORD_SUBMIT_FAILED
+            })
+        }
+        passwordResetSubmit(password, token).then(res => {
+            if (res && res.success){
+                dispatch({ type: FORGOT_PASSWORD_SUBMIT_SUCCESS })
+            }else{
+                dispatch({
+                    type: FORGOT_PASSWORD_SUBMIT_FAILED
+                })
+            }
+        })
+    }
+}
