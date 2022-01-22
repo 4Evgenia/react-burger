@@ -2,7 +2,7 @@ import React from "react";
 import styles from './header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import NavigationItem from "./nav-item/navigation-item";
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { ROUTES } from '../../../models/constants';
 
 export interface IHeaderState{
@@ -24,7 +24,9 @@ const Header = () => {
                     </NavigationItem>
                 </div>
                 
-                <div className={`${styles.logo} ${styles.navContainer} ${styles.navCenterContainer}`}><Logo /></div>
+                <div className={`${styles.logo} ${styles.navContainer} ${styles.navCenterContainer}`}>
+                    <Link to={ROUTES.Home.path}><Logo /></Link>
+                </div>
 
                 <div className={`${styles.navContainer} ${styles.navEndContainer}`}>
                 <NavigationItem text={ROUTES.Profile.title} path={ROUTES.Profile.path}>

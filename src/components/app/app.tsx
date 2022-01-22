@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from '../layout/app-header/header';
 import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage  } from '../../pages';
@@ -8,15 +8,26 @@ import { ROUTES } from '../../models/constants';
 import { ProtectedRoute } from '../protected-route';
 import { UnauthRoute } from '../unauth-route';
 import BurgerDetailsModal from '../burger-details-modal/burger-details-modal';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredients } from '../../services/actions/burger';
 
 function App() {
+  const {
+    ingredients
+  } = useSelector((state:any) => state.burger);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!ingredients.length) dispatch(getIngredients());
+  }, [dispatch, ingredients]);
+
   const location = useLocation();
-  const constructor = location.state && (location.state as any).constructor;
+  const background = location.state && (location.state as any).background;
   return (
     <ErrorBoundary>
     <div className={styles.container}>
       <Header />
-        <Switch location={constructor || location}>
+        <Switch location={background || location}>
          <UnauthRoute path={ROUTES.Login.path} exact={true}>
             <LoginPage />
           </UnauthRoute>
@@ -49,7 +60,7 @@ function App() {
           </Route>
         </Switch>
 
-        {constructor && <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>}
+        {background && <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>}
     </div>
     </ErrorBoundary>
   );

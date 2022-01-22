@@ -12,6 +12,7 @@ import ErrorMessage from '../shared/error-message';
 import { NO_BUN_IN_ORDER, ROUTES } from '../../models/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router-dom';
+import Loader from '../shared/loader';
 
 const BurgerConstructor = () => 
 {
@@ -23,6 +24,7 @@ const BurgerConstructor = () =>
     } = useSelector((state:any) => state.burger);
 
     const { user, getUserSuccess } = useSelector((state:any) => state.auth);
+    const { orderRequest } =  useSelector((state:any) => state.order);
     const history = useHistory();
 
     const onOrderSubmitted = () => {
@@ -73,10 +75,11 @@ const BurgerConstructor = () =>
             {(selectedIngredients.length !== 0 || selectedBun) && (<div className={`mt-10 ${styles.summary}`}>
                 <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item === null ? 0 : item.price)} />
                 <div>
-                    <Button type="primary" size="medium" onClick={onOrderSubmitted} disabled={!selectedBun}>
+                    {!orderRequest && (<Button type="primary" size="medium" onClick={onOrderSubmitted} disabled={!selectedBun}>
                         Оформить
-                    </Button>
+                    </Button>)}
                 </div>
+                <div className={styles.loader}>{ orderRequest && <Loader /> }</div>
             </div>)}
         </section>
     );

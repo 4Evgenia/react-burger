@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import IngredientDetails from '../components/burger-ingredients/details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { GET_INGREDIENT_BY_ID, getIngredients } from '../services/actions/burger';
+import { GET_INGREDIENT_BY_ID } from '../services/actions/burger';
 import styles from './page.module.css';
 
 export const IngredientPage = () => {
@@ -11,9 +11,6 @@ export const IngredientPage = () => {
     const { id } = useParams() as any;
 
     useEffect(() => {
-        if (ingredients.length === 0){
-            dispatch(getIngredients());
-        } 
         dispatch({type: GET_INGREDIENT_BY_ID, _id: id });
     }, [dispatch, ingredients, id]);
     

@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients.module.css';
 import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
 import { TABS } from '../../models/constants';
-import { getIngredients, 
-    CHANGE_TAB, 
+import { CHANGE_TAB, 
     SHOW_INGREDIENT_DETAILS} from '../../services/actions/burger';
 
 const BurgerIngredients = () => {
@@ -15,10 +14,6 @@ const BurgerIngredients = () => {
         ingredients,
         activeTab
     } = useSelector((state:any) => state.burger);
-
-    useEffect(() => {
-        if (!ingredients.length) dispatch(getIngredients());
-    }, [dispatch, ingredients]);
 
     const onChangeActiveTab = (activeItem: string) => dispatch({type: CHANGE_TAB, selectedTab: activeItem});
     const burgerIngredient = useRef(null);

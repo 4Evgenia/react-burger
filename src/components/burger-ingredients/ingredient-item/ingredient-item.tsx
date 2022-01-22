@@ -21,7 +21,7 @@ const IngredientItem = ({ingredient, onSelectIngredient}:any) => {
                 <div className={styles.counterContainer}>
                     { ingredient.qty > 0 && (<Counter count={ingredient.qty} size="default" />)}
                 </div>
-                <Link to={{pathname: `/ingredients/${ingredient._id}`, state: {constructor: location}}}>
+                <Link to={{pathname: `/ingredients/${ingredient._id}`, state: {background: location}}}>
                 <img src={ingredient.image} alt={ingredient.name}/>
                 <div className={`text text_type_main-default mt-1 ${styles.priceContainer}`}>
                     <span className={`${styles.price} pr-2 text text_type_digits-default`}>{ingredient.price}</span>
