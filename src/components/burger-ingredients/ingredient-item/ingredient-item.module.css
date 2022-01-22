@@ -24,3 +24,8 @@
     position: relative;
     top: 20px;
 }
+
+.priceContainer{
+    text-align: center;
+    color: #F2F2F3;
+}

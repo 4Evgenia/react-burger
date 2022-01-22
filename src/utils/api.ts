@@ -1,23 +1,41 @@
-const BASE_API_URL = "https://norma.nomoreparties.space/api/";
+import axios from 'axios';
+import { authConfig, buildUrl, checkResponse } from "./url-utils";
+import { authInstance } from './setupInterceptors';
 
-const SERVER_ERROR_MESSAGE = "Server Error";
-
-const buildUrl = (endPoint:string) => `${BASE_API_URL}${endPoint}`;
-
-export const fetchIngredients = () => fetch(buildUrl("ingredients"))
+// FETCH INGREDIENTS
+export const fetchIngredients = () => axios.get(buildUrl("ingredients"))
                                     .then(checkResponse);
 
-export const postOrder = (data:any) => fetch(buildUrl("orders"), {
-                                method: 'POST',
-                                cache: 'no-cache',
-                                headers: {
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ingredients:data})
-                            }).then(checkResponse);
+// SUBMIT ORDER
+export const postOrder = (data:any) => authInstance.post(buildUrl("orders"), {ingredients:data})
+                                    .then(checkResponse);
 
-const checkResponse = (res:any) => {
-    if (res.ok)
-        return res.json();
-    throw new Error(SERVER_ERROR_MESSAGE)
-}
+// FORGOT PASSWORD
+export const passwordReset = (email:string) => axios.post(buildUrl("password-reset"), {email})
+                                    .then(checkResponse);                                    
+
+// RESET PASSWORD SUBMIT
+export const passwordResetSubmit = (password: string, token: any) => axios.post(buildUrl("password-reset/reset"), {password, token})
+                                    .then(checkResponse);
+
+// LOGIN
+export const loginRequest = (email:string, password:string) => axios.post(buildUrl("auth/login"), {email, password})
+                                    .then(checkResponse);
+
+// REGISTER
+export const registerRequest = (email:string, password:string, name:string) => axios.post(buildUrl("auth/register"), {name, email, password})
+                                    .then(checkResponse);
+
+// LOGOUT
+export const logoutRequest = (token:any) => axios.post(buildUrl("auth/logout"), token).then(checkResponse);
+
+// REFRESH TOKEN
+export const tokenRequest = () => axios.post(buildUrl("auth/token")).then(checkResponse);
+
+// GET USER
+export const getUserRequest = () => authInstance.get(buildUrl("auth/user"), authConfig).then(checkResponse);
+
+// UPDATE USER
+export const updateUserRequest = (user: any) => authInstance.patch(buildUrl("auth/user"), 
+        user.password !== '' ? {email: user.email, name: user.name, password: user.password } :  {email: user.email, name: user.name},
+         authConfig).then(checkResponse);

@@ -7,7 +7,8 @@ import {
     CHANGE_TAB,
     ADD_INGREDIENT,
     REMOVE_INGREDIENT,
-    MOVE_INGREDIENT
+    MOVE_INGREDIENT,
+    GET_INGREDIENT_BY_ID
 } from '../actions/burger';
 import { SUBMIT_ORDER_SUCCESS } from '../actions/order';
 import { TABS, BUN } from '../../models/constants';
@@ -53,6 +54,11 @@ export const burgerReducer = (state = initialState, action:any) => {
             return {
                 ...state, viewedIngredient: null, modalVisible: false
             };
+        }
+        case GET_INGREDIENT_BY_ID: {
+            return {
+                ...state, viewedIngredient: state.ingredients.filter((i:any) => i._id === action._id)[0], modalVisible: true
+            }
         }
         case CHANGE_TAB: {
             return {
