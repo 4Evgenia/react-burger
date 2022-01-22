@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../services/actions/auth';
 import { useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ export function ProtectedRoute({children, ...rest }:any){
     const {  user } = useSelector((state:any) => state.auth);
     const [isUserLoaded, setUserLoaded] = useState(false);
     const dispatch = useDispatch();
+    const location = useLocation();
 
     useEffect(() => {
         dispatch(getUser());
@@ -16,10 +17,10 @@ export function ProtectedRoute({children, ...rest }:any){
 
     if (!isUserLoaded){
         return null;
-      }
+    }
 
     return(
-        <Route {...rest} render={({ location }) => user ? (children) : 
-                                                                    (<Redirect to={{ pathname: ROUTES.Login.path, state: { from: location } }} />)} />
+        <Route {...rest} render={() => user ? (children) : 
+                                                                    (<Redirect to={{ pathname: ROUTES.Login.path, search: '?redirectUrl=' + location.pathname }} />)} />
     )
 }

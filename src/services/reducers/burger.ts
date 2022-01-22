@@ -57,7 +57,7 @@ export const burgerReducer = (state = initialState, action:any) => {
         }
         case GET_INGREDIENT_BY_ID: {
             return {
-                ...state, viewedIngredient: state.ingredients.filter((i:any) => i._id === action._id)[0]
+                ...state, viewedIngredient: state.ingredients.filter((i:any) => i._id === action._id)[0], modalVisible: true
             }
         }
         case CHANGE_TAB: {

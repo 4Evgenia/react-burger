@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './nav-container.module.css';
 import { NavLink, useHistory } from 'react-router-dom';
 import { ROUTES } from '../../models/constants';

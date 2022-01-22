@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React from 'react';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from '../layout/app-header/header';
 import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage  } from '../../pages';
 import styles from './app.module.css';
@@ -7,15 +7,17 @@ import ErrorBoundary from '../shared/error-boundary';
 import { ROUTES } from '../../models/constants';
 import { ProtectedRoute } from '../protected-route';
 import { UnauthRoute } from '../unauth-route';
+import BurgerDetailsModal from '../burger-details-modal/burger-details-modal';
 
 function App() {
+  const location = useLocation();
+  const constructor = location.state && (location.state as any).constructor;
   return (
     <ErrorBoundary>
     <div className={styles.container}>
-      <Router>
       <Header />
-        <Switch>
-          <UnauthRoute path={ROUTES.Login.path} exact={true}>
+        <Switch location={constructor || location}>
+         <UnauthRoute path={ROUTES.Login.path} exact={true}>
             <LoginPage />
           </UnauthRoute>
           <UnauthRoute path={ROUTES.Register.path} exact={true}>
@@ -46,7 +48,8 @@ function App() {
             <NotFoundPage />
           </Route>
         </Switch>
-      </Router>
+
+        {constructor && <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>}
     </div>
     </ErrorBoundary>
   );

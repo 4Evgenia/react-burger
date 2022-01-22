@@ -7,7 +7,7 @@ export const fetchIngredients = () => axios.get(buildUrl("ingredients"))
                                     .then(checkResponse);
 
 // SUBMIT ORDER
-export const postOrder = (data:any) => axios.post(buildUrl("orders"), {ingredients:data})
+export const postOrder = (data:any) => authInstance.post(buildUrl("orders"), {ingredients:data})
                                     .then(checkResponse);
 
 // FORGOT PASSWORD
@@ -36,4 +36,6 @@ export const tokenRequest = () => axios.post(buildUrl("auth/token")).then(checkR
 export const getUserRequest = () => authInstance.get(buildUrl("auth/user"), authConfig).then(checkResponse);
 
 // UPDATE USER
-export const updateUserRequest = (user: any) => authInstance.patch(buildUrl("auth/user"), {user}, authConfig).then(checkResponse);
+export const updateUserRequest = (user: any) => authInstance.patch(buildUrl("auth/user"), 
+        user.password !== '' ? {email: user.email, name: user.name, password: user.password } :  {email: user.email, name: user.name},
+         authConfig).then(checkResponse);

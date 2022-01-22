@@ -47,15 +47,7 @@ export const ProfilePage = () =>{
 
     const onSaveClick = (e:any) => {
         e.preventDefault();
-        const userToUpdate:any = {
-            email: userForm.email,
-            name: userForm.name
-        };
-        if (userForm.password !== ''){
-            userToUpdate.password = userForm.password;
-        }
-
-        dispatch(setUser(userToUpdate));
+        dispatch(setUser(userForm));
     }
     
     return (<section className={`${styles.container} pt-20`}>

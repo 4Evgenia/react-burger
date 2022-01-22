@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../services/actions/auth';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../models/constants';
+import { ifPathMatch } from '../utils/url-utils';
 
 export function UnauthRoute({children, ...rest }:any){
     const {  user } = useSelector((state:any) => state.auth);
@@ -18,11 +19,10 @@ export function UnauthRoute({children, ...rest }:any){
     if (!isUserLoaded){
         return null;
     }
-
-    const locationFrom =  (location.state as any)?.from; 
-    const redirectUrl = locationFrom ? locationFrom.pathname : ROUTES.Home.path;
+    
+    const locationFrom =  location.search.indexOf('?redirectUrl=') >= 0  ? location.search.split('?redirectUrl=')[1] : ROUTES.Home.path;
 
     return(
-        <Route {...rest} render={() => !user ? (children) : (<Redirect to={{ pathname: redirectUrl }} />)} />
+        <Route {...rest} render={() => !user ? (children) : (<Redirect to={{ pathname: ifPathMatch(locationFrom) ? locationFrom : ROUTES.Home.path }} />)} />
     )
 }

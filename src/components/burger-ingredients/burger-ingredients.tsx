@@ -6,12 +6,11 @@ import IngredientItemsContainer from './ingredient-items-container/ingredient-it
 import { TABS } from '../../models/constants';
 import { getIngredients, 
     CHANGE_TAB, 
-    SHOW_INGREDIENT_DETAILS, 
-    HIDE_INGREDIENT_DETAILS} from '../../services/actions/burger';
+    SHOW_INGREDIENT_DETAILS} from '../../services/actions/burger';
 
 const BurgerIngredients = () => {
     const dispatch = useDispatch();
-
+    
     const {
         ingredients,
         activeTab
@@ -19,7 +18,7 @@ const BurgerIngredients = () => {
 
     useEffect(() => {
         if (!ingredients.length) dispatch(getIngredients());
-    }, [dispatch]);
+    }, [dispatch, ingredients]);
 
     const onChangeActiveTab = (activeItem: string) => dispatch({type: CHANGE_TAB, selectedTab: activeItem});
     const burgerIngredient = useRef(null);

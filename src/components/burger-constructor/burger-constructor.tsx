@@ -9,8 +9,9 @@ import { useDrop } from 'react-dnd';
 import BurgerConstructorElement from './burger-constructor-element';
 import EmptyBurger from './empty-burger';
 import ErrorMessage from '../shared/error-message';
-import { NO_BUN_IN_ORDER } from '../../models/constants';
+import { NO_BUN_IN_ORDER, ROUTES } from '../../models/constants';
 import { v4 as uuidv4 } from 'uuid';
+import { useHistory } from 'react-router-dom';
 
 const BurgerConstructor = () => 
 {
@@ -21,9 +22,16 @@ const BurgerConstructor = () =>
         selectedBun
     } = useSelector((state:any) => state.burger);
 
+    const { user, getUserSuccess } = useSelector((state:any) => state.auth);
+    const history = useHistory();
+
     const onOrderSubmitted = () => {
-        const order = [...selectedIngredients, selectedBun, selectedBun];
-        dispatch(submitOrder(order));
+        if (getUserSuccess && user){
+            const order = [...selectedIngredients, selectedBun, selectedBun];
+            dispatch(submitOrder(order));
+        }else{
+            history.push(ROUTES.Login.path);
+        }
     }
 
     const moveIngredient = (dragIndex:number, hoverIndex:number) => {

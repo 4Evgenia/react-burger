@@ -1,5 +1,18 @@
 .messageContainer{
     display: flex;
+    flex-direction: column;
     color: #00CCCC;
     border: 1px solid;
+}
+
+.infoContainer{
+    display: flex;
+}
+
+.header{
+    align-self: end;
+}
+
+.icon{
+    cursor: pointer;
 }

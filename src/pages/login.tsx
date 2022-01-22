@@ -11,7 +11,6 @@ import ErrorMessage from '../components/shared/error-message';
 export const LoginPage = () => {
     const {user, loginFailed } = useSelector((state:any) => state.auth);
 
-
     const dispatch = useDispatch();
     const location = useLocation();
 
