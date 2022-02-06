@@ -1,11 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {FC} from 'react';
 import styles from './total-order-sum.module.css';
 import { CurrencyIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const TotalOrderSum = (props:any) => {
+type TTotalOrderProps = {
+    prices: ReadonlyArray<number>
+};
+
+const TotalOrderSum:FC<TTotalOrderProps> = (props) => {
     const totalPrice = React.useMemo(() => 
-        props.prices.reduce(((acc:number, price:any) => !isNaN(price) ? (price + acc) : acc), 0), 
+        props.prices.reduce(((acc:number, price:number) => !isNaN(price) ? (price + acc) : acc), 0), 
                     [props.prices]);
     
     
@@ -19,10 +22,6 @@ const TotalOrderSum = (props:any) => {
             </div>
         </section>
     )
-}
-
-TotalOrderSum.propTypes = {
-    prices: PropTypes.arrayOf(PropTypes.number).isRequired
 }
 
 export default TotalOrderSum;

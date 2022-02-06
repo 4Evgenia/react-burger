@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useState, FC } from 'react';
 import styles from './page.module.css';
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from 'react-router-dom';
@@ -6,21 +6,22 @@ import { ROUTES } from '../models/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../components/shared/error-message';
 import { register } from '../services/actions/auth';
+import { IUserWithPass } from '../models/models';
 
-export const RegisterPage = () => {
+export const RegisterPage:FC = () => {
     const {registerSuccess,
            registerFailed} = useSelector((state:any) => state.auth);
     
-     const [state, setState] = useState({
+     const [state, setState] = useState<IUserWithPass>({
         email: '',
         name: '',
         password: ''
     });
 
-    const handleInputChange = (e:any) => setState({...state, [e.target.name]: e.target.value});
+    const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => setState({...state, [e.target.name]: e.target.value});
     const dispatch = useDispatch();
 
-    const formSubmit = (e:any) => {
+    const formSubmit = (e:SyntheticEvent) => {
         e.preventDefault();
         dispatch(register(state.email, state.password, state.name));
     }
@@ -53,7 +54,7 @@ export const RegisterPage = () => {
                             type="primary" size="medium">Зарегистрироваться</Button></div>
                         </div>
                     </form>
-                    { registerFailed && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div> }
+                    { registerFailed && <div className="mt-6"><ErrorMessage message='Произошла ошибка, попробуйте еще раз.' /></div> }
                     <div className={`mt-20 ${styles.center}`}>
                         <span className="text text_type_main-default text_color_inactive">Уже зарегистрированы? </span>
                         <Link to={ROUTES.Login.path}><span className="text text_type_main-default">Войти</span></Link>

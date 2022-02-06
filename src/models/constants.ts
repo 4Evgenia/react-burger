@@ -1,15 +1,17 @@
+import { IRoutes, TTab } from "./models";
+
 export const BUN = 'bun'
 export const SAUCE = 'sauce';
 export const MAIN = 'main';
 
-export const TABS = [
+export const TABS:ReadonlyArray<TTab> = [
     {displayName: 'Булки', type: BUN}, 
     {displayName: 'Соусы', type: SAUCE}, 
     {displayName: 'Начинки', type: MAIN}]
 
 export const NO_BUN_IN_ORDER = 'Пожалуйста выберите булку.';
 
-export const ROUTES = {
+export const ROUTES:IRoutes = {
     Home: {title: "Конструктор", path: "/"},
     Login: {title: "Вход", path: "/login"},
     Register: {title: "Регистрация", path: "/register"},

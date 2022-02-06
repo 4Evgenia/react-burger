@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import constructorStyles from './constructor.module.css';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
@@ -10,7 +10,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 
-export const ConstructorPage = () => {
+export const ConstructorPage: FC = () => {
     const dispatch = useDispatch();
 
     const {

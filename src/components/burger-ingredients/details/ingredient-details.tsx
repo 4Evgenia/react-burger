@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {FC} from 'react';
 import styles from './ingredient-details.module.css';
-import {ingredientPropType} from '../../../utils/prop-type';
+import { IIngredient } from '../../../models/models';
 
-const IngredientDetails = ({ingredient}:any) => {
+type TIngredientDetailsPropTypes = {
+    ingredient: IIngredient;
+}
+
+const IngredientDetails:FC<TIngredientDetailsPropTypes> = ({ingredient}) => {
      if (!ingredient)
         return null;
 
@@ -43,10 +47,6 @@ const IngredientDetails = ({ingredient}:any) => {
                 </div>
             </section>
         </article>);
-}
-
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropType
 }
 
 export default IngredientDetails;

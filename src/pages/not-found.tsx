@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC} from 'react';
 import styles from './page.module.css';
 
-export const NotFoundPage = () => {
+export const NotFoundPage:FC = () => {
     return (<section className={styles.container}>
         <section className={styles.formContainer}>
             <header>

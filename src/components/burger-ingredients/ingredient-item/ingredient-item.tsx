@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { FC } from 'react'
 import styles from './ingredient-item.module.css'
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../../utils/prop-type';
 import { useDrag } from 'react-dnd';
 import { Link, useLocation } from 'react-router-dom';
+import { IIngredient } from '../../../models/models';
+import { Location } from 'history';
+
+export type TSelectIngredientFunc = (ingredient:IIngredient) => void;
+
+export type TIngredientItemProps = {
+    ingredient: IIngredient;
+    onSelectIngredient: TSelectIngredientFunc;
+}
 
 
-const IngredientItem = ({ingredient, onSelectIngredient}:any) => {
+const IngredientItem: FC<TIngredientItemProps> = ({ingredient, onSelectIngredient}) => {
     const selectIngredient = () => onSelectIngredient(ingredient);
-    const location = useLocation();
+    const location = useLocation<Location>();
 
     const [, ref] = useDrag({
         type: 'ingredient',
@@ -31,11 +38,6 @@ const IngredientItem = ({ingredient, onSelectIngredient}:any) => {
                 <div className={`${styles.title} text text_type_main-default mt-1`}>{ingredient.name}</div>
             </div>
     )
-}
-
-IngredientItem.propTypes = {
-    ingredient: ingredientPropType,
-    onSelectIngredient: PropTypes.func
 }
 
 export default IngredientItem;

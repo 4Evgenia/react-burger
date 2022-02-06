@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import { ACCESS_TOKEN_COOKIE, AUTH_PREFIX, REFRESH_TOKEN_COOKIE } from "../models/constants";
 import { TOKEN_REFRESH_SUCCESS } from "../services/actions/auth";
 import { BASE_API_URL, buildUrl, UNAUTHORIZED } from "./url-utils";
@@ -9,9 +9,9 @@ export const authInstance = axios.create({ baseURL: BASE_API_URL, headers: { "Co
 
 const setup = (store:any) => {
     authInstance.interceptors.request.use(
-        (config:any) => {
+        (config:AxiosRequestConfig<any>) => {
             const accessToken = getCookie(ACCESS_TOKEN_COOKIE);
-            if (accessToken){
+            if (accessToken && config.headers){
                 config.headers['Authorization'] = `${AUTH_PREFIX} ${accessToken}`;
             }
             return config;
@@ -24,7 +24,7 @@ const setup = (store:any) => {
     const { dispatch } = store;
     
     authInstance.interceptors.response.use(
-        (res:any) => { return res;},
+        (res:AxiosResponse<any>) => { return res;},
         async (err) => {
             const originalConfig = err.config;
             if (err.response.status === UNAUTHORIZED && !originalConfig._retry){

@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, FC } from 'react';
 import styles from './successfull-message.module.css';
 import { CheckMarkIcon, CloseIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
+import { TMessage } from '../../models/models';
 
-const Message = ({message}:any) => {
+const Message:FC<TMessage> = ({message}) => {
     const [show, setShow] = useState(true);
 
     if(!show)
@@ -20,9 +20,5 @@ const Message = ({message}:any) => {
         </div>
     </div>
 )};
-
-Message.propTypes = {
-    message: PropTypes.string.isRequired
-}
 
 export default Message;

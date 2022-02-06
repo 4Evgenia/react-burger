@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useEffect, FC } from 'react';
 import styles from './page.module.css';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from 'react-router-dom';
@@ -7,19 +7,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../components/shared/error-message';
 import { FORGOT_PASSWORD_SET_EMAIL, resetPasswordRequest } from '../services/actions/auth';
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage:FC = () => {
     const {email, forgotPasswordRequestSuccess, forgotPasswordRequestFailed} = useSelector((state:any) => state.auth);
     const dispatch = useDispatch();
     
     useEffect(() => { dispatch({type: FORGOT_PASSWORD_SET_EMAIL, email: ''}) }, [dispatch]);
 
-    const onEmailChange = (e:any) => dispatch({type: FORGOT_PASSWORD_SET_EMAIL, email: e.target.value});
+    const onEmailChange = (e:ChangeEvent<HTMLInputElement>) => dispatch({type: FORGOT_PASSWORD_SET_EMAIL, email: e.target.value});
     
     if (forgotPasswordRequestSuccess){
         return (<Redirect to={{ pathname: ROUTES.ResetPassword.path }}/>)
     }
 
-    const formSubmit = (e:any) => {
+    const formSubmit = (e:SyntheticEvent) => {
         e.preventDefault();
         dispatch(resetPasswordRequest(email));
     }
@@ -34,7 +34,7 @@ export const ForgotPasswordPage = () => {
                             placeholder='Укажите e-mail'
                             onChange={onEmailChange} />
                         </div>
-                        { forgotPasswordRequestFailed && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div> }
+                        { forgotPasswordRequestFailed && <div className="mt-6"><ErrorMessage message='Произошла ошибка, попробуйте еще раз.' /></div> }
                         <div className={`mt-6 ${styles.center}`}>
                             <div className={styles.buttonContainer}>
                                 <Button 

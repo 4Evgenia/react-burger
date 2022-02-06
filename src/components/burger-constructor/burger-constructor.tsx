@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { ConstructorElement, Button  } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import TotalOrderSum from './total-order-sum/total-order-sum';
@@ -13,8 +13,9 @@ import { NO_BUN_IN_ORDER, ROUTES } from '../../models/constants';
 import { v4 as uuidv4 } from 'uuid';
 import { useHistory } from 'react-router-dom';
 import Loader from '../shared/loader';
+import { IIngredient } from '../../models/models';
 
-const BurgerConstructor = () => 
+const BurgerConstructor:FC = () => 
 {
     const dispatch = useDispatch();
 
@@ -42,14 +43,14 @@ const BurgerConstructor = () =>
 
     const [ , dropTarget] = useDrop({
         accept: 'ingredient',
-        drop(item:any){
+        drop(item:{ingredient: IIngredient}){
             dispatch({type: ADD_INGREDIENT, selectedIngredient: item.ingredient, guid: uuidv4() });
         }
     })
 
     return (
         <section className={`${styles.container} ml-10 mt-25 pr-5`}>
-            {!selectedBun && selectedIngredients.length !== 0 && <ErrorMessage errorText={NO_BUN_IN_ORDER} />}
+            {!selectedBun && selectedIngredients.length !== 0 && <ErrorMessage message={NO_BUN_IN_ORDER} />}
             <div className={`${styles.elements} ${styles.scroll}`} ref={dropTarget}>
                 {selectedIngredients.length === 0 && !selectedBun ? (<EmptyBurger />) : 
                 (
@@ -59,7 +60,7 @@ const BurgerConstructor = () =>
                     {selectedBun && (<ConstructorElement type="top" isLocked={true} text={`${selectedBun.name} (верх)`} price={selectedBun.price} thumbnail={selectedBun.image} />)}
                 </div>
                 <div className={`${styles.selectedIngredients} pr-10`}>
-                    {selectedIngredients.map((item:any, index:number) => <BurgerConstructorElement
+                    {selectedIngredients.map((item:IIngredient, index:number) => <BurgerConstructorElement
                             item={item}
                             index={index} 
                             key={item.guid} 
@@ -73,7 +74,7 @@ const BurgerConstructor = () =>
                 )}
             </div>
             {(selectedIngredients.length !== 0 || selectedBun) && (<div className={`mt-10 ${styles.summary}`}>
-                <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:any) => item === null ? 0 : item.price)} />
+                <TotalOrderSum prices={selectedIngredients.concat({...selectedBun}, {...selectedBun}).map((item:IIngredient) => item === null ? 0 : item.price)} />
                 <div>
                     {!orderRequest && (<Button type="primary" size="medium" onClick={onOrderSubmitted} disabled={!selectedBun}>
                         Оформить

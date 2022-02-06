@@ -1,16 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 import styles from './header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import NavigationItem from "./nav-item/navigation-item";
 import { useLocation, Link } from 'react-router-dom';
 import { ROUTES } from '../../../models/constants';
+import { Location } from 'history';
 
-export interface IHeaderState{
-    activeItem: string;
-}
 
-const Header = () => {
-    const { pathname } = useLocation();
+const Header:FC = () => {
+    const { pathname } = useLocation<Location>();
 
     return (<header className={styles.header}>
             <nav className={styles.navBar}>

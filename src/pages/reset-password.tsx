@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FC, ChangeEvent, SyntheticEvent  } from 'react';
 import styles from './page.module.css';
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from 'react-router-dom';
@@ -7,21 +7,26 @@ import ErrorMessage from '../components/shared/error-message';
 import { useDispatch, useSelector } from 'react-redux';
 import { resetPasswordSubmit} from '../services/actions/auth';
 
-export const ResetPasswordPage = () => {
+type TResetPasswordState = {
+    password: string;
+    code: string;
+}
+
+export const ResetPasswordPage: FC = () => {
     const {email, forgotPasswordSubmitFailed, forgotPasswordSubmitSuccess } = useSelector((state:any) => state.auth);
     const dispatch = useDispatch();
 
-    const [state, setState] = useState({
+    const [state, setState] = useState<TResetPasswordState>({
         password: "",
         code: ""
     });
 
-    const onFormChange = (e:any) => setState({
+    const onFormChange = (e:ChangeEvent<HTMLInputElement>) => setState({
         ...state,
         [e.target.name]: e.target.value
     });
 
-    const onResetPasswordSubmitted = (e:any) => {
+    const onResetPasswordSubmitted = (e:SyntheticEvent) => {
         e.preventDefault();
         dispatch(resetPasswordSubmit(state.password, state.code));
     }
@@ -54,7 +59,7 @@ export const ResetPasswordPage = () => {
                             size="medium"
                             onClick={onResetPasswordSubmitted}>Сохранить</Button></div>
                         </div>
-                        { (forgotPasswordSubmitFailed) && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div> }
+                        { (forgotPasswordSubmitFailed) && <div className="mt-6"><ErrorMessage message='Произошла ошибка, попробуйте еще раз.' /></div> }
                     </form>
                     <div className={`mt-20 ${styles.center}`}>
                         <span className="text text_type_main-default text_color_inactive">Вспомнили пароль? </span>

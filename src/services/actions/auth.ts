@@ -75,23 +75,30 @@ export function register(email:string, password:string, name: string){
 // LOGOUT
 export function logout(){
     return function(dispatch:any){
-        logoutRequest({token: getCookie(REFRESH_TOKEN_COOKIE)}).then(res => {
-            if (res && res.success){
-                deleteCookie(ACCESS_TOKEN_COOKIE);
-                deleteCookie(REFRESH_TOKEN_COOKIE);
-                dispatch({
-                    type: LOGOUT_SUCCESS
-                });
-            } else {
+        const token = getCookie(REFRESH_TOKEN_COOKIE);
+        if (token){
+            logoutRequest(token).then(res => {
+                if (res && res.success){
+                    deleteCookie(ACCESS_TOKEN_COOKIE);
+                    deleteCookie(REFRESH_TOKEN_COOKIE);
+                    dispatch({
+                        type: LOGOUT_SUCCESS
+                    });
+                } else {
+                    dispatch({
+                        type: LOGOUT_FAILED
+                    })
+                }
+            }).catch(e => {
                 dispatch({
                     type: LOGOUT_FAILED
                 })
-            }
-        }).catch(e => {
+           })
+        }else{
             dispatch({
-                type: LOGOUT_FAILED
-            })
-       })
+                type: LOGOUT_SUCCESS
+            });
+        }
     };
 }
 

@@ -1,16 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import IngredientDetails from '../burger-ingredients/details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Modal from '../layout/modal/modal';
 import { GET_INGREDIENT_BY_ID, HIDE_INGREDIENT_DETAILS } from '../../services/actions/burger';
+import { TIngredientParam } from '../../models/models';
 
 
-const BurgerDetailsModal = () => {
+const BurgerDetailsModal:FC = () => {
     const { viewedIngredient, modalVisible, ingredients } = useSelector((state:any) => state.burger);
     const dispatch = useDispatch();
     const history = useHistory();
-    const { id } = useParams() as any;
+    const { id } = useParams<TIngredientParam>();
 
     useEffect(() => {
         if (id && ingredients.length !== 0){

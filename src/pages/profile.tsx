@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { ChangeEvent, SyntheticEvent, useState, useEffect, FC } from 'react';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from 'react-redux';
 import ErrorMessage from '../components/shared/error-message';
@@ -6,23 +6,24 @@ import Message from '../components/shared/successfull-message';
 import NavContainer from '../components/profile/nav-container';
 import styles from './profile.module.css';
 import { setUser } from '../services/actions/auth';
+import { IUser } from '../models/models';
 
-type disabledField = {
+type TDisabledField = {
     [key: string]: boolean
 }
 
-export const ProfilePage = () =>{
+export const ProfilePage:FC = () =>{
     const {user, setUserFailed, setUserSuccess} = useSelector((state:any) => state.auth);
-    const initialState = {name: user.name, email: user.email, password: ''};
-    const initialDisabledState = {
+    const initialState:IUser = {name: user.name, email: user.email, password: ''};
+    const initialDisabledState:TDisabledField = {
         email: true,
         name: true,
         password: true
-    } as disabledField
+    };
     const dispatch = useDispatch();
 
-    const [userForm, setUserForm] = useState(initialState);
-    const [disabled, setDisabled] = useState(initialDisabledState);
+    const [userForm, setUserForm] = useState<IUser>(initialState);
+    const [disabled, setDisabled] = useState<TDisabledField>(initialDisabledState);
 
     useEffect(() => {
         if(setUserSuccess){
@@ -31,7 +32,7 @@ export const ProfilePage = () =>{
         }
     }, [setUserSuccess]);
 
-    const handleInputChange = (e:any) => setUserForm({...userForm, [e.target.name]: e.target.value});
+    const handleInputChange = (e:ChangeEvent<HTMLInputElement>) => setUserForm({...userForm, [e.target.name]: e.target.value});
     const onIconClick = (field:string) => 
     {
         setUserForm({...userForm, [field]: user[field] ?? ''})
@@ -40,12 +41,12 @@ export const ProfilePage = () =>{
 
     const formChanged = ():boolean => user.name !== userForm.name || user.email !== userForm.email || userForm.password !== '';
 
-    const onCancelClick = (e:any) => {
+    const onCancelClick = (e:SyntheticEvent) => {
         e.preventDefault();
         setUserForm(initialState);
     }
 
-    const onSaveClick = (e:any) => {
+    const onSaveClick = (e:SyntheticEvent) => {
         e.preventDefault();
         dispatch(setUser(userForm));
     }
@@ -71,7 +72,7 @@ export const ProfilePage = () =>{
                     <div className="mt-6">
                         <Input name="password" type="password"
                         disabled={disabled.password} 
-                        value={userForm.password} 
+                        value={userForm.password ?? ''} 
                         placeholder='Пароль'
                         icon={disabled.password ? "EditIcon": "CloseIcon"} 
                         onChange={handleInputChange} 
@@ -83,7 +84,7 @@ export const ProfilePage = () =>{
                                     <div><Button type="secondary" size="medium" onClick={onCancelClick}>Отмена</Button></div>
                                 </div>
                             </div>)}
-                    {setUserFailed && <div className="mt-6"><ErrorMessage errorText='Произошла ошибка, попробуйте еще раз.' /></div>}
+                    {setUserFailed && <div className="mt-6"><ErrorMessage message='Произошла ошибка, попробуйте еще раз.' /></div>}
                     {setUserSuccess && <div className="mt-6"><Message message='Информация сохранена успешно' /></div>}
                 </section>
         </form>

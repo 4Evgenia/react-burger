@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { ReactNode, FC } from 'react';
 import ReactDOM from 'react-dom';
 import styles from './modal.module.css';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from './modal-overlay';
-import PropTypes from 'prop-types';
 
 const modalRoot = document.getElementById("react-modals");
 const ESC_KEY = 27;
 
-const Modal = (props: any) => {
+export type TModalProps = {
+    title?: string,
+    visible: boolean,
+    onCancel: () => void,
+    children: ReactNode
+}
+
+const Modal:FC<TModalProps> = (props) => {
     
-    const onEscapeClick = React.useCallback((event:any) => {
+    const onEscapeClick = React.useCallback((event) => {
         if (event.keyCode === ESC_KEY)
             props.onCancel();
     }, [props])
@@ -41,13 +47,6 @@ const Modal = (props: any) => {
             </div>
         </section></>);
     return ReactDOM.createPortal((<>{props.visible && modal}</>), modalRoot as Element);
-}
-
-Modal.propTypes = {
-    title: PropTypes.string,
-    visible: PropTypes.bool.isRequired,
-    onCancel: PropTypes.func.isRequired,
-    children: PropTypes.element.isRequired
 }
 
 export default Modal;

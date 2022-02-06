@@ -10,6 +10,11 @@ import { UnauthRoute } from '../unauth-route';
 import BurgerDetailsModal from '../burger-details-modal/burger-details-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/burger';
+import { Location } from 'history';
+
+type TLocationBackground = {
+  background?: Location
+};
 
 function App() {
   const {
@@ -21,8 +26,8 @@ function App() {
     if (!ingredients.length) dispatch(getIngredients());
   }, [dispatch, ingredients]);
 
-  const location = useLocation();
-  const background = location.state && (location.state as any).background;
+  const location = useLocation<TLocationBackground>();
+  const background = location.state && location.state.background;
   return (
     <ErrorBoundary>
     <div className={styles.container}>

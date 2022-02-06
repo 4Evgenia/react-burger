@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ErrorInfo } from 'react';
 
-export default class ErrorBoundary extends React.Component<any, {hasError: boolean}>{
-    constructor(props: any){
+export default class ErrorBoundary extends React.Component<{}, {hasError: boolean}>{
+    constructor(props:{}){
         super(props);
         this.state = { hasError: false }
     }
@@ -12,7 +12,7 @@ export default class ErrorBoundary extends React.Component<any, {hasError: boole
     }
 
     // с помощью этого метода логируем информацию об ошибке:
-    componentDidCatch(error :any, info: any){
+    componentDidCatch(error:Error, info:ErrorInfo){
         console.log("Возникла ошибка!", error, info);
     }
 
