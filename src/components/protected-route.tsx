@@ -6,8 +6,8 @@ import { ROUTES } from '../models/constants';
 import { Location } from 'history';
 
 
-export function ProtectedRoute({children, ...rest }:any){
-    const {  user } = useSelector((state:any) => state.auth);
+export function ProtectedRoute({ children, ...rest }: any) {
+    const { user } = useSelector((state: any) => state.auth);
     const [isUserLoaded, setUserLoaded] = useState(false);
     const dispatch = useDispatch();
     const location = useLocation<Location>();
@@ -17,12 +17,12 @@ export function ProtectedRoute({children, ...rest }:any){
         setUserLoaded(true);
     }, [dispatch])
 
-    if (!isUserLoaded){
+    if (!isUserLoaded) {
         return null;
     }
 
-    return(
-        <Route {...rest} render={() => user ? (children) : 
-                                                                    (<Redirect to={{ pathname: ROUTES.Login.path, search: '?redirectUrl=' + location.pathname }} />)} />
+    return (
+        <Route {...rest} render={() => user ? (children) :
+            (<Redirect to={{ pathname: ROUTES.Login.path, search: '?redirectUrl=' + location.pathname }} />)} />
     )
 }

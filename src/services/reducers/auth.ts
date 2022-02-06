@@ -41,71 +41,71 @@ const initialState = {
     setUserFailed: false
 }
 
-export const authReducer = (state = initialState, action:any) => {
-    switch(action.type){
+export const authReducer = (state = initialState, action: any) => {
+    switch (action.type) {
         case FORGOT_PASSWORD_SET_EMAIL: {
-            return{
+            return {
                 ...state, email: action.email
             }
         }
-        case FORGOT_PASSWORD_REQUEST_SUCCESS:{
-            return{
+        case FORGOT_PASSWORD_REQUEST_SUCCESS: {
+            return {
                 ...state, forgotPasswordRequestSuccess: true, forgotPasswordRequestFailed: false
             }
         }
         case FORGOT_PASSWORD_REQUEST_FAILED: {
-            return{
+            return {
                 ...state, forgotPasswordRequestFailed: true, forgotPasswordRequestSuccess: false
             }
         }
         case FORGOT_PASSWORD_SUBMIT_SUCCESS: {
-            return{
+            return {
                 ...state, forgotPasswordSubmitSuccess: true, forgotPasswordSubmitFailed: false
             }
         }
         case FORGOT_PASSWORD_SUBMIT_FAILED: {
-            return{
+            return {
                 ...state, forgotPasswordSubmitSuccess: false, forgotPasswordSubmitFailed: true
             }
         }
         case LOGIN_SUCCESS: {
-            return{
-                ...state, loginSuccess:true, user: action.user, loginFailed:false
+            return {
+                ...state, loginSuccess: true, user: action.user, loginFailed: false
             }
         }
         case LOGIN_FAILED: {
-            return{
-                ...state, loginFailed:true, loginSuccess:false
+            return {
+                ...state, loginFailed: true, loginSuccess: false
             }
         }
         case REGISTER_SUCCESS: {
-            return{
-                ...state, registerSuccess:true, user: action.user, registerFailed:false
+            return {
+                ...state, registerSuccess: true, user: action.user, registerFailed: false
             }
         }
         case REGISTER_FAILED: {
-            return{
-                ...state, registerFailed:true, registerSuccess:false
+            return {
+                ...state, registerFailed: true, registerSuccess: false
             }
         }
         case LOGOUT_SUCCESS: {
-            return{
-                ...state, logoutSuccess:true, user: null, logoutFailed:false
+            return {
+                ...state, logoutSuccess: true, user: null, logoutFailed: false
             }
         }
         case LOGOUT_FAILED: {
-            return{
-                ...state, logoutFailed:true, logoutSuccess:false
+            return {
+                ...state, logoutFailed: true, logoutSuccess: false
             }
         }
         case TOKEN_REFRESH_SUCCESS: {
-            return{
-                ...state, tokenSuccess:true, tokenFailed:false
+            return {
+                ...state, tokenSuccess: true, tokenFailed: false
             }
         }
         case TOKEN_REFRESH_FAILED: {
-            return{
-                ...state, tokenFailed:true, tokenSuccess:false
+            return {
+                ...state, tokenFailed: true, tokenSuccess: false
             }
         }
         case GET_USER_SUCCESS: {
@@ -128,7 +128,7 @@ export const authReducer = (state = initialState, action:any) => {
                 ...state, setUserSuccess: false, setUserFailed: true
             }
         }
-        case SET_USER_REQUEST:{
+        case SET_USER_REQUEST: {
             return {
                 ...state, setUserSuccess: false, setUserFailed: false
             }

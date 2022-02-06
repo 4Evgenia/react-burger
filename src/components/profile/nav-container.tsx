@@ -12,8 +12,8 @@ export const NavContainer = () => {
     const signOut = () => {
         dispatch(logout());
         history.replace({ pathname: ROUTES.Home.path });
-    } 
-        
+    }
+
 
     return (
         <section className={styles.navContainer}>
@@ -29,7 +29,7 @@ export const NavContainer = () => {
                     <span className={`text text_type_main-medium text_color_inactive`}>Выход</span>
                 </div>
                 <div>
-                    <span className={`text text_type_main-default text_color_inactive`}>В этом разделе вы можете изменить свои персональные данные</span> 
+                    <span className={`text text_type_main-default text_color_inactive`}>В этом разделе вы можете изменить свои персональные данные</span>
                 </div>
             </nav>
         </section>);

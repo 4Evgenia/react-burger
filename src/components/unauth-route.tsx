@@ -6,8 +6,8 @@ import { ROUTES } from '../models/constants';
 import { ifPathMatch } from '../utils/url-utils';
 import { Location } from 'history';
 
-export function UnauthRoute({children, ...rest }:any){
-    const {  user } = useSelector((state:any) => state.auth);
+export function UnauthRoute({ children, ...rest }: any) {
+    const { user } = useSelector((state: any) => state.auth);
     const [isUserLoaded, setUserLoaded] = useState(false);
     const dispatch = useDispatch();
     const location = useLocation<Location>();
@@ -17,13 +17,13 @@ export function UnauthRoute({children, ...rest }:any){
         setUserLoaded(true);
     }, [dispatch])
 
-    if (!isUserLoaded){
+    if (!isUserLoaded) {
         return null;
     }
-    
-    const locationFrom =  location.search.indexOf('?redirectUrl=') >= 0  ? location.search.split('?redirectUrl=')[1] : ROUTES.Home.path;
 
-    return(
+    const locationFrom = location.search.indexOf('?redirectUrl=') >= 0 ? location.search.split('?redirectUrl=')[1] : ROUTES.Home.path;
+
+    return (
         <Route {...rest} render={() => !user ? (children) : (<Redirect to={{ pathname: ifPathMatch(locationFrom) ? locationFrom : ROUTES.Home.path }} />)} />
     )
 }

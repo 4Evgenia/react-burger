@@ -14,15 +14,15 @@ type TIngredientItemsType = {
 } & TIngredientsProps
 
 
-const IngredientItems:FC<TIngredientItemsType> = (props) => {
+const IngredientItems: FC<TIngredientItemsType> = (props) => {
     return (
         <section className="mb-10">
             <h3 className="text text_type_main-medium" id={props.type}>{props.title}</h3>
-              <div className={styles.container}>
-                {props.ingredients.map((item:IIngredient) => (
-                    <IngredientItem key={item._id} ingredient={item} onSelectIngredient={props.onSelectIngredient}/>
+            <div className={styles.container}>
+                {props.ingredients.map((item: IIngredient) => (
+                    <IngredientItem key={item._id} ingredient={item} onSelectIngredient={props.onSelectIngredient} />
                 ))}
-            </div> 
+            </div>
         </section>
     );
 }

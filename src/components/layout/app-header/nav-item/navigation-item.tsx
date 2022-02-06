@@ -9,7 +9,7 @@ type TNavItemProps = {
     exact?: boolean
 }
 
-const NavigationItem:FC<TNavItemProps> = (props) => {
+const NavigationItem: FC<TNavItemProps> = (props) => {
     return (
         <div className="pl-5">
             <NavLink to={props.path} activeClassName={styles.active} className={styles.inactive} exact={props.exact ?? false}>

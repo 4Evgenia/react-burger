@@ -24,20 +24,21 @@ const initialState = {
     selectedBun: null
 }
 
-export const burgerReducer = (state = initialState, action:any) => {
-    switch(action.type){
+export const burgerReducer = (state = initialState, action: any) => {
+    switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
-                ...state, ingredientRequest:true
+                ...state, ingredientRequest: true
             };
         }
         case GET_INGREDIENTS_SUCCESS: {
             return {
-                ...state, 
-                ingredientFailed: false, 
-                ingredientRequest: false, 
-                ingredients: action.ingredients.map((item:any) => { 
-                    return {...item, qty: 0}})
+                ...state,
+                ingredientFailed: false,
+                ingredientRequest: false,
+                ingredients: action.ingredients.map((item: any) => {
+                    return { ...item, qty: 0 }
+                })
             };
         }
         case GET_INGREDIENTS_FAILED: {
@@ -57,7 +58,7 @@ export const burgerReducer = (state = initialState, action:any) => {
         }
         case GET_INGREDIENT_BY_ID: {
             return {
-                ...state, viewedIngredient: state.ingredients.filter((i:any) => i._id === action._id)[0], modalVisible: true
+                ...state, viewedIngredient: state.ingredients.filter((i: any) => i._id === action._id)[0], modalVisible: true
             }
         }
         case CHANGE_TAB: {
@@ -70,28 +71,28 @@ export const burgerReducer = (state = initialState, action:any) => {
             return {
                 ...state,
                 selectedBun: isBun ? action.selectedIngredient : state.selectedBun,
-                selectedIngredients: isBun ? 
-                                state.selectedIngredients : 
-                                state.selectedIngredients.concat({...action.selectedIngredient, guid: action.guid}),
-                ingredients: [...state.ingredients].map((item:any) => {
+                selectedIngredients: isBun ?
+                    state.selectedIngredients :
+                    state.selectedIngredients.concat({ ...action.selectedIngredient, guid: action.guid }),
+                ingredients: [...state.ingredients].map((item: any) => {
                     // увеличить счетчик на 1 для выбранного ингредиента и на 2 для булок
                     if (item._id === action.selectedIngredient._id)
-                        return {...item, qty: isBun ? (item.qty+2) : ++item.qty};
+                        return { ...item, qty: isBun ? (item.qty + 2) : ++item.qty };
                     // сбросить счетчик на предыдущей булке
                     else if (isBun && state.selectedBun !== null && item._id === (state.selectedBun as any)._id)
-                        return {...item, qty: 0}
+                        return { ...item, qty: 0 }
                     return item;
-                })           
+                })
             }
         }
         case REMOVE_INGREDIENT: {
             if (action.removedIngredient.type === BUN)
-                return {...state};
-            return{
+                return { ...state };
+            return {
                 ...state,
                 selectedIngredients: [...state.selectedIngredients]
-                            .filter((item:any) => item.guid !== action.removedIngredient.guid),
-                ingredients: [...state.ingredients].map((item:any) => item._id === action.removedIngredient._id ? {...item, qty: --item.qty} : item)
+                    .filter((item: any) => item.guid !== action.removedIngredient.guid),
+                ingredients: [...state.ingredients].map((item: any) => item._id === action.removedIngredient._id ? { ...item, qty: --item.qty } : item)
             }
         }
         case MOVE_INGREDIENT: {
@@ -99,13 +100,14 @@ export const burgerReducer = (state = initialState, action:any) => {
             const draggableIngredient = state.selectedIngredients[action.dragIndex];
             const hoveredIngredient = state.selectedIngredients[action.hoverIndex];
 
-            return {...state, selectedIngredients: upwardDrag ? 
-                [...state.selectedIngredients.slice(0, action.hoverIndex), 
-                    draggableIngredient, hoveredIngredient, 
-                    ...state.selectedIngredients.slice(action.dragIndex+1)] :
-                [...state.selectedIngredients.slice(0, action.dragIndex), 
-                    hoveredIngredient, draggableIngredient, 
-                    ...state.selectedIngredients.slice(action.hoverIndex+1)]
+            return {
+                ...state, selectedIngredients: upwardDrag ?
+                    [...state.selectedIngredients.slice(0, action.hoverIndex),
+                        draggableIngredient, hoveredIngredient,
+                    ...state.selectedIngredients.slice(action.dragIndex + 1)] :
+                    [...state.selectedIngredients.slice(0, action.dragIndex),
+                        hoveredIngredient, draggableIngredient,
+                    ...state.selectedIngredients.slice(action.hoverIndex + 1)]
             };
         }
         case SUBMIT_ORDER_SUCCESS: {
@@ -113,7 +115,7 @@ export const burgerReducer = (state = initialState, action:any) => {
                 ...state,
                 selectedIngredients: [],
                 selectedBun: null,
-                ingredients: [...state.ingredients].map((item:any) => { return {...item, qty: 0}})
+                ingredients: [...state.ingredients].map((item: any) => { return { ...item, qty: 0 } })
             }
         }
         default: {

@@ -1,6 +1,6 @@
 export type IngredientType = 'bun' | 'sauce' | 'main';
 
-export interface IIngredient{
+export interface IIngredient {
     _id: string;
     name: string;
     type: IngredientType;
@@ -17,17 +17,17 @@ export interface IIngredient{
     guid?: number;
 }
 
-export interface IOrder{
+export interface IOrder {
     _id: number;
 }
 
-export interface IUser{
+export interface IUser {
     name: string;
     email: string;
     password?: string;
 }
 
-export interface IUserWithPass extends IUser{
+export interface IUserWithPass extends IUser {
     password: string;
 }
 
@@ -41,14 +41,14 @@ export type TRoute = {
     path: string;
 }
 
-export interface IRoutes{
-    [propertyName: string] : TRoute
+export interface IRoutes {
+    [propertyName: string]: TRoute
 }
 
-export interface LocationState{
+export interface LocationState {
     from?: {
         pathname: string;
-      };
+    };
 }
 
 export type TIngredientParam = {

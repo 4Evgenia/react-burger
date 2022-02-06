@@ -9,22 +9,22 @@ export const SERVER_ERROR_MESSAGE = "Server Error";
 export const UNAUTHORIZED = 401;
 export const OK = 200;
 
-export const buildUrl = (endPoint:string) => `${BASE_API_URL}${endPoint}`;
+export const buildUrl = (endPoint: string) => `${BASE_API_URL}${endPoint}`;
 
 export const authConfig = { headers: authHeader() };
 
-export const checkResponse = (res:AxiosResponse) => {
+export const checkResponse = (res: AxiosResponse) => {
     if (res.status === OK)
         return res.data;
     throw new Error(SERVER_ERROR_MESSAGE)
 }
 
-export const ifPathMatch = (path:string) => {
-    for(const route in ROUTES){
+export const ifPathMatch = (path: string) => {
+    for (const route in ROUTES) {
         const match = matchPath(path, {
             path: ROUTES[route].path,
             exact: true,
-            strict:false
+            strict: false
         })
         if (match)
             return true;

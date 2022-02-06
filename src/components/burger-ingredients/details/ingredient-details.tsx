@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 import styles from './ingredient-details.module.css';
 import { IIngredient } from '../../../models/models';
 
@@ -6,14 +6,14 @@ type TIngredientDetailsPropTypes = {
     ingredient: IIngredient;
 }
 
-const IngredientDetails:FC<TIngredientDetailsPropTypes> = ({ingredient}) => {
-     if (!ingredient)
+const IngredientDetails: FC<TIngredientDetailsPropTypes> = ({ ingredient }) => {
+    if (!ingredient)
         return null;
 
     return (
         <article className={styles.container}>
             <figure className="mb-4">
-                <img src={ingredient.image_large} alt={ingredient.name}/>
+                <img src={ingredient.image_large} alt={ingredient.name} />
             </figure>
             <section className="mb-8">
                 <h2 className="text text_type_main-medium">{ingredient.name}</h2>

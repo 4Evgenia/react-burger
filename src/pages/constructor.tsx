@@ -16,10 +16,10 @@ export const ConstructorPage: FC = () => {
     const {
         orderId,
         orderModalVisible
-    } = useSelector((state:any) => state.order);
-    
+    } = useSelector((state: any) => state.order);
+
     const onOrderModalClose = () => {
-        dispatch({type: HIDE_MODAL});
+        dispatch({ type: HIDE_MODAL });
     }
 
     return (<main className={constructorStyles.container}>
@@ -28,9 +28,9 @@ export const ConstructorPage: FC = () => {
             <BurgerConstructor />
         </DndProvider>
         {
-            orderId && (<Modal visible = {orderModalVisible} onCancel={onOrderModalClose}>
-                            <OrderDetails order={{_id: orderId}} />
-                        </Modal>)
+            orderId && (<Modal visible={orderModalVisible} onCancel={onOrderModalClose}>
+                <OrderDetails order={{ _id: orderId }} />
+            </Modal>)
         }
     </main>)
 }

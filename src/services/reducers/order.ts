@@ -19,19 +19,19 @@ export const orderReducer = (state = initialState, action: any) => {
                 ...state, orderRequest: true
             };
         }
-        case SUBMIT_ORDER_SUCCESS:{
+        case SUBMIT_ORDER_SUCCESS: {
             return {
-                ...state, orderRequest: false, orderFailed: false, orderId: action.orderId, orderModalVisible:true
+                ...state, orderRequest: false, orderFailed: false, orderId: action.orderId, orderModalVisible: true
             };
         }
         case SUBMIT_ORDER_FAILED: {
-            return{
+            return {
                 ...state, orderRequest: false, orderFailed: true
             }
         }
-        case HIDE_MODAL : {
+        case HIDE_MODAL: {
             return {
-                ...state, orderModalVisible:false, orderId: null
+                ...state, orderModalVisible: false, orderId: null
             }
         }
         default: {
