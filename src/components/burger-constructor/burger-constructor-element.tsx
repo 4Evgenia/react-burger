@@ -1,38 +1,46 @@
-import React, {forwardRef, useRef, useImperativeHandle} from 'react';
-import { ConstructorElement, DragIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { forwardRef, useRef, useImperativeHandle, FC, MutableRefObject } from 'react';
+import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from 'react-redux';
 import { REMOVE_INGREDIENT } from '../../services/actions/burger';
-import { ingredientPropType } from '../../utils/prop-type';
 import styles from './burger-constructor-element.module.css';
 import { DragSource, DropTarget } from 'react-dnd';
-import PropTypes from 'prop-types';
+import { IIngredient } from '../../models/models';
 
-const BurgerConstructorElement = forwardRef(({item, index, isDragging, connectDragSource, connectDropTarget}:any, ref) => {
-    const elementRef = useRef(null);
+type TBurgerConstructorProps = {
+    item: IIngredient;
+    index: number;
+    isDragging: boolean;
+    connectDragSource: (elementRef: MutableRefObject<HTMLDivElement | null>) => void;
+    connectDropTarget: (elementRef: MutableRefObject<HTMLDivElement | null>) => void;
+    moveIngredient: (dragIndex: number, hoverIndex: number) => void;
+};
+
+const BurgerConstructorElement: FC<TBurgerConstructorProps> = forwardRef(({ item, index, isDragging, connectDragSource, connectDropTarget }, ref) => {
+    const elementRef = useRef<HTMLDivElement>(null);
     connectDragSource(elementRef);
     connectDropTarget(elementRef);
     const opacity = isDragging ? 0 : 1;
     useImperativeHandle(ref, () => ({
         getNode: () => elementRef.current,
     }));
-    
+
     const dispatch = useDispatch();
 
     return (
-        <div ref={elementRef} style={{opacity}} className={styles.constructorElementContainer}>
-                <div className="mr-5"><DragIcon type="primary" /></div>
-                <ConstructorElement
-                    text={item.name}
-                    price={item.price} 
-                    thumbnail={item.image}
-                    handleClose={() => dispatch({type: REMOVE_INGREDIENT, removedIngredient: item})}
-        />
+        <div ref={elementRef} style={{ opacity }} className={styles.constructorElementContainer}>
+            <div className="mr-5"><DragIcon type="primary" /></div>
+            <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+                handleClose={() => dispatch({ type: REMOVE_INGREDIENT, removedIngredient: item })}
+            />
         </div>
     )
 });
 
 export default DropTarget('items', {
-    hover(props:any, monitor:any, component:any) {
+    hover(props: TBurgerConstructorProps, monitor, component) {
         if (!component) {
             return null;
         }
@@ -43,7 +51,7 @@ export default DropTarget('items', {
         }
 
         const dragItem = monitor.getItem();
-        if (!dragItem){
+        if (!dragItem) {
             return null;
         }
 
@@ -62,7 +70,7 @@ export default DropTarget('items', {
         // Determine mouse position
         const clientOffset = monitor.getClientOffset();
         // Get pixels to the top
-        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        const hoverClientY = clientOffset != null ? (clientOffset.y - hoverBoundingRect.top) : 0;
         // Only perform the move when the mouse has crossed half of the items height
         // When dragging downwards, only move when the cursor is below 50%
         // When dragging upwards, only move when the cursor is above 50%
@@ -85,20 +93,12 @@ export default DropTarget('items', {
 }, (connect) => ({
     connectDropTarget: connect.dropTarget(),
 }))(DragSource('items', {
-    beginDrag: (props:any) => (
-    {
-        id: props.item._id,
-        index: props.index,
-    }),
-}, (connect:any, monitor:any) => ({
+    beginDrag: (props: TBurgerConstructorProps) => (
+        {
+            id: props.item._id,
+            index: props.index,
+        }),
+}, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
 }))(BurgerConstructorElement));
-
-BurgerConstructorElement.propTypes = {
-    item: ingredientPropType.isRequired,
-    index: PropTypes.number.isRequired,
-    isDragging: PropTypes.bool.isRequired,
-    connectDragSource: PropTypes.func.isRequired,
-    connectDropTarget: PropTypes.func.isRequired
-}

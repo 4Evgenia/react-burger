@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './ingredient-details.module.css';
-import {ingredientPropType} from '../../../utils/prop-type';
+import { IIngredient } from '../../../models/models';
 
-const IngredientDetails = ({ingredient}:any) => {
-     if (!ingredient)
+type TIngredientDetailsPropTypes = {
+    ingredient: IIngredient;
+}
+
+const IngredientDetails: FC<TIngredientDetailsPropTypes> = ({ ingredient }) => {
+    if (!ingredient)
         return null;
 
     return (
         <article className={styles.container}>
             <figure className="mb-4">
-                <img src={ingredient.image_large} alt={ingredient.name}/>
+                <img src={ingredient.image_large} alt={ingredient.name} />
             </figure>
             <section className="mb-8">
                 <h2 className="text text_type_main-medium">{ingredient.name}</h2>
@@ -43,10 +47,6 @@ const IngredientDetails = ({ingredient}:any) => {
                 </div>
             </section>
         </article>);
-}
-
-IngredientDetails.propTypes = {
-    ingredient: ingredientPropType
 }
 
 export default IngredientDetails;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from '../layout/app-header/header';
-import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage  } from '../../pages';
+import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage } from '../../pages';
 import styles from './app.module.css';
 import ErrorBoundary from '../shared/error-boundary';
 import { ROUTES } from '../../models/constants';
@@ -10,25 +10,30 @@ import { UnauthRoute } from '../unauth-route';
 import BurgerDetailsModal from '../burger-details-modal/burger-details-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import { getIngredients } from '../../services/actions/burger';
+import { Location } from 'history';
+
+type TLocationBackground = {
+  background?: Location
+};
 
 function App() {
   const {
     ingredients
-  } = useSelector((state:any) => state.burger);
+  } = useSelector((state: any) => state.burger);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!ingredients.length) dispatch(getIngredients());
   }, [dispatch, ingredients]);
 
-  const location = useLocation();
-  const background = location.state && (location.state as any).background;
+  const location = useLocation<TLocationBackground>();
+  const background = location.state && location.state.background;
   return (
     <ErrorBoundary>
-    <div className={styles.container}>
-      <Header />
+      <div className={styles.container}>
+        <Header />
         <Switch location={background || location}>
-         <UnauthRoute path={ROUTES.Login.path} exact={true}>
+          <UnauthRoute path={ROUTES.Login.path} exact={true}>
             <LoginPage />
           </UnauthRoute>
           <UnauthRoute path={ROUTES.Register.path} exact={true}>
@@ -61,7 +66,7 @@ function App() {
         </Switch>
 
         {background && <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>}
-    </div>
+      </div>
     </ErrorBoundary>
   );
 }

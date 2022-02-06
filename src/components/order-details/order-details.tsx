@@ -1,9 +1,13 @@
-import React from 'react';
-import {orderPropType} from '../../utils/prop-type';
+import React, { FC } from 'react';
 import styles from './order-details.module.css';
-import { CheckMarkIcon  } from "@ya.praktikum/react-developer-burger-ui-components";
+import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { IOrder } from '../../models/models';
 
-const OrderDetails = ({order}:any) => (
+type TOrderDetails = {
+    order: IOrder;
+}
+
+const OrderDetails: FC<TOrderDetails> = ({ order }) => (
     <article>
         <main>
             <h1 className="text text_type_digits-large mb-8">{order._id}</h1>
@@ -23,8 +27,4 @@ const OrderDetails = ({order}:any) => (
     </article>
 );
 
-
-OrderDetails.propTypes = {
-    order: orderPropType.isRequired
-}
 export default OrderDetails;

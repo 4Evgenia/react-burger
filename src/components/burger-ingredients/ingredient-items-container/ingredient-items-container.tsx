@@ -1,30 +1,28 @@
-import React from "react";
-import IngredientItems from '../ingredient-items/ingredient-items';
-import PropTypes from 'prop-types';
-import {ingredientPropType} from '../../../utils/prop-type';
-import {TABS} from '../../../models/constants';
+import React, { FC } from "react";
+import IngredientItems, { TIngredientsProps } from '../ingredient-items/ingredient-items';
+import { TABS } from '../../../models/constants';
+import { IIngredient, TTab, IngredientType } from "../../../models/models";
 
-const IngredientItemsContainer = (props:any) => {
-    const ingredients:any = {};
-    TABS.forEach((tab: any) => ingredients[tab.type] = props.ingredients.filter((i:any) => i.type === tab.type));
+type TIterableIngredients = {
+    [type in IngredientType]: Array<IIngredient>;
+}
+
+const IngredientItemsContainer: FC<TIngredientsProps> = (props) => {
+    const ingredients: TIterableIngredients = { bun: [], sauce: [], main: [] };
+    TABS.forEach((tab: TTab) => ingredients[tab.type] = props.ingredients.filter((i: IIngredient) => i.type === tab.type));
 
     return (
         <>
-        { TABS.map((tab:any) => (<IngredientItems 
-            title={tab.displayName} 
-            key={tab.type}
-            type={tab.type}
-            ingredients = { ingredients[tab.type] }
-            onSelectIngredient = {props.onSelectIngredient} 
+            {TABS.map((tab: TTab) => (<IngredientItems
+                title={tab.displayName}
+                key={tab.type}
+                type={tab.type}
+                ingredients={ingredients[tab.type]}
+                onSelectIngredient={props.onSelectIngredient}
             />))
-        }
+            }
         </>
     );
-}
-
-IngredientItemsContainer.propTypes = {
-    ingredients: PropTypes.arrayOf(ingredientPropType).isRequired,
-    onSelectIngredient: PropTypes.func.isRequired
 }
 
 export default IngredientItemsContainer

@@ -9,4 +9,4 @@ import { OrdersPage } from './orders';
 import { OrderHistoryPage } from './order-history';
 import { NotFoundPage } from './not-found';
 
-export { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage};
+export { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage };

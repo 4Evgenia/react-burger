@@ -1,9 +1,15 @@
-import React from "react";
+import React, { ReactNode, FC } from "react";
 import styles from './navigation-item.module.css';
-import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
-const NavigationItem = (props:any) => {
+type TNavItemProps = {
+    text: string;
+    children: ReactNode,
+    path: string,
+    exact?: boolean
+}
+
+const NavigationItem: FC<TNavItemProps> = (props) => {
     return (
         <div className="pl-5">
             <NavLink to={props.path} activeClassName={styles.active} className={styles.inactive} exact={props.exact ?? false}>
@@ -12,13 +18,6 @@ const NavigationItem = (props:any) => {
             </NavLink>
         </div>
     );
-}
-
-NavigationItem.propTypes = {
-    text: PropTypes.string.isRequired,
-    children: PropTypes.element.isRequired,
-    path: PropTypes.string.isRequired,
-    exact: PropTypes.bool
 }
 
 export default NavigationItem;

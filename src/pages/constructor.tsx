@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import constructorStyles from './constructor.module.css';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
@@ -10,16 +10,16 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
 
-export const ConstructorPage = () => {
+export const ConstructorPage: FC = () => {
     const dispatch = useDispatch();
 
     const {
         orderId,
         orderModalVisible
-    } = useSelector((state:any) => state.order);
-    
+    } = useSelector((state: any) => state.order);
+
     const onOrderModalClose = () => {
-        dispatch({type: HIDE_MODAL});
+        dispatch({ type: HIDE_MODAL });
     }
 
     return (<main className={constructorStyles.container}>
@@ -28,9 +28,9 @@ export const ConstructorPage = () => {
             <BurgerConstructor />
         </DndProvider>
         {
-            orderId && (<Modal visible = {orderModalVisible} onCancel={onOrderModalClose}>
-                            <OrderDetails order={{_id: orderId}} />
-                        </Modal>)
+            orderId && (<Modal visible={orderModalVisible} onCancel={onOrderModalClose}>
+                <OrderDetails order={{ _id: orderId }} />
+            </Modal>)
         }
     </main>)
 }

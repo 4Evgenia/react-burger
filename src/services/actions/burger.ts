@@ -12,13 +12,13 @@ export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT';
 export const MOVE_INGREDIENT = 'MOVE_INGREDIENT';
 
-export function getIngredients(){
-    return function(dispatch:any){
+export function getIngredients() {
+    return function (dispatch: any) {
         dispatch({
             type: GET_INGREDIENTS_REQUEST
         });
         fetchIngredients().then(res => {
-            if (res && res.success){
+            if (res && res.success) {
                 dispatch({
                     type: GET_INGREDIENTS_SUCCESS,
                     ingredients: res.data
@@ -32,6 +32,6 @@ export function getIngredients(){
             dispatch({
                 type: GET_INGREDIENTS_FAILED
             })
-       })
+        })
     };
 }
