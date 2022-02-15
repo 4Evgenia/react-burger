@@ -1,12 +1,12 @@
 import React, { useRef } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-ingredients.module.css';
 import IngredientItemsContainer from './ingredient-items-container/ingredient-items-container';
 import { TABS } from '../../models/constants';
 import {
-    CHANGE_TAB,
-    SHOW_INGREDIENT_DETAILS
+    changeTab,
+    showIngredientDetails
 } from '../../services/actions/burger';
 import { IIngredient, TTab } from "../../models/models";
 
@@ -16,13 +16,13 @@ const BurgerIngredients = () => {
     const {
         ingredients,
         activeTab
-    } = useSelector((state: any) => state.burger);
+    } = useSelector(state => state.burger);
 
-    const onChangeActiveTab = (activeItem: string) => dispatch({ type: CHANGE_TAB, selectedTab: activeItem });
+    const onChangeActiveTab = (activeItem: string) => dispatch(changeTab(activeItem));
     const burgerIngredient = useRef<HTMLDivElement>(null);
 
     const onSelectIngredient = (ingredient: IIngredient) => {
-        dispatch({ type: SHOW_INGREDIENT_DETAILS, selectedIngredient: ingredient });
+        dispatch(showIngredientDetails(ingredient));
     }
 
     const calculateCoordinates = (element: HTMLElement) => {

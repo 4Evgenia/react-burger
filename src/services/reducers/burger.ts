@@ -1,3 +1,6 @@
+import { IIngredient } from '../../models/models';
+import { TBurgerActions } from '../actions/burger';
+import { TOrderActions } from '../actions/order';
 import {
     GET_INGREDIENTS_FAILED,
     GET_INGREDIENTS_REQUEST,
@@ -8,12 +11,23 @@ import {
     ADD_INGREDIENT,
     REMOVE_INGREDIENT,
     MOVE_INGREDIENT,
-    GET_INGREDIENT_BY_ID
-} from '../actions/burger';
-import { SUBMIT_ORDER_SUCCESS } from '../actions/order';
+    GET_INGREDIENT_BY_ID,
+    SUBMIT_ORDER_SUCCESS
+} from '../constants';
 import { TABS, BUN } from '../../models/constants';
 
-const initialState = {
+type TBurgerState = {
+    ingredients: IIngredient[],
+    ingredientRequest: boolean,
+    ingredientFailed: boolean,
+    viewedIngredient: IIngredient | null,
+    activeTab: string,
+    modalVisible: boolean,
+    selectedIngredients: IIngredient[],
+    selectedBun: IIngredient | null
+}
+
+const initialState : TBurgerState = {
     ingredients: [],
     ingredientRequest: false,
     ingredientFailed: false,
@@ -24,7 +38,7 @@ const initialState = {
     selectedBun: null
 }
 
-export const burgerReducer = (state = initialState, action: any) => {
+export const burgerReducer = (state = initialState, action: TBurgerActions | TOrderActions):TBurgerState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {
@@ -36,7 +50,7 @@ export const burgerReducer = (state = initialState, action: any) => {
                 ...state,
                 ingredientFailed: false,
                 ingredientRequest: false,
-                ingredients: action.ingredients.map((item: any) => {
+                ingredients: action.ingredients.map((item: IIngredient) => {
                     return { ...item, qty: 0 }
                 })
             };
@@ -58,7 +72,7 @@ export const burgerReducer = (state = initialState, action: any) => {
         }
         case GET_INGREDIENT_BY_ID: {
             return {
-                ...state, viewedIngredient: state.ingredients.filter((i: any) => i._id === action._id)[0], modalVisible: true
+                ...state, viewedIngredient: state.ingredients.filter((i: IIngredient) => i._id === action._id)[0], modalVisible: true
             }
         }
         case CHANGE_TAB: {
@@ -74,12 +88,12 @@ export const burgerReducer = (state = initialState, action: any) => {
                 selectedIngredients: isBun ?
                     state.selectedIngredients :
                     state.selectedIngredients.concat({ ...action.selectedIngredient, guid: action.guid }),
-                ingredients: [...state.ingredients].map((item: any) => {
+                ingredients: [...state.ingredients].map((item: IIngredient) => {
                     // увеличить счетчик на 1 для выбранного ингредиента и на 2 для булок
                     if (item._id === action.selectedIngredient._id)
                         return { ...item, qty: isBun ? (item.qty + 2) : ++item.qty };
                     // сбросить счетчик на предыдущей булке
-                    else if (isBun && state.selectedBun !== null && item._id === (state.selectedBun as any)._id)
+                    else if (isBun && state.selectedBun !== null && item._id === state.selectedBun._id)
                         return { ...item, qty: 0 }
                     return item;
                 })
@@ -91,8 +105,8 @@ export const burgerReducer = (state = initialState, action: any) => {
             return {
                 ...state,
                 selectedIngredients: [...state.selectedIngredients]
-                    .filter((item: any) => item.guid !== action.removedIngredient.guid),
-                ingredients: [...state.ingredients].map((item: any) => item._id === action.removedIngredient._id ? { ...item, qty: --item.qty } : item)
+                    .filter(item => item.guid !== action.removedIngredient.guid),
+                ingredients: [...state.ingredients].map(item => item._id === action.removedIngredient._id ? { ...item, qty: --item.qty } : item)
             }
         }
         case MOVE_INGREDIENT: {
@@ -115,7 +129,7 @@ export const burgerReducer = (state = initialState, action: any) => {
                 ...state,
                 selectedIngredients: [],
                 selectedBun: null,
-                ingredients: [...state.ingredients].map((item: any) => { return { ...item, qty: 0 } })
+                ingredients: [...state.ingredients].map(item => { return { ...item, qty: 0 } })
             }
         }
         default: {

@@ -3,7 +3,7 @@ import styles from './ingredient-details.module.css';
 import { IIngredient } from '../../../models/models';
 
 type TIngredientDetailsPropTypes = {
-    ingredient: IIngredient;
+    ingredient: IIngredient | null;
 }
 
 const IngredientDetails: FC<TIngredientDetailsPropTypes> = ({ ingredient }) => {

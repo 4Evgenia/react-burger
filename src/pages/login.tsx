@@ -3,14 +3,14 @@ import styles from './page.module.css';
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect, useLocation } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import { login } from '../services/actions/auth';
 import ErrorMessage from '../components/shared/error-message';
 import { LocationState } from '../models/models';
 
 
 export const LoginPage: FC = () => {
-    const { user, loginFailed } = useSelector((state: any) => state.auth);
+    const { user, loginFailed } = useSelector(state => state.auth);
 
     const dispatch = useDispatch();
     const location = useLocation<LocationState>();

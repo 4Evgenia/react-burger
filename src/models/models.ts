@@ -14,7 +14,7 @@ export interface IIngredient {
     image_large: string;
     __v: number;
     qty: number;
-    guid?: number;
+    guid?: string;
 }
 
 export interface IOrder {

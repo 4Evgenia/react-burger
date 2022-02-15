@@ -1,18 +1,26 @@
+import type { TOrderActions } from '../actions/order';
 import {
     SUBMIT_ORDER_FAILED,
     SUBMIT_ORDER_REQUEST,
     SUBMIT_ORDER_SUCCESS,
     HIDE_MODAL
-} from '../actions/order';
+} from '../constants';
 
-const initialState = {
+type TOrderState = {
+    orderId: number | null,
+    orderRequest: boolean,
+    orderFailed: boolean,
+    orderModalVisible: boolean
+}
+
+const initialState : TOrderState = {
     orderId: null,
     orderRequest: false,
     orderFailed: false,
     orderModalVisible: false
 }
 
-export const orderReducer = (state = initialState, action: any) => {
+export const orderReducer = (state = initialState, action: TOrderActions):TOrderState => {
     switch (action.type) {
         case SUBMIT_ORDER_REQUEST: {
             return {

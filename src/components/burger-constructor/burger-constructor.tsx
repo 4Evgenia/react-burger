@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { ConstructorElement, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from './burger-constructor.module.css';
 import TotalOrderSum from './total-order-sum/total-order-sum';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import { submitOrder } from '../../services/actions/order';
-import { ADD_INGREDIENT, MOVE_INGREDIENT } from '../../services/actions/burger';
+import { addIngredient, moveIngredient } from '../../services/actions/burger';
 import { useDrop } from 'react-dnd';
 import BurgerConstructorElement from './burger-constructor-element';
 import EmptyBurger from './empty-burger';
@@ -21,10 +21,10 @@ const BurgerConstructor: FC = () => {
     const {
         selectedIngredients,
         selectedBun
-    } = useSelector((state: any) => state.burger);
+    } = useSelector(state => state.burger);
 
-    const { user, getUserSuccess } = useSelector((state: any) => state.auth);
-    const { orderRequest } = useSelector((state: any) => state.order);
+    const { user, getUserSuccess } = useSelector(state => state.auth);
+    const { orderRequest } = useSelector(state => state.order);
     const history = useHistory();
 
     const onOrderSubmitted = () => {
@@ -36,14 +36,14 @@ const BurgerConstructor: FC = () => {
         }
     }
 
-    const moveIngredient = (dragIndex: number, hoverIndex: number) => {
-        dispatch({ type: MOVE_INGREDIENT, dragIndex: dragIndex, hoverIndex: hoverIndex });
+    const onMoveIngredient = (dragIndex: number, hoverIndex: number) => {
+        dispatch(moveIngredient(dragIndex, hoverIndex));
     }
 
     const [, dropTarget] = useDrop({
         accept: 'ingredient',
         drop(item: { ingredient: IIngredient }) {
-            dispatch({ type: ADD_INGREDIENT, selectedIngredient: item.ingredient, guid: uuidv4() });
+            dispatch(addIngredient(item.ingredient, uuidv4()));
         }
     })
 
@@ -63,7 +63,7 @@ const BurgerConstructor: FC = () => {
                                     item={item}
                                     index={index}
                                     key={item.guid}
-                                    moveIngredient={moveIngredient} />)}
+                                    moveIngredient={onMoveIngredient} />)}
                             </div>
                             <div className={styles.constructorElementContainer}>
                                 <div className={styles.nonDragContainer}></div>
@@ -73,7 +73,8 @@ const BurgerConstructor: FC = () => {
                     )}
             </div>
             {(selectedIngredients.length !== 0 || selectedBun) && (<div className={`mt-10 ${styles.summary}`}>
-                <TotalOrderSum prices={selectedIngredients.concat({ ...selectedBun }, { ...selectedBun }).map((item: IIngredient) => item === null ? 0 : item.price)} />
+                <TotalOrderSum prices={selectedIngredients.concat([{ ...selectedBun }, { ...selectedBun }] as ConcatArray<IIngredient>)
+                    .map((item: IIngredient) => item === null ? 0 : item.price)} />
                 <div>
                     {!orderRequest && (<Button type="primary" size="medium" onClick={onOrderSubmitted} disabled={!selectedBun}>
                         Оформить

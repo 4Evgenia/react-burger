@@ -8,7 +8,7 @@ import { ROUTES } from '../../models/constants';
 import { ProtectedRoute } from '../protected-route';
 import { UnauthRoute } from '../unauth-route';
 import BurgerDetailsModal from '../burger-details-modal/burger-details-modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/types/hooks';
 import { getIngredients } from '../../services/actions/burger';
 import { Location } from 'history';
 
@@ -19,7 +19,7 @@ type TLocationBackground = {
 function App() {
   const {
     ingredients
-  } = useSelector((state: any) => state.burger);
+  } = useSelector(state => state.burger);
   const dispatch = useDispatch();
 
   useEffect(() => {

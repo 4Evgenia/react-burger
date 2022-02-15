@@ -1,6 +1,6 @@
 import React, { ChangeEvent, SyntheticEvent, useState, useEffect, FC } from 'react';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import ErrorMessage from '../components/shared/error-message';
 import Message from '../components/shared/successfull-message';
 import NavContainer from '../components/profile/nav-container';
@@ -12,9 +12,11 @@ type TDisabledField = {
     [key: string]: boolean
 }
 
+type TField = keyof IUser;
+
 export const ProfilePage: FC = () => {
-    const { user, setUserFailed, setUserSuccess } = useSelector((state: any) => state.auth);
-    const initialState: IUser = { name: user.name, email: user.email, password: '' };
+    const { user, setUserFailed, setUserSuccess } = useSelector(state => state.auth);
+    const initialState: IUser = { name: user?.name ?? '', email: user?.email ?? '', password: '' };
     const initialDisabledState: TDisabledField = {
         email: true,
         name: true,
@@ -33,12 +35,14 @@ export const ProfilePage: FC = () => {
     }, [setUserSuccess]);
 
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => setUserForm({ ...userForm, [e.target.name]: e.target.value });
-    const onIconClick = (field: string) => {
-        setUserForm({ ...userForm, [field]: user[field] ?? '' })
-        setDisabled({ ...disabled, [field]: !disabled[field] })
+    const onIconClick = (field: TField) => {
+        if (user != null){
+            setUserForm({ ...userForm, [field]: user[field] ?? '' })
+            setDisabled({ ...disabled, [field]: !disabled[field] })
+        }
     }
 
-    const formChanged = (): boolean => user.name !== userForm.name || user.email !== userForm.email || userForm.password !== '';
+    const formChanged = (): boolean => user?.name !== userForm.name || user?.email !== userForm.email || userForm.password !== '';
 
     const onCancelClick = (e: SyntheticEvent) => {
         e.preventDefault();
