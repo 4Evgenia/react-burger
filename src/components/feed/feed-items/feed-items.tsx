@@ -4,13 +4,21 @@ import FeedItem, { TSelectFeedITemFunc } from '../feed-item/feed-item';
 
 export type TFeedProps = {
   orders: ReadonlyArray<IFeedItem>;
-  onSelectFeedItem: TSelectFeedITemFunc
+  onSelectFeedItem: TSelectFeedITemFunc;
+  pathToItem: string;
+  header?:string;
+  reverse?: boolean;
 }
 
-const FeedItems: FC<TFeedProps> = ({orders, onSelectFeedItem}) => {
+const FeedItems: FC<TFeedProps> = ({ orders, onSelectFeedItem, pathToItem, reverse }) => {
   return (
-    <section>
-      {orders.map(item => (<FeedItem key={item._id} feedItem={item} showItemStatus={true} onSelectFeedItem={onSelectFeedItem}/>))}
+    <section style={{ display: "flex", flexDirection: reverse ? "column-reverse" : "column"}}>
+      {orders.map(item => (<FeedItem key={item._id}
+        feedItem={item}
+        showItemStatus={true}
+        onSelectFeedItem={onSelectFeedItem}
+        pathToItem={pathToItem}
+      />))}
     </section>
   );
 }

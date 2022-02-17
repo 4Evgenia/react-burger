@@ -1,11 +1,4 @@
 .scroll{
-    height: 60vh;
+    height: 100vh;
     overflow-y: scroll;
-}
-
-.container{
-    display: flex;
-    flex-direction: column;
-    width: 33vw;
-    min-width: 620px;
 }

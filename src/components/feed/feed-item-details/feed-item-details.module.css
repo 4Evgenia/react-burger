@@ -44,3 +44,12 @@
     display: flex;
     justify-content: space-between;
 }
+
+.primary{
+    color: #F2F2F3;
+}
+
+.title{
+    width: 13vw;
+    text-align: left;
+}

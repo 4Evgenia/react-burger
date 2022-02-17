@@ -6,7 +6,6 @@ import { getOrderById, hideFeedItemDetailsModal } from '../../../services/action
 import { TIdParam } from '../../../models/models';
 import FeedItemDetails from '../feed-item-details/feed-item-details';
 
-
 const FeedDetailsModal: FC = () => {
     const { viewedOrder, feedItemModalVisible, orders } = useSelector(state => state.feed);
     const dispatch = useDispatch();

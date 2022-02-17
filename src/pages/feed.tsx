@@ -9,7 +9,7 @@ import { showOrderDetails } from '../services/actions/wsFeed';
 
 export const FeedPage: FC = () => {
     const dispatch = useDispatch();
-    const {orders, summary, wsConnected } = useSelector(state => state.feed);
+    const { orders, summary, wsConnected } = useSelector(state => state.feed);
 
     const onSelectFeedItem = (feedItem: IFeedItem) => {
         dispatch(showOrderDetails(feedItem));
@@ -23,7 +23,9 @@ export const FeedPage: FC = () => {
 
     return (
         <main className={constructorStyles.container}>
-            <Feed orders={orders} onSelectFeedItem={onSelectFeedItem}/>
+            <div className={constructorStyles.feedContainer}>
+                <Feed orders={orders} onSelectFeedItem={onSelectFeedItem} pathToItem="feed" header='Лента заказов'/>
+            </div>
             <FeedSummary summary={summary} />
         </main>
     );

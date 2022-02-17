@@ -10,7 +10,7 @@ import {
 } from '../constants';
 import { TWsFeedActions } from '../actions/wsFeed';
 import { DONE_STATUS } from '../../models/constants';
-import { onlyUnique } from '../../utils/utils';
+import { mapFeedDbItemsToFeedItems, onlyUnique } from '../../utils/utils';
 
 type TFeedState = {
     orders: ReadonlyArray<IFeedItem>,
@@ -47,27 +47,6 @@ export const feedReducer = (state = initialState, action: TWsFeedActions): TFeed
         case WS_GET_MESSAGE:
             const done = action.feed.orders.filter(o => o.status === DONE_STATUS).map(o => o.number);
             const pending = action.feed.orders.filter(o => o.status !== DONE_STATUS).map(o => o.number);
-            const feedOrders = action.feed.orders.map(o => {
-                let countedIngs: CountedIngredients = {};
-                o.ingredients.forEach(ing => {
-                    countedIngs = { ...countedIngs, [ing]: isNaN(countedIngs[ing]) ? 1 : countedIngs[ing] + 1 }
-                });
-                
-                const uniqueIng = o.ingredients.filter(onlyUnique);
-
-                let order: IFeedItem = {
-                    date: o.createdAt,
-                    title: o.name,
-                    _id: o._id,
-                    number: o.number,
-                    status: o.status,
-                    ingredients: uniqueIng.map(id => {
-                        const ingredient = action.ingredients.filter(ing => ing._id === id)[0];
-                        return { ...ingredient, qty: countedIngs[id] };
-                    })
-                }
-                return order;
-            })
 
             return {
                 ...state,
@@ -78,7 +57,7 @@ export const feedReducer = (state = initialState, action: TWsFeedActions): TFeed
                     total: action.feed.total,
                     totalToday: action.feed.totalToday
                 },
-                orders: feedOrders
+                orders: mapFeedDbItemsToFeedItems(action.feed.orders, action.ingredients)
             }
 
         case HIDE_MODAL_FEED: 
@@ -100,9 +79,5 @@ export const feedReducer = (state = initialState, action: TWsFeedActions): TFeed
             return state;
         }
     }
-}
-
-type CountedIngredients = {
-    [key: string]: number;
 }
 

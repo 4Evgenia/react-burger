@@ -25,6 +25,7 @@ import { useDispatch, useSelector } from '../../services/types/hooks';
 import { getIngredients } from '../../services/actions/burger';
 import { Location } from 'history';
 import FeedDetailsModal from '../feed/feed-details-modal/feed-details-modal';
+import ProfileFeedDetailsModal from '../profile/profile-feed-modal';
 
 type TLocationBackground = {
   background?: Location
@@ -89,6 +90,7 @@ function App() {
           <Switch>
             <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>
             <Route path={ROUTES.Order.path} children={< FeedDetailsModal />}></Route>
+            <Route path={ROUTES.OrderHistory.path} exact={true} children={< ProfileFeedDetailsModal />}></Route>
           </Switch>
         }
       </div>
