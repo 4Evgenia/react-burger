@@ -16,7 +16,7 @@ import {
 } from '../constants';
 import { TABS, BUN } from '../../models/constants';
 
-type TBurgerState = {
+export type TBurgerState = {
     ingredients: IIngredient[],
     ingredientRequest: boolean,
     ingredientFailed: boolean,

@@ -1,0 +1,13 @@
+.column{
+    display: flex;
+}
+
+.table{
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.done{
+    color: #00CCCC;
+}

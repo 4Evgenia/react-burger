@@ -58,3 +58,35 @@ export type TIngredientParam = {
 export type TMessage = {
     message: string;
 }
+
+export interface IFeedItem {
+    date: string;
+    title: string;
+    status: string;
+    ingredients: IIngredient[];
+    _id: string;
+    number: number;
+}
+
+export interface IFeedSummary {
+    done: number[];
+    inProgress: number[];
+    total: number;
+    totalToday: number;
+}
+
+export interface IFeed {
+    orders: ReadonlyArray<IFeedItemDb>;
+    total: number;
+    totalToday: number;
+}
+
+export interface IFeedItemDb {
+    ingredients: ReadonlyArray<string>;
+    _id: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+    name: string;
+}

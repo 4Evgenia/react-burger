@@ -1,4 +1,7 @@
 import { ACCESS_TOKEN_COOKIE, AUTH_PREFIX, REFRESH_TOKEN_COOKIE } from "../models/constants";
+import moment from "moment";
+import 'moment/locale/ru';
+import { IIngredient } from "../models/models";
 
 export function getCookie(name: string) {
   const matches = document.cookie.match(
@@ -52,7 +55,33 @@ export const storeTokens = (response: TTokenResponse) => {
   }
 }
 
+export const calculateDateString = (date: string) => {
+  const dateMoment = moment(date, "YYYYMMDD hh:mm:ss Z");
+  const today = moment().startOf('day');
+  const yesterday = moment().startOf('day').subtract(1, 'days').startOf('day');
+  let result = '';
+  if (dateMoment.isSame(today, 'D')) {
+    result = 'Сегодня';
+  }
+  else if (dateMoment.isSame(yesterday, 'D')) {
+    result = 'Вчера';
+  }
+  else {
+    result = dateMoment.fromNow();
+  }
+  return `${result}, ${dateMoment.format('HH:mm i-GМTZ')}`;
+}
+
 export type TTokenResponse = {
   accessToken?: string;
   refreshToken?: string;
+}
+
+export const onlyUnique = (value: string, index: number, self: readonly string[]) =>
+  self.indexOf(value) === index;
+
+export const calculateTotal = (ingredients: IIngredient[]) => {
+  if (ingredients.length === 0)
+       return 0;
+  return ingredients.reduce((acc: number, ing: IIngredient) => acc + ing.price * ing.qty, 0);
 }

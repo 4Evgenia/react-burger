@@ -17,8 +17,8 @@ const Header: FC = () => {
                     <BurgerIcon type={pathname === ROUTES.Home.path ? "primary" : "secondary"} />
                 </NavigationItem>
 
-                <NavigationItem text={ROUTES.Orders.title} path={ROUTES.Orders.path} >
-                    <ListIcon type={pathname === ROUTES.Orders.path ? "primary" : "secondary"} />
+                <NavigationItem text={ROUTES.Feed.title} path={ROUTES.Feed.path} >
+                    <ListIcon type={pathname.indexOf(ROUTES.Feed.path) >= 0 ? "primary" : "secondary"} />
                 </NavigationItem>
             </div>
 

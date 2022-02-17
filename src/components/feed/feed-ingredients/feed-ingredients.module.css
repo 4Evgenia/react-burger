@@ -1,0 +1,29 @@
+.ingredients{
+    display: flex;
+}
+
+.imageContainer{
+    background: 
+    linear-gradient(#131316,#131316) padding-box,
+    linear-gradient(63.18deg, #801AB2, #4C4CFF) border-box;
+    border: 2px solid transparent;
+    width: 64px;
+    height: 64px;
+    border-radius: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+}
+
+.image{
+    width: 112px;
+    height: 64px;
+}
+
+.rest{
+    position: absolute;
+    text-align: center;
+    top: 33%;
+}

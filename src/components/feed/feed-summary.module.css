@@ -1,0 +1,18 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+}
+
+.workSummary{
+    display: flex;
+    flex-direction: row;
+}
+
+.inProgressContainer{
+    min-width: 250px;
+}
+
+.doneContainer{
+    min-width: 250px;
+}

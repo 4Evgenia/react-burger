@@ -1,7 +1,20 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import Header from '../layout/app-header/header';
-import { ConstructorPage, ForgotPasswordPage, IngredientPage, LoginPage, ProfilePage, RegisterPage, ResetPasswordPage, OrdersPage, OrderHistoryPage, NotFoundPage } from '../../pages';
+import {
+  ConstructorPage,
+  ForgotPasswordPage,
+  IngredientPage,
+  LoginPage,
+  ProfilePage,
+  RegisterPage,
+  ResetPasswordPage,
+  FeedPage,
+  OrderHistoryPage,
+  NotFoundPage,
+  FeedOrderPage,
+  HistoryPage
+} from '../../pages';
 import styles from './app.module.css';
 import ErrorBoundary from '../shared/error-boundary';
 import { ROUTES } from '../../models/constants';
@@ -52,14 +65,20 @@ function App() {
             <ProfilePage />
           </ProtectedRoute>
           <ProtectedRoute path={ROUTES.History.path} exact={true}>
+            <HistoryPage />
+          </ProtectedRoute>
+          <ProtectedRoute path={ROUTES.OrderHistory.path} exact={true}>
             <OrderHistoryPage />
           </ProtectedRoute>
           <Route path={ROUTES.Ingredient.path} exact={true}>
             <IngredientPage />
           </Route>
-          <ProtectedRoute path={ROUTES.Orders.path} exact={true}>
-            <OrdersPage />
-          </ProtectedRoute>
+          <Route path={ROUTES.Feed.path} exact={true}>
+            <FeedPage />
+          </Route>
+          <Route path={ROUTES.Order.path} exact={true}>
+            <FeedOrderPage />
+          </Route>
           <Route>
             <NotFoundPage />
           </Route>
