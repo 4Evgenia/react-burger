@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styles from './status.module.css';
-import { DONE_STATUS, PENDING_STATUS, CREATED_STATUS } from '../../models/constants';
+import { DONE_STATUS } from '../../models/constants';
 
 type TStatusProps = {
     status: string;

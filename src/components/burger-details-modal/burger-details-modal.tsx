@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from '../../services/types/hooks';
 import { useHistory, useParams } from 'react-router-dom';
 import Modal from '../layout/modal/modal';
 import { getIngredientById, hideIngredientDetails } from '../../services/actions/burger';
-import { TIngredientParam } from '../../models/models';
+import { TIdParam } from '../../models/models';
 
 
 const BurgerDetailsModal: FC = () => {
     const { viewedIngredient, modalVisible, ingredients } = useSelector(state => state.burger);
     const dispatch = useDispatch();
     const history = useHistory();
-    const { id } = useParams<TIngredientParam>();
+    const { id } = useParams<TIdParam>();
 
     useEffect(() => {
         if (id && ingredients.length !== 0) {

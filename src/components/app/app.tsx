@@ -24,6 +24,7 @@ import BurgerDetailsModal from '../burger-details-modal/burger-details-modal';
 import { useDispatch, useSelector } from '../../services/types/hooks';
 import { getIngredients } from '../../services/actions/burger';
 import { Location } from 'history';
+import FeedDetailsModal from '../feed/feed-details-modal/feed-details-modal';
 
 type TLocationBackground = {
   background?: Location
@@ -84,7 +85,12 @@ function App() {
           </Route>
         </Switch>
 
-        {background && <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>}
+        {background && 
+          <Switch>
+            <Route path={ROUTES.Ingredient.path} children={< BurgerDetailsModal />}></Route>
+            <Route path={ROUTES.Order.path} children={< FeedDetailsModal />}></Route>
+          </Switch>
+        }
       </div>
     </ErrorBoundary>
   );

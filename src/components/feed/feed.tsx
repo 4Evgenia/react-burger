@@ -2,9 +2,7 @@ import React, { FC } from "react";
 import styles from './feed.module.css';
 import FeedItems, { TFeedProps } from '../feed/feed-items/feed-items';
 
-
-
-const Feed: FC<TFeedProps> = ({orders}) => {
+const Feed: FC<TFeedProps> = ({orders, onSelectFeedItem}) => {
     return (
         <section className={styles.container}>
             <div className="pl-5">
@@ -13,7 +11,7 @@ const Feed: FC<TFeedProps> = ({orders}) => {
                 </section>
                 <section className="mt-5">
                         <div className={styles.scroll}>
-                            <FeedItems orders={orders}/>
+                            <FeedItems orders={orders} onSelectFeedItem={onSelectFeedItem} />
                         </div>
                  </section>
             </div>

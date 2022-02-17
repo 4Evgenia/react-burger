@@ -27,7 +27,7 @@ const FeedIngredients: FC<TFeedIngredientsProps> = ({ingredients, maxIngredients
                             className={styles.imageContainer}>
                             <img src={ingredient.image_mobile} style={{ opacity: 0.6 }} alt={ingredient.name} />
                             <div style={{opacity: 1}} className={`${styles.rest} text text_type_main-default`}>
-                                +{ingredients.length - maxIngredientsToDisplay}
+                                <span className={styles.primary}>+{ingredients.length - maxIngredientsToDisplay}</span>
                             </div>
                         </div>
                     )

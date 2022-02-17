@@ -51,7 +51,7 @@ export interface LocationState {
     };
 }
 
-export type TIngredientParam = {
+export type TIdParam = {
     id: string;
 }
 

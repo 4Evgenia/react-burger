@@ -2,7 +2,7 @@ import {
     TWsFeedActions,
     wsFeedConnectionClosed,
     wsFeedConnectionError,
-    wsFeedConnectionStart,
+    wsFeedConnectionSuccess,
     wsFeedGetMessage
 } from '../actions/wsFeed';
 import type { Middleware, MiddlewareAPI } from 'redux';
@@ -30,7 +30,7 @@ export const socketMiddleware = (wsUrl: string, includeToken: boolean = false): 
             if (socket) {
                 // функция, которая вызывается при открытии сокета
                 socket.onopen = () => {
-                    dispatch(wsFeedConnectionStart());
+                    dispatch(wsFeedConnectionSuccess());
                 };
 
                 // функция, которая вызывается при ошибке соединения

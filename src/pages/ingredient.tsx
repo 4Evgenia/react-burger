@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from '../services/types/hooks';
 import { useParams } from 'react-router-dom';
 import { getIngredientById } from '../services/actions/burger';
 import styles from './page.module.css';
-import { TIngredientParam } from '../models/models';
+import { TIdParam } from '../models/models';
 
 export const IngredientPage: FC = () => {
     const { viewedIngredient, ingredients } = useSelector(state => state.burger);
     const dispatch = useDispatch();
-    const { id } = useParams<TIngredientParam>();
+    const { id } = useParams<TIdParam>();
 
     useEffect(() => {
         dispatch(getIngredientById(id));

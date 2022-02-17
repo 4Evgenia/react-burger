@@ -1,5 +1,8 @@
-import { IFeedItem, IFeedItemDb, IFeedSummary } from '../../models/models';
+import { IFeedItem, IFeedSummary } from '../../models/models';
 import {
+    GET_ORDER_BY_ID,
+    HIDE_MODAL_FEED,
+    SHOW_ORDER_FEED_DETAILS,
     WS_CONNECTION_CLOSED,
     WS_CONNECTION_ERROR,
     WS_CONNECTION_SUCCESS,
@@ -12,13 +15,17 @@ import { onlyUnique } from '../../utils/utils';
 type TFeedState = {
     orders: ReadonlyArray<IFeedItem>,
     wsConnected: boolean,
-    summary: IFeedSummary
+    summary: IFeedSummary,
+    viewedOrder: IFeedItem | null,
+    feedItemModalVisible: boolean
 }
 
 const initialState: TFeedState = {
     orders: [],
     wsConnected: false,
-    summary: { done: [], inProgress: [], total: 0, totalToday: 0 }
+    summary: { done: [], inProgress: [], total: 0, totalToday: 0 },
+    viewedOrder: null,
+    feedItemModalVisible: false
 }
 
 export const feedReducer = (state = initialState, action: TWsFeedActions): TFeedState => {
@@ -73,6 +80,22 @@ export const feedReducer = (state = initialState, action: TWsFeedActions): TFeed
                 },
                 orders: feedOrders
             }
+
+        case HIDE_MODAL_FEED: 
+           return {
+                ...state, viewedOrder: null, feedItemModalVisible: false
+            }
+
+        case GET_ORDER_BY_ID:
+            return {
+                ...state, viewedOrder: state.orders.filter(order => order._id === action.id)[0], feedItemModalVisible: true
+            }
+
+        case SHOW_ORDER_FEED_DETAILS:
+            return {
+                ...state, feedItemModalVisible: true, viewedOrder: action.feedITem
+            }
+
         default: {
             return state;
         }
