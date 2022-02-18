@@ -17,3 +17,25 @@
 .buttonContainer{
     display: flex;
 }
+
+.profileFeedContainer{
+    display: flex;
+    flex-direction: column;
+    min-width: 520px;
+    align-items: flex-end;
+    width: 83vw;
+}
+
+@media only screen and (max-width: 1800px) {
+    .profileFeedContainer {
+        width: 90vw;
+    }
+  }
+
+.profileFeed{
+    width: 45vw;
+    position: relative;
+    top: -8vh;
+    display: flex;
+    flex-direction: column-reverse;
+}

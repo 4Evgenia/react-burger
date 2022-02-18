@@ -1,18 +1,18 @@
 import React, { useEffect, FC } from 'react';
 import IngredientDetails from '../components/burger-ingredients/details/ingredient-details';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import { useParams } from 'react-router-dom';
-import { GET_INGREDIENT_BY_ID } from '../services/actions/burger';
+import { getIngredientById } from '../services/actions/burger';
 import styles from './page.module.css';
-import { TIngredientParam } from '../models/models';
+import { TIdParam } from '../models/models';
 
 export const IngredientPage: FC = () => {
-    const { viewedIngredient, ingredients } = useSelector((state: any) => state.burger);
+    const { viewedIngredient, ingredients } = useSelector(state => state.burger);
     const dispatch = useDispatch();
-    const { id } = useParams<TIngredientParam>();
+    const { id } = useParams<TIdParam>();
 
     useEffect(() => {
-        dispatch({ type: GET_INGREDIENT_BY_ID, _id: id });
+        dispatch(getIngredientById(id));
     }, [dispatch, ingredients, id]);
 
     return (

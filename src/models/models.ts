@@ -14,7 +14,7 @@ export interface IIngredient {
     image_large: string;
     __v: number;
     qty: number;
-    guid?: number;
+    guid?: string;
 }
 
 export interface IOrder {
@@ -51,10 +51,42 @@ export interface LocationState {
     };
 }
 
-export type TIngredientParam = {
+export type TIdParam = {
     id: string;
 }
 
 export type TMessage = {
     message: string;
+}
+
+export interface IFeedItem {
+    date: string;
+    title: string;
+    status: string;
+    ingredients: IIngredient[];
+    _id: string;
+    number: number;
+}
+
+export interface IFeedSummary {
+    done: number[];
+    inProgress: number[];
+    total: number;
+    totalToday: number;
+}
+
+export interface IFeed {
+    orders: ReadonlyArray<IFeedItemDb>;
+    total: number;
+    totalToday: number;
+}
+
+export interface IFeedItemDb {
+    ingredients: ReadonlyArray<string>;
+    _id: string;
+    status: string;
+    number: number;
+    createdAt: string;
+    updatedAt: string;
+    name: string;
 }

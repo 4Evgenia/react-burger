@@ -1,3 +1,5 @@
+import { IUser } from '../../models/models';
+import type { TAuthActions } from '../actions/auth';
 import {
     FORGOT_PASSWORD_SET_EMAIL,
     LOGIN_FAILED,
@@ -17,9 +19,31 @@ import {
     FORGOT_PASSWORD_REQUEST_FAILED,
     FORGOT_PASSWORD_SUBMIT_SUCCESS,
     FORGOT_PASSWORD_SUBMIT_FAILED
-} from '../actions/auth';
+} from '../constants';
 
-const initialState = {
+type TAuthState = {
+    email: string;
+    user: IUser | null;
+    loginSuccess: boolean;
+    loginFailed: boolean;
+    registerSuccess: boolean,
+    registerFailed: boolean,
+    logoutSuccess: boolean,
+    logoutFailed: boolean,
+    tokenSuccess: boolean,
+    tokenFailed: boolean,
+    accessToken: string | null,
+    getUserSuccess: boolean,
+    getUserFailed: boolean,
+    forgotPasswordRequestSuccess: boolean,
+    forgotPasswordRequestFailed: boolean,
+    forgotPasswordSubmitSuccess: boolean,
+    forgotPasswordSubmitFailed: boolean,
+    setUserSuccess: boolean,
+    setUserFailed: boolean
+}
+
+const initialState : TAuthState = {
     email: '',
     user: null,
     loginSuccess: false,
@@ -41,7 +65,7 @@ const initialState = {
     setUserFailed: false
 }
 
-export const authReducer = (state = initialState, action: any) => {
+export const authReducer = (state = initialState, action: TAuthActions):TAuthState => {
     switch (action.type) {
         case FORGOT_PASSWORD_SET_EMAIL: {
             return {

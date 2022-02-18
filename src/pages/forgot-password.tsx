@@ -3,17 +3,17 @@ import styles from './page.module.css';
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import ErrorMessage from '../components/shared/error-message';
-import { FORGOT_PASSWORD_SET_EMAIL, resetPasswordRequest } from '../services/actions/auth';
+import { forgotPasswordSetEmail, resetPasswordRequest } from '../services/actions/auth';
 
 export const ForgotPasswordPage: FC = () => {
-    const { email, forgotPasswordRequestSuccess, forgotPasswordRequestFailed } = useSelector((state: any) => state.auth);
+    const { email, forgotPasswordRequestSuccess, forgotPasswordRequestFailed } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
-    useEffect(() => { dispatch({ type: FORGOT_PASSWORD_SET_EMAIL, email: '' }) }, [dispatch]);
+    useEffect(() => { dispatch(forgotPasswordSetEmail('')) }, [dispatch]);
 
-    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => dispatch({ type: FORGOT_PASSWORD_SET_EMAIL, email: e.target.value });
+    const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => dispatch(forgotPasswordSetEmail(e.target.value));
 
     if (forgotPasswordRequestSuccess) {
         return (<Redirect to={{ pathname: ROUTES.ResetPassword.path }} />)

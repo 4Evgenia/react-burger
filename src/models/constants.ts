@@ -19,10 +19,16 @@ export const ROUTES: IRoutes = {
     ResetPassword: { title: "Восстановление пароля", path: "/reset-password" },
     Profile: { title: "Личный кабинет", path: "/profile" },
     Ingredient: { title: "Ингредиент", path: "/ingredients/:id" },
-    Orders: { title: "Лента заказов", path: "/orders" },
-    History: { title: "", path: "/profile/orders" }
+    Feed: { title: "Лента заказов", path: "/feed" },
+    Order: { title: "", path: "/feed/:id"},
+    History: { title: "", path: "/profile/orders" },
+    OrderHistory: { title: "", path: "/profile/orders/:id"}
 }
 
 export const AUTH_PREFIX = 'Bearer';
 export const REFRESH_TOKEN_COOKIE = 'refreshToken';
 export const ACCESS_TOKEN_COOKIE = 'accessToken';
+
+export const DONE_STATUS = 'done';
+export const PENDING_STATUS = 'pending';
+export const CREATED_STATUS = 'created';

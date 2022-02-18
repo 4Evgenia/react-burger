@@ -1,7 +1,7 @@
 import React, { forwardRef, useRef, useImperativeHandle, FC, MutableRefObject } from 'react';
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from 'react-redux';
-import { REMOVE_INGREDIENT } from '../../services/actions/burger';
+import { useDispatch } from '../../services/types/hooks';
+import { removeIngredient } from '../../services/actions/burger';
 import styles from './burger-constructor-element.module.css';
 import { DragSource, DropTarget } from 'react-dnd';
 import { IIngredient } from '../../models/models';
@@ -33,7 +33,7 @@ const BurgerConstructorElement: FC<TBurgerConstructorProps> = forwardRef(({ item
                 text={item.name}
                 price={item.price}
                 thumbnail={item.image}
-                handleClose={() => dispatch({ type: REMOVE_INGREDIENT, removedIngredient: item })}
+                handleClose={() => dispatch(removeIngredient(item))}
             />
         </div>
     )

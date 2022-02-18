@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import constructorStyles from './constructor.module.css';
 import BurgerConstructor from '../components/burger-constructor/burger-constructor';
 import BurgerIngredient from '../components/burger-ingredients/burger-ingredients';
 import OrderDetails from '../components/order-details/order-details';
 import Modal from '../components/layout/modal/modal';
-import { HIDE_MODAL } from '../services/actions/order';
+import { hideModal } from '../services/actions/order';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
@@ -16,10 +16,10 @@ export const ConstructorPage: FC = () => {
     const {
         orderId,
         orderModalVisible
-    } = useSelector((state: any) => state.order);
+    } = useSelector(state => state.order);
 
     const onOrderModalClose = () => {
-        dispatch({ type: HIDE_MODAL });
+        dispatch(hideModal());
     }
 
     return (<main className={constructorStyles.container}>

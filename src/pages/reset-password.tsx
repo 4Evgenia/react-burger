@@ -4,7 +4,7 @@ import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burg
 import { Link, Redirect } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
 import ErrorMessage from '../components/shared/error-message';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import { resetPasswordSubmit } from '../services/actions/auth';
 
 type TResetPasswordState = {
@@ -13,7 +13,7 @@ type TResetPasswordState = {
 }
 
 export const ResetPasswordPage: FC = () => {
-    const { email, forgotPasswordSubmitFailed, forgotPasswordSubmitSuccess } = useSelector((state: any) => state.auth);
+    const { email, forgotPasswordSubmitFailed, forgotPasswordSubmitSuccess } = useSelector(state => state.auth);
     const dispatch = useDispatch();
 
     const [state, setState] = useState<TResetPasswordState>({

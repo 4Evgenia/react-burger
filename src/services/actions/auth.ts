@@ -1,202 +1,317 @@
 import { loginRequest, logoutRequest, registerRequest, tokenRequest, getUserRequest, passwordReset, passwordResetSubmit, updateUserRequest } from '../../utils/api';
 import { deleteCookie, getCookie, storeTokens } from '../../utils/utils';
 import { ACCESS_TOKEN_COOKIE, REFRESH_TOKEN_COOKIE } from '../../models/constants';
-
-export const FORGOT_PASSWORD_SET_EMAIL = 'FORGOT_PASSWORD_SET_EMAIL';
-export const FORGOT_PASSWORD_REQUEST_SUCCESS = 'FORGOT_PASSWORD_REQUEST_SUCCESS';
-export const FORGOT_PASSWORD_REQUEST_FAILED = 'FORGOT_PASSWORD_REQUEST_FAILED';
-export const FORGOT_PASSWORD_SUBMIT_SUCCESS = 'FORGOT_PASSWORD_SUBMIT_SUCCESS';
-export const FORGOT_PASSWORD_SUBMIT_FAILED = 'FORGOT_PASSWORD_SUBMIT_FAILED';
-
-export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
-export const LOGIN_FAILED = 'LOGIN_FAILED';
-
-export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-export const REGISTER_FAILED = 'REGISTER_FAILED';
-
-export const TOKEN_REFRESH_SUCCESS = 'TOKEN_SUCCESS';
-export const TOKEN_REFRESH_FAILED = 'TOKEN_FAILED';
-
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILED = 'LOGOUT_FAILED';
-
-export const GET_USER_SUCCESS = 'GET_USER_SUCCESS';
-export const GET_USER_FAILED = 'GET_USER_FAILED';
-export const SET_USER_SUCCESS = 'SET_USER_SUCCESS';
-export const SET_USER_FAILED = 'SET_USER_FAILED';
-export const SET_USER_REQUEST = 'SET_USER_REQUEST';
+import { IUser } from '../../models/models';
+import { AppThunk, AppDispatch } from '../types';
+import {
+    LOGIN_SUCCESS,
+    LOGIN_FAILED,
+    REGISTER_SUCCESS,
+    REGISTER_FAILED,
+    LOGOUT_FAILED,
+    LOGOUT_SUCCESS,
+    FORGOT_PASSWORD_REQUEST_FAILED,
+    FORGOT_PASSWORD_REQUEST_SUCCESS,
+    FORGOT_PASSWORD_SET_EMAIL,
+    FORGOT_PASSWORD_SUBMIT_FAILED,
+    FORGOT_PASSWORD_SUBMIT_SUCCESS,
+    TOKEN_REFRESH_FAILED,
+    TOKEN_REFRESH_SUCCESS,
+    GET_USER_FAILED,
+    SET_USER_FAILED,
+    GET_USER_SUCCESS,
+    SET_USER_SUCCESS,
+    SET_USER_REQUEST
+} from '../constants';
 
 // LOGIN
-export function login(email: string, password: string) {
-    return function (dispatch: any) {
-        loginRequest(email, password).then((res: any) => {
-            if (res && res.success) {
-                storeTokens(res);
-                dispatch({
-                    type: LOGIN_SUCCESS,
-                    user: res.user
-                });
-            } else {
-                dispatch({
-                    type: LOGIN_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: LOGIN_FAILED
-            })
-        })
-    };
+export interface ILoginSuccessAction {
+    readonly type: typeof LOGIN_SUCCESS;
+    readonly user: IUser;
+}
+
+export interface ILoginFailedAction {
+    readonly type: typeof LOGIN_FAILED;
+}
+
+export const login: AppThunk = (email: string, password: string) => (dispatch: AppDispatch) => {
+    loginRequest(email, password).then(res => {
+        if (res && res.success) {
+            storeTokens(res);
+            dispatch(loginSuccess(res.user));
+        } else {
+            dispatch(loginFailed());
+        }
+    }).catch(e => {
+        dispatch(loginFailed());
+    })
 }
 
 // REGISTER
-export function register(email: string, password: string, name: string) {
-    return function (dispatch: any) {
-        registerRequest(email, password, name).then(res => {
-            if (res && res.success) {
-                storeTokens(res);
-                dispatch({
-                    type: REGISTER_SUCCESS,
-                    user: res.user
-                });
-            } else {
-                dispatch({
-                    type: REGISTER_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: REGISTER_FAILED
-            })
-        })
-    };
+export interface IRegisterSuccessAction {
+    readonly type: typeof REGISTER_SUCCESS;
+    readonly user: IUser;
+}
+
+export interface IRegisterFailedAction {
+    readonly type: typeof REGISTER_FAILED;
+}
+
+export const register: AppThunk = (email: string, password: string, name: string) => (dispatch: AppDispatch) => {
+    registerRequest(email, password, name).then(res => {
+        if (res && res.success) {
+            storeTokens(res);
+            dispatch(registerSuccess(res.user));
+        } else {
+            dispatch(registerFailed());
+        }
+    }).catch(e => {
+        dispatch(registerFailed());
+    })
 }
 
 // LOGOUT
-export function logout() {
-    return function (dispatch: any) {
-        const token = getCookie(REFRESH_TOKEN_COOKIE);
-        if (token) {
-            logoutRequest(token).then(res => {
-                if (res && res.success) {
-                    deleteCookie(ACCESS_TOKEN_COOKIE);
-                    deleteCookie(REFRESH_TOKEN_COOKIE);
-                    dispatch({
-                        type: LOGOUT_SUCCESS
-                    });
-                } else {
-                    dispatch({
-                        type: LOGOUT_FAILED
-                    })
-                }
-            }).catch(e => {
-                dispatch({
-                    type: LOGOUT_FAILED
-                })
-            })
-        } else {
-            dispatch({
-                type: LOGOUT_SUCCESS
-            });
-        }
-    };
+export interface ILogoutSuccessAction {
+    readonly type: typeof LOGOUT_SUCCESS;
+}
+
+export interface ILogoutFailedAction {
+    readonly type: typeof LOGOUT_FAILED;
+}
+
+export const logout: AppThunk = () => (dispatch: AppDispatch) => {
+    const token = getCookie(REFRESH_TOKEN_COOKIE);
+    if (token) {
+        logoutRequest(token).then(res => {
+            if (res && res.success) {
+                deleteCookie(ACCESS_TOKEN_COOKIE);
+                deleteCookie(REFRESH_TOKEN_COOKIE);
+                dispatch(logoutSuccess());
+            } else {
+                dispatch(logoutFailed());
+            }
+        }).catch(e => {
+            dispatch(logoutFailed());
+        })
+    } else {
+        dispatch(logoutSuccess());
+    }
 }
 
 // TOKEN
-export function token() {
-    return function (dispatch: any) {
-        tokenRequest().then(res => {
-            if (res && res.success) {
-                console.log(res);
-                dispatch({
-                    type: TOKEN_REFRESH_SUCCESS
-                });
-            } else {
-                dispatch({
-                    type: TOKEN_REFRESH_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: TOKEN_REFRESH_FAILED
-            })
-        })
-    };
+
+export interface ITokenRefreshSuccessAction {
+    readonly type: typeof TOKEN_REFRESH_SUCCESS;
+}
+
+export interface ITokenRefreshFailedAction {
+    readonly type: typeof TOKEN_REFRESH_FAILED;
+}
+
+export const token: AppThunk = () => (dispatch: AppDispatch) => {
+    tokenRequest().then(res => {
+        if (res && res.success) {
+            dispatch(tokenRefreshSuccess());
+        } else {
+            dispatch(tokenRefreshFailed());
+        }
+    }).catch(e => {
+        dispatch(tokenRefreshFailed());
+    })
 }
 
 // GET USER
-export function getUser() {
-    return function (dispatch: any) {
-        getUserRequest().then(res => {
-            if (res && res.success) {
-                dispatch({ type: GET_USER_SUCCESS, user: res.user })
-            } else {
-                dispatch({
-                    type: GET_USER_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: GET_USER_FAILED
-            })
-        })
-    }
+
+export interface IGetUserSuccessAction {
+    readonly type: typeof GET_USER_SUCCESS;
+    readonly user: IUser;
+}
+
+export interface IGetUserFailedAction {
+    readonly type: typeof GET_USER_FAILED;
+}
+
+export const getUser: AppThunk = () => (dispatch: AppDispatch) => {
+    getUserRequest().then(res => {
+        if (res && res.success) {
+            dispatch(getUserSuccess(res.user));
+        } else {
+            dispatch(getUserFailed());
+        }
+    }).catch(e => {
+        dispatch(getUserFailed());
+    })
 }
 
 // SET USER
-export function setUser(user: any) {
-    return function (dispatch: any) {
-        dispatch({ type: SET_USER_REQUEST });
-        updateUserRequest(user).then(res => {
-            if (res && res.success) {
-                dispatch({ type: SET_USER_SUCCESS, user: res.user })
-            } else {
-                dispatch({
-                    type: SET_USER_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: SET_USER_FAILED
-            })
-        })
-    }
+
+export interface ISetUserSuccessAction {
+    readonly type: typeof SET_USER_SUCCESS;
+    readonly user: IUser;
+}
+
+export interface ISetUserFailedAction {
+    readonly type: typeof SET_USER_FAILED;
+}
+
+export interface ISetUserRequestAction {
+    readonly type: typeof SET_USER_REQUEST;
+}
+
+export const setUser: AppThunk = (user: IUser) => (dispatch: AppDispatch) => {
+    dispatch(setUserRequest());
+    updateUserRequest(user).then(res => {
+        if (res && res.success) {
+            dispatch(setUserSuccess(res.user))
+        } else {
+            dispatch(setUserFailed());
+        }
+    }).catch(e => {
+        dispatch(setUserFailed());
+    })
 }
 
 // RESET PASSWORD
-export function resetPasswordRequest(email: string) {
-    return function (dispatch: any) {
-        passwordReset(email).then(res => {
-            if (res && res.success) {
-                dispatch({ type: FORGOT_PASSWORD_REQUEST_SUCCESS })
-            } else {
-                dispatch({
-                    type: FORGOT_PASSWORD_REQUEST_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: FORGOT_PASSWORD_REQUEST_FAILED
-            })
-        })
-    }
+
+export interface IForgotPasswordSuccessAction {
+    readonly type: typeof FORGOT_PASSWORD_REQUEST_SUCCESS;
+}
+
+export interface IForgotPasswordFailedAction {
+    readonly type: typeof FORGOT_PASSWORD_REQUEST_FAILED;
+}
+
+export interface IForgotPasswordSetEmail {
+    readonly type: typeof FORGOT_PASSWORD_SET_EMAIL;
+    readonly email: string;
+}
+
+export const resetPasswordRequest: AppThunk = (email: string) => (dispatch: AppDispatch) => {
+    passwordReset(email).then(res => {
+        if (res && res.success) {
+            dispatch(forgotPasswordSuccess())
+        } else {
+            dispatch(forgotPasswordFailed());
+        }
+    }).catch(e => {
+        dispatch(forgotPasswordFailed());
+    })
 }
 
 // RESET PASSWORD SUBMIT
-export function resetPasswordSubmit(password: string, token: string) {
-    return function (dispatch: any) {
-        passwordResetSubmit(password, token).then(res => {
-            if (res && res.success) {
-                dispatch({ type: FORGOT_PASSWORD_SUBMIT_SUCCESS })
-            } else {
-                dispatch({
-                    type: FORGOT_PASSWORD_SUBMIT_FAILED
-                })
-            }
-        }).catch(e => {
-            dispatch({
-                type: FORGOT_PASSWORD_SUBMIT_FAILED
-            })
-        })
-    }
+export interface IForgotPasswordSubmitSuccessAction {
+    readonly type: typeof FORGOT_PASSWORD_SUBMIT_SUCCESS;
 }
+
+export interface IForgotPasswordSubmitFailedAction {
+    readonly type: typeof FORGOT_PASSWORD_SUBMIT_FAILED;
+}
+
+export const resetPasswordSubmit: AppThunk = (password: string, token: string) => (dispatch: AppDispatch) => {
+    passwordResetSubmit(password, token).then(res => {
+        if (res && res.success) {
+            dispatch(forgotasswordSubmitSuccess());
+        } else {
+            dispatch(forgotasswordSubmitFailed());
+        }
+    }).catch(e => {
+        dispatch(forgotasswordSubmitFailed());
+    })
+}
+
+// Генераторы экшенов
+export const loginSuccess = (user: IUser): ILoginSuccessAction => ({
+    type: LOGIN_SUCCESS,
+    user
+});
+
+export const loginFailed = (): ILoginFailedAction => ({
+    type: LOGIN_FAILED
+});
+
+export const registerSuccess = (user: IUser): IRegisterSuccessAction => ({
+    type: REGISTER_SUCCESS,
+    user
+});
+
+export const registerFailed = (): IRegisterFailedAction => ({
+    type: REGISTER_FAILED
+});
+
+export const logoutSuccess = (): ILogoutSuccessAction => ({
+    type: LOGOUT_SUCCESS
+});
+
+export const logoutFailed = (): ILogoutFailedAction => ({
+    type: LOGOUT_FAILED
+});
+
+export const tokenRefreshSuccess = (): ITokenRefreshSuccessAction => ({
+    type: TOKEN_REFRESH_SUCCESS
+});
+
+export const tokenRefreshFailed = (): ITokenRefreshFailedAction => ({
+    type: TOKEN_REFRESH_FAILED
+});
+
+export const getUserSuccess = (user: IUser): IGetUserSuccessAction => ({
+    type: GET_USER_SUCCESS,
+    user
+});
+
+export const getUserFailed = (): IGetUserFailedAction => ({
+    type: GET_USER_FAILED
+});
+
+export const setUserSuccess = (user: IUser): ISetUserSuccessAction => ({
+    type: SET_USER_SUCCESS,
+    user
+});
+
+export const setUserFailed = (): ISetUserFailedAction => ({
+    type: SET_USER_FAILED
+});
+
+export const setUserRequest = (): ISetUserRequestAction => ({
+    type: SET_USER_REQUEST
+});
+
+export const forgotPasswordSuccess = (): IForgotPasswordSuccessAction => ({
+    type: FORGOT_PASSWORD_REQUEST_SUCCESS
+});
+
+export const forgotPasswordFailed = (): IForgotPasswordFailedAction => ({
+    type: FORGOT_PASSWORD_REQUEST_FAILED
+});
+
+export const forgotPasswordSetEmail = (email: string): IForgotPasswordSetEmail => ({
+    type: FORGOT_PASSWORD_SET_EMAIL,
+    email
+});
+
+export const forgotasswordSubmitSuccess = (): IForgotPasswordSubmitSuccessAction => ({
+    type: FORGOT_PASSWORD_SUBMIT_SUCCESS
+});
+
+export const forgotasswordSubmitFailed = (): IForgotPasswordSubmitFailedAction => ({
+    type: FORGOT_PASSWORD_SUBMIT_FAILED
+});
+
+export type TAuthActions = ILoginSuccessAction
+    | ILoginFailedAction
+    | IForgotPasswordFailedAction
+    | IForgotPasswordSuccessAction
+    | IForgotPasswordSetEmail
+    | IForgotPasswordSubmitFailedAction
+    | IForgotPasswordSubmitSuccessAction
+    | IRegisterFailedAction
+    | IRegisterSuccessAction
+    | ILogoutFailedAction
+    | ILogoutSuccessAction
+    | ISetUserFailedAction
+    | ISetUserRequestAction
+    | ISetUserSuccessAction
+    | IGetUserFailedAction
+    | ITokenRefreshFailedAction
+    | ITokenRefreshSuccessAction
+    | IGetUserSuccessAction;

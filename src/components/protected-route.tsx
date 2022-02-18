@@ -1,13 +1,12 @@
-import { Redirect, Route, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Redirect, Route, RouteProps, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import { getUser } from '../services/actions/auth';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { ROUTES } from '../models/constants';
 import { Location } from 'history';
 
-
-export function ProtectedRoute({ children, ...rest }: any) {
-    const { user } = useSelector((state: any) => state.auth);
+export const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
+    const { user } = useSelector(state => state.auth);
     const [isUserLoaded, setUserLoaded] = useState(false);
     const dispatch = useDispatch();
     const location = useLocation<Location>();

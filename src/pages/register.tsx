@@ -3,14 +3,14 @@ import styles from './page.module.css';
 import { Input, Button, PasswordInput } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Redirect } from 'react-router-dom';
 import { ROUTES } from '../models/constants';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../services/types/hooks';
 import ErrorMessage from '../components/shared/error-message';
 import { register } from '../services/actions/auth';
 import { IUserWithPass } from '../models/models';
 
 export const RegisterPage: FC = () => {
     const { registerSuccess,
-        registerFailed } = useSelector((state: any) => state.auth);
+        registerFailed } = useSelector(state => state.auth);
 
     const [state, setState] = useState<IUserWithPass>({
         email: '',
