@@ -21,7 +21,7 @@ import {
     FORGOT_PASSWORD_SUBMIT_FAILED
 } from '../constants';
 
-type TAuthState = {
+export type TAuthState = {
     email: string;
     user: IUser | null;
     loginSuccess: boolean;
