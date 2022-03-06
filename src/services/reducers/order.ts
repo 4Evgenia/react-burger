@@ -6,7 +6,7 @@ import {
     HIDE_MODAL
 } from '../constants';
 
-type TOrderState = {
+export type TOrderState = {
     orderId: number | null,
     orderRequest: boolean,
     orderFailed: boolean,

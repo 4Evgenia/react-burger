@@ -12,7 +12,7 @@ import { TWsFeedActions } from '../actions/wsFeed';
 import { DONE_STATUS } from '../../models/constants';
 import { mapFeedDbItemsToFeedItems, onlyUnique } from '../../utils/utils';
 
-type TFeedState = {
+export type TFeedState = {
     orders: ReadonlyArray<IFeedItem>,
     wsConnected: boolean,
     summary: IFeedSummary,

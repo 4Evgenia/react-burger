@@ -19,6 +19,7 @@ export const FeedPage: FC = () => {
         if (!wsConnected) {
             dispatch(wsFeedConnectionStart());
         }
+        console.log(orders);
     }, [dispatch, wsConnected]);
 
     return (

@@ -1,7 +1,7 @@
 import { TABS } from '../../models/constants';
-import { IIngredient } from '../../models/models';
 import { burgerReducer, TBurgerState } from './burger';
 import { v4 as uuidv4 } from 'uuid';
+import { bun1, bun3, meat2 } from '../../utils/test.utils';
 
 const initialState: TBurgerState = {
     ingredients: [],
@@ -12,54 +12,6 @@ const initialState: TBurgerState = {
     modalVisible: false,
     selectedIngredients: [],
     selectedBun: null
-}
-
-const bun1:IIngredient = {
-    _id: "60d3b41abdacab0026a733c6",
-    name: "Краторная булка N-200i",
-    type: "bun",
-    proteins: 80,
-    fat: 24,
-    carbohydrates: 53,
-    calories: 420,
-    price: 1255,
-    image: "https://code.s3.yandex.net/react/code/bun-02.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-    __v: 0,
-    qty: 0
-  };
-
-const meat2:IIngredient = {
-    _id: "60d3b41abdacab0026a733c8",
-    name: "Филе Люминесцентного тетраодонтимформа",
-    type: "main",
-    proteins: 44,
-    fat: 26,
-    carbohydrates: 85,
-    calories: 643,
-    price: 988,
-    image: "https://code.s3.yandex.net/react/code/meat-03.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/meat-03-large.png",
-    __v: 0,
-    qty: 0
-}
-
-const bun3:IIngredient = {
-    _id: "60d3b41abdacab0026a733c7",
-    name: "Флюоресцентная булка R2-D3",
-    type: "bun",
-    proteins: 44,
-    fat: 26,
-    carbohydrates: 85,
-    calories: 643,
-    price: 988,
-    image: "https://code.s3.yandex.net/react/code/bun-01.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
-    __v: 0,
-    qty: 0
 }
 
 describe('Burger reducer', () => {
