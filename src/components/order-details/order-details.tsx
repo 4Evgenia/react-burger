@@ -10,7 +10,7 @@ type TOrderDetails = {
 const OrderDetails: FC<TOrderDetails> = ({ order }) => (
     <article>
         <main>
-            <h1 className="text text_type_digits-large mb-8">{order._id}</h1>
+            <h1 className="text text_type_digits-large mb-8"><span className='orderId'>{order._id}</span></h1>
             <div className="text text_type_main-medium mb-15">
                 <span className={styles.description}>идентификатор заказа</span>
             </div>
