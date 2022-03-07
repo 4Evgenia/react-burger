@@ -20,8 +20,6 @@ export const HistoryPage: FC = () => {
         }
     }, [dispatch, wsProfileConnected]);
 
-    console.log(orders);
-
     return (<section className={`${styles.container} pt-20`}>
         <NavContainer />
         <section>
