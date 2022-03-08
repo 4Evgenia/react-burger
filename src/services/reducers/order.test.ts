@@ -1,4 +1,10 @@
 import { TOrderState, orderReducer } from './order';
+import {
+    SUBMIT_ORDER_FAILED,
+    SUBMIT_ORDER_REQUEST,
+    SUBMIT_ORDER_SUCCESS,
+    HIDE_MODAL
+} from '../constants';
 
 const initialState : TOrderState = {
     orderId: null,
@@ -10,7 +16,7 @@ const initialState : TOrderState = {
 describe("Order reducer", () => {
     it('should handle SUBMIT_ORDER_REQUEST', () => {
         expect(orderReducer(initialState, {
-            type: 'SUBMIT_ORDER_REQUEST'
+            type: SUBMIT_ORDER_REQUEST
         })).toEqual({
             ...initialState,
             orderRequest: true
@@ -19,7 +25,7 @@ describe("Order reducer", () => {
 
     it('should handle SUBMIT_ORDER_SUCCESS', () => {
         expect(orderReducer(initialState, {
-            type: 'SUBMIT_ORDER_SUCCESS',
+            type: SUBMIT_ORDER_SUCCESS,
             orderId: 11345
         })).toEqual({
             orderId: 11345,
@@ -31,7 +37,7 @@ describe("Order reducer", () => {
 
     it('should handle SUBMIT_ORDER_FAILED', () => {
         expect(orderReducer(initialState, {
-            type: 'SUBMIT_ORDER_FAILED'
+            type: SUBMIT_ORDER_FAILED
         })).toEqual({
             ...initialState,
             orderRequest: false,
@@ -46,7 +52,7 @@ describe("Order reducer", () => {
             orderModalVisible: true,
             orderId: 11345
         }, {
-            type: 'HIDE_MODAL'
+            type: HIDE_MODAL
         })).toEqual({
             orderRequest: false,
             orderFailed: false,

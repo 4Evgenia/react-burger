@@ -1,5 +1,14 @@
 import { TProfileFeedState, profileFeedReducer } from './profileFeed';
 import { bun1, bun3, meat2, order1 } from '../../utils/test.utils';
+import {
+    GET_PROFILE_ORDER_BY_ID,
+    HIDE_MODAL_PROFILE,
+    SHOW_ORDER_PROFILE_DETAILS,
+    WS_PROFILE_CONNECTION_CLOSED,
+    WS_PROFILE_CONNECTION_ERROR,
+    WS_PROFILE_CONNECTION_SUCCESS,
+    WS_PROFILE_GET_MESSAGE
+} from '../constants';
 
 const initialState: TProfileFeedState = {
     orders: [],
@@ -12,7 +21,7 @@ const initialState: TProfileFeedState = {
 describe('Profile Feed reducer', () => {
     it('should handle WS_PROFILE_CONNECTION_SUCCESS', () => {
         expect(profileFeedReducer(initialState, {
-            type: 'WS_PROFILE_CONNECTION_SUCCESS'
+            type: WS_PROFILE_CONNECTION_SUCCESS
         })).toEqual({
             ...initialState,
             wsProfileConnected: true
@@ -21,7 +30,7 @@ describe('Profile Feed reducer', () => {
 
     it('should handle WS_PROFILE_CONNECTION_ERROR', () => {
         expect(profileFeedReducer(initialState, {
-            type: 'WS_PROFILE_CONNECTION_ERROR'
+            type: WS_PROFILE_CONNECTION_ERROR
         })).toEqual({
             ...initialState,
             wsProfileConnected: false
@@ -30,7 +39,7 @@ describe('Profile Feed reducer', () => {
 
     it('should handle WS_PROFILE_CONNECTION_CLOSED', () => {
         expect(profileFeedReducer(initialState, {
-            type: 'WS_PROFILE_CONNECTION_CLOSED'
+            type: WS_PROFILE_CONNECTION_CLOSED
         })).toEqual({
             ...initialState,
             wsProfileConnected: false
@@ -44,7 +53,7 @@ describe('Profile Feed reducer', () => {
             viewedOrder: order1,
             profileItemModalVisible: true
         }, {
-            type: 'HIDE_MODAL_PROFILE'
+            type: HIDE_MODAL_PROFILE
         })).toEqual({
             ...initialState,
             orders: [order1],
@@ -61,7 +70,7 @@ describe('Profile Feed reducer', () => {
             viewedOrder: order1,
             profileItemModalVisible: false
         }, {
-            type: 'GET_PROFILE_ORDER_BY_ID',
+            type: GET_PROFILE_ORDER_BY_ID,
             id: '6224ccfc25b9a4001b6e2f5e'
         })).toEqual({
             ...initialState,
@@ -79,7 +88,7 @@ describe('Profile Feed reducer', () => {
             viewedOrder: order1,
             profileItemModalVisible: false
         }, {
-            type: 'SHOW_ORDER_PROFILE_DETAILS',
+            type: SHOW_ORDER_PROFILE_DETAILS,
             feedITem: order1
         })).toEqual({
             ...initialState,
@@ -92,7 +101,7 @@ describe('Profile Feed reducer', () => {
 
     it('should handle WS_PROFILE_GET_MESSAGE', () => {
         expect(profileFeedReducer(initialState, {
-            type: 'WS_PROFILE_GET_MESSAGE',
+            type: WS_PROFILE_GET_MESSAGE,
             feed: {
                 orders: [{
                     _id: '6224ccfc25b9a4001b6e2f5e',

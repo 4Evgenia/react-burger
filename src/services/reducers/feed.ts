@@ -7,7 +7,7 @@ import {
     WS_CONNECTION_ERROR,
     WS_CONNECTION_SUCCESS,
     WS_GET_MESSAGE
-} from '../constants';
+} from '../constants/wsFeed';
 import { TWsFeedActions } from '../actions/wsFeed';
 import { DONE_STATUS } from '../../models/constants';
 import { mapFeedDbItemsToFeedItems, onlyUnique } from '../../utils/utils';
