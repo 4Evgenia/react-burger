@@ -25,8 +25,8 @@ To run application use command: `npm start`
 
 ## Testing Application
 
-To run unit tests use command: `npm run cypress:open`
-To run e2e tests use command: `npm build`
+- To run unit tests use command: `npm run cypress:open`
+- To run e2e tests use command: `npm build`
 
 ## Application URL Address
 
