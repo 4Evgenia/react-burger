@@ -82,10 +82,10 @@ export interface ILogoutFailedAction {
 export const logout: AppThunk = () => (dispatch: AppDispatch) => {
     const token = getCookie(REFRESH_TOKEN_COOKIE);
     if (token) {
+        deleteCookie(ACCESS_TOKEN_COOKIE);
+        deleteCookie(REFRESH_TOKEN_COOKIE);
         logoutRequest(token).then(res => {
             if (res && res.success) {
-                deleteCookie(ACCESS_TOKEN_COOKIE);
-                deleteCookie(REFRESH_TOKEN_COOKIE);
                 dispatch(logoutSuccess());
             } else {
                 dispatch(logoutFailed());
