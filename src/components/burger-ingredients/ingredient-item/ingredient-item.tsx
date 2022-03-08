@@ -24,7 +24,7 @@ const IngredientItem: FC<TIngredientItemProps> = ({ ingredient, onSelectIngredie
     })
 
     return (
-        <div className={`${styles.item} mt-6 ml-4 mr-6`} onClick={selectIngredient} ref={ref}>
+        <div data-type={ingredient.type} className={`${styles.item} mt-6 ml-4 mr-6`} onClick={selectIngredient} ref={ref}>
             <div className={styles.counterContainer}>
                 {ingredient.qty > 0 && (<Counter count={ingredient.qty} size="default" />)}
             </div>

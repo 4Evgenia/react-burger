@@ -11,7 +11,7 @@ import {
 import { TWsProfileFeedActions } from '../actions/wsProfileFeed';
 import { mapFeedDbItemsToFeedItems } from '../../utils/utils';
 
-type TProfileFeedState = {
+export type TProfileFeedState = {
     orders: ReadonlyArray<IFeedItem>,
     wsProfileConnected: boolean,
     viewedOrder: IFeedItem | null,

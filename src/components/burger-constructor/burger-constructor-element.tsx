@@ -27,7 +27,7 @@ const BurgerConstructorElement: FC<TBurgerConstructorProps> = forwardRef(({ item
     const dispatch = useDispatch();
 
     return (
-        <div ref={elementRef} style={{ opacity }} className={styles.constructorElementContainer}>
+        <div ref={elementRef} style={{ opacity }} className={styles.constructorElementContainer} data-constructor-type={item.type}>
             <div className="mr-5"><DragIcon type="primary" /></div>
             <ConstructorElement
                 text={item.name}
